@@ -2,14 +2,16 @@ package edu.fpt.customflorist.models;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Setter
 @Getter
 @Entity
+@NoArgsConstructor
+
 public class User {
 
-    // Getters and Setters
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userID;
@@ -45,22 +47,6 @@ public class User {
         ACTIVE, INACTIVE, BANNED
     }
 
-    // No-argument constructor
-    public User() {
-    }
 
-    // All-argument constructor
-    public User(Integer userID, String userCode, String email, String phone, String address, Role role,
-                int loyaltyPoints, int assignedOrders, AccountStatus accountStatus) {
-        this.userID = userID;
-        this.userCode = userCode;
-        this.email = email;
-        this.phone = phone;
-        this.address = address;
-        this.role = role;
-        this.loyaltyPoints = loyaltyPoints;
-        this.assignedOrders = assignedOrders;
-        this.accountStatus = accountStatus;
-    }
 
 }
