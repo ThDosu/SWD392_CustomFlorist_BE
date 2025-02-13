@@ -16,24 +16,29 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userID;
 
-    @Column(length = 255)
+    @Column(name = "userCode")
     private String userCode;
 
+    @Column(name = "email")
     private String email;
 
-    @Column(length = 20)
+    @Column(length = 20, name ="phone")
     private String phone;
 
-    @Column(length = 255)
+    @Column(name = "address")
     private String address;
 
+    @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Column(name = "loyaltyPoints")
     private int loyaltyPoints;
 
+    @Column(name = "assignedOrders")
     private int assignedOrders;
 
+    @Column(name = "accountStatus")
     @Enumerated(EnumType.STRING)
     private AccountStatus accountStatus;
 
