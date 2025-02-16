@@ -18,7 +18,7 @@ spring:
       dialect: org.hibernate.dialect.MySQLDialect
       format_sql: true
 api:
-  prefix: /custom_florist
+  prefix: /custom-florist
 jwt:
   expiration: 86400 # 24h
   secretKey: Ta2lmGv1iEDMRiFp/pHuID1+T84IABfuA0xXh4GhiUI=
