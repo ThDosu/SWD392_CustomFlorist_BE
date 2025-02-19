@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@RequestMapping("${api.prefix}/v1/test/students") // http://localhost:8080/custom-florist/v1/test/students
+@RequestMapping("${api.prefix}/api/v1/test/students") // http://localhost:8080/custom-florist/api/v1/test/students
 @RequiredArgsConstructor
 public class TestAPI {
 
