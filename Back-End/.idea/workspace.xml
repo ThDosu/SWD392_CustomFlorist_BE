@@ -5,18 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="94b8da7f-ee37-4b48-a1e7-ec4ccd2d5783" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Dockerfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/edu/fpt/customflorist/CustomfloristApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/edu/fpt/customflorist/configurations/SwaggerApiConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/edu/fpt/customflorist/controllers/TestAPI/TestAPI.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/resources/application.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/test/java/edu/fpt/customflorist/CustomfloristApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/controllers/TestAPI/TestAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/controllers/TestAPI/TestAPI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +51,7 @@
   "keyToString": {
     "Application.CustomfloristApplication.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "ManhCuong",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "E:/test_PE/SWD392_CustomFlorist_BE/Back-End",
