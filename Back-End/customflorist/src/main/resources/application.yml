@@ -22,7 +22,6 @@ api:
 jwt:
   expiration: 2592000 #30 days = 30 * 24 * 60 * 60
   expiration-refresh-token: 5184000 #60 days = 60 * 24 * 60 * 60
-  secretKey: ${JWT_SECRET_KEY:U3t9aQv9tqdw/mwvxDrl4ebJKiurzORBmS1gzYKDeT+zJOTg0xAauB7HpLCYasbo}
 open:
   api:
     title: Custom Florist API
@@ -35,7 +34,6 @@ payment:
     url: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
     returnUrl: http://localhost:8080
     tmnCode: ZYVDT6EC
-    secretKey: ${VNPAY_SECRET_KEY:O0FQ4IFU6EO79AV2YPTWMKCGK7T3WROH}
     version: 2.1.0
     command: pay
     orderType: Flower
