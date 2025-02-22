@@ -15,23 +15,15 @@ import lombok.ToString;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long categoryID;
-
-    @ManyToOne
-    @JoinColumn(name = "productID", nullable = false)
-    private Product product;
-
-    @ManyToOne
-    @JoinColumn(name = "bouquetID", nullable = false)
-    private Bouquet bouquet;
-
-    @Column(nullable = false, unique = true)
-    private String categoryCode;
+    private Long categoryId;
 
     @Column(nullable = false)
     private String name;
 
     @Column(nullable = false)
     private String description;
+
+    @Column(nullable = false)
+    private Boolean isActive;
 
 }

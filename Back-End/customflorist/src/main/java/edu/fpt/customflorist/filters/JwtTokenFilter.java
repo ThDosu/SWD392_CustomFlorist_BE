@@ -1,5 +1,5 @@
 package edu.fpt.customflorist.filters;
-import edu.fpt.customflorist.components.JwtTokenUtil;
+import edu.fpt.customflorist.components.JwtTokenUtils;
 import edu.fpt.customflorist.models.User;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,7 +25,7 @@ public class JwtTokenFilter extends OncePerRequestFilter{
     private String apiPrefix;
     private final UserDetailsService userDetailsService;
 
-    private final JwtTokenUtil jwtTokenUtil;
+    private final JwtTokenUtils jwtTokenUtil;
 
     @Override
     protected void doFilterInternal(@NonNull  HttpServletRequest request,
@@ -72,6 +72,12 @@ public class JwtTokenFilter extends OncePerRequestFilter{
                 Pair.of("/v3/api-docs.*", "GET"),
                 Pair.of("/swagger-resources.*", "GET"),
                 Pair.of("/webjars.*", "GET"),
+
+                //Login social
+                Pair.of(String.format("%s/api/v1/users/auth/social-login**", apiPrefix), "GET"),
+                Pair.of(String.format("%s/api/v1/users/auth/social/callback**", apiPrefix), "GET"),
+
+                //Login account
                 Pair.of(String.format("%s/api/v1/users/register", apiPrefix), "POST"),
                 Pair.of(String.format("%s/api/v1/users/login", apiPrefix), "POST")
         );

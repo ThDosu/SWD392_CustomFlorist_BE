@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -19,15 +20,12 @@ public class Order {
     private Integer orderId;
 
     @ManyToOne
-    @JoinColumn(name = "UserID", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "PromotionID", nullable = false)
+    @JoinColumn(name = "promotion_id", nullable = false)
     private Promotion promotion;
-
-    @Column(nullable = false, unique = true)
-    private Long orderCode;
 
     @Column(nullable = false)
     private LocalDateTime orderDate;
@@ -44,5 +42,11 @@ public class Order {
 
     @Column(nullable = false, length = 255)
     private String shippingAddress;
+
+    @Column(nullable = false)
+    private Boolean isActive;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<OrderItem> orderItems;
 }
 

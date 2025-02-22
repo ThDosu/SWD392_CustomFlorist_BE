@@ -8,6 +8,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -18,15 +19,19 @@ import java.time.LocalDateTime;
 public class DeliveryHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long deliveryID;
+    private Long deliveryId;
 
     @ManyToOne
-    @JoinColumn(name = "userID", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "orderID", nullable = false)
+    @JoinColumn(name = "order_id", nullable = false)
     private Order order;
+
+    @ManyToOne
+    @JoinColumn(name = "courier_id", nullable = false)
+    private User courier;
 
     @Column(nullable = false, unique = true)
     private String deliveryCode;
@@ -40,5 +45,15 @@ public class DeliveryHistory {
 
     @Column(nullable = false)
     private String description;
+
+    @Column(nullable = false)
+    private Boolean isActive;
+
+    @PrePersist
+    public void generateDeliveryCode() {
+        if (this.deliveryCode == null || this.deliveryCode.isEmpty()) {
+            this.deliveryCode = "DLV-" + UUID.randomUUID().toString().substring(0, 8);
+        }
+    }
 
 }

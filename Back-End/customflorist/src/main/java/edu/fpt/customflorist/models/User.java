@@ -1,5 +1,6 @@
 package edu.fpt.customflorist.models;
 import edu.fpt.customflorist.models.Enums.AccountStatus;
+import edu.fpt.customflorist.models.Enums.Gender;
 import edu.fpt.customflorist.models.Enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -22,43 +23,47 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "UserID", nullable = false)
+    @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    @Column(name = "UserName")
+    @Column(name = "username")
     private String username;
 
-    @Column(name = "Password")
+    @Column(name = "password")
     private String password;
 
-    @Column(name = "UserCode", nullable = false, length = 255)
-    private String userCode;
-
-    @Column(name = "Name", nullable = false, length = 255)
+    @Column(name = "name", nullable = false, length = 255)
     private String name;
 
-    @Column(name = "Email", nullable = false, length = 255)
+    @Column(name = "email")
     private String email;
 
-    @Column(name = "Phone", nullable = false, length = 20)
+    @Column(name = "phone", length = 20)
     private String phone;
 
-    @Column(name = "Address", nullable = false, length = 255)
+    @Column(name = "address", length = 255)
     private String address;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "Role", nullable = false)
+    @Column(name = "role", nullable = false)
     private Role role;
 
-    @Column(name = "LoyaltyPoints", nullable = false)
+    @Column(name = "loyalty_points", nullable = false)
     private Integer loyaltyPoints;
 
-    @Column(name = "AssignedOrders", nullable = false)
-    private Integer assignedOrders;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "account_status", nullable = false)
+    private AccountStatus accountStatus;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "AccountStatus", nullable = false)
-    private AccountStatus accountStatus;
+    @Column(name = "gender")
+    private Gender gender;
+
+    @Column(name = "profile_image", length = 255)
+    private String profileImage;
+
+    @Column(name = "google_account_id")
+    private String googleAccountId;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

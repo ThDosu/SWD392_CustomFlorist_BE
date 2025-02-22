@@ -2,6 +2,7 @@ package edu.fpt.customflorist.responses.User;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.fpt.customflorist.models.Enums.AccountStatus;
+import edu.fpt.customflorist.models.Enums.Gender;
 import edu.fpt.customflorist.models.Enums.Role;
 import edu.fpt.customflorist.models.User;
 import lombok.*;
@@ -39,6 +40,9 @@ public class CustomerResponse {
     @JsonProperty("role")
     private Role role;
 
+    @JsonProperty("gender")
+    private Gender gender;
+
     public static CustomerResponse fromUser(User user) {
         return CustomerResponse.builder()
                 .id(user.getUserId())
@@ -50,6 +54,7 @@ public class CustomerResponse {
                 .loyaltyPoints(user.getLoyaltyPoints())
                 .accountStatus(user.getAccountStatus())
                 .role(user.getRole())
+                .gender(user.getGender())
                 .build();
     }
 }

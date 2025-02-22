@@ -1,6 +1,7 @@
-package edu.fpt.customflorist.dtos;
+package edu.fpt.customflorist.dtos.User;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import edu.fpt.customflorist.models.Enums.Gender;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
@@ -34,5 +35,9 @@ public class UserDTO {
     @JsonProperty("phone")
     @NotBlank(message = "Phone is required")
     private String phone;
+
+    @JsonProperty("gender")
+    @NotBlank(message = "gender is required")
+    private Gender gender;
 
 }

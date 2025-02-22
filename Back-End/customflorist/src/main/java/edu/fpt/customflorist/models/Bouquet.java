@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Getter
@@ -17,10 +18,11 @@ import java.math.BigDecimal;
 public class Bouquet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long bouquetID;
+    private Long bouquetId;
 
-    @Column(nullable = false, unique = true)
-    private String bouquetCode;
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
     @Column(nullable = false)
     private String name;
@@ -33,5 +35,11 @@ public class Bouquet {
 
     @Column(nullable = false)
     private String image;
+
+    @Column(nullable = false)
+    private Boolean isActive;
+
+    @OneToMany(mappedBy = "bouquet", cascade = CascadeType.ALL)
+    private List<OrderItem> orderItems;
 
 }

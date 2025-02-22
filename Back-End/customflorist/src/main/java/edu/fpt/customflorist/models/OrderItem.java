@@ -7,30 +7,36 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 @Table(name = "OrderItem")
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long orderItemID;
+    private Long orderItemId;
 
     @ManyToOne
-    @JoinColumn(name = "orderID", nullable = false)
+    @JoinColumn(name = "bouquet_id", nullable = false)
+    private Bouquet bouquet;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id", nullable = false)
     private Order order;
-
-    @ManyToOne
-    @JoinColumn(name = "productID", nullable = false)
-    private Product product;
 
     @Column(nullable = false)
     private Integer quantity;
 
     @Column(nullable = false)
     private BigDecimal subTotal;
+
+    @Column(nullable = false)
+    private Boolean isActive;
+
+    @OneToMany(mappedBy = "orderItem", cascade = CascadeType.ALL)
+    private List<OrderBouquetFlower> orderBouquetFlowers;
 
 }
