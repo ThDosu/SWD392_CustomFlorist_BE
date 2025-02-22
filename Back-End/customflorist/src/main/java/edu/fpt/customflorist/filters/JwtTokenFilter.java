@@ -73,10 +73,6 @@ public class JwtTokenFilter extends OncePerRequestFilter{
                 Pair.of("/swagger-resources.*", "GET"),
                 Pair.of("/webjars.*", "GET"),
 
-                //Login social
-                Pair.of(String.format("%s/api/v1/users/auth/social-login**", apiPrefix), "GET"),
-                Pair.of(String.format("%s/api/v1/users/auth/social/callback**", apiPrefix), "GET"),
-
                 //Login account
                 Pair.of(String.format("%s/api/v1/users/register", apiPrefix), "POST"),
                 Pair.of(String.format("%s/api/v1/users/login", apiPrefix), "POST")

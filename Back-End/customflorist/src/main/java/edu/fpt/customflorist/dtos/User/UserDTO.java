@@ -3,6 +3,7 @@ package edu.fpt.customflorist.dtos.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import edu.fpt.customflorist.models.Enums.Gender;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Data
@@ -37,7 +38,7 @@ public class UserDTO {
     private String phone;
 
     @JsonProperty("gender")
-    @NotBlank(message = "gender is required")
-    private Gender gender;
+    @NotBlank(message = "Gender is required")
+    private String gender;
 
 }

@@ -40,8 +40,6 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(requests -> {
                     requests
-                            .requestMatchers("/api/v1/users/auth/**").permitAll()
-
                             .requestMatchers(
                                     String.format("%s/api/v1/users/register", apiPrefix),
                                     String.format("%s/api/v1/users/login", apiPrefix),
@@ -49,10 +47,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                                     "/v3/api-docs/**",
                                     "/swagger-resources/**",
                                     "/swagger-ui.html",
-                                    "/webjars/**",
-                                    //Google login
-                                    String.format("%s/api/v1/users/auth/social-login**", apiPrefix),
-                                    String.format("%s/api/v1/users/auth/social/callback**", apiPrefix)
+                                    "/webjars/**"
                             )
                             .permitAll()
 

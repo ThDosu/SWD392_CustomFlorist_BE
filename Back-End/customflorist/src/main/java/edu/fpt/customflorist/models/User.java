@@ -59,12 +59,6 @@ public class User implements UserDetails {
     @Column(name = "gender")
     private Gender gender;
 
-    @Column(name = "profile_image", length = 255)
-    private String profileImage;
-
-    @Column(name = "google_account_id")
-    private String googleAccountId;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
