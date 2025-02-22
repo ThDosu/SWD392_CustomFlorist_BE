@@ -17,19 +17,6 @@ spring:
       hibernate:
       dialect: org.hibernate.dialect.MySQLDialect
       format_sql: true
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: 833352017043-3bd6ieqdukrkggbb7vo3acb8mmqh6oua.apps.googleusercontent.com
-            client-secret: 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
-            redirect-uri: "${GOOGLE_REDIRECT_URI:http://localhost:4300/auth/google/callback}"
-            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
-            #auth-uri: "https://www.facebook.com/v3.2/dialog/oauth"
-            resource-server:
-              opaque-token:
-                introspection-uri: "https://googleapis.com"
 api:
   prefix: /custom-florist
 jwt:
