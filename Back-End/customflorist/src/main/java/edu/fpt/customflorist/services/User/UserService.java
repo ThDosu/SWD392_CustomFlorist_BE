@@ -1,18 +1,16 @@
 package edu.fpt.customflorist.services.User;
 
 import edu.fpt.customflorist.components.JwtTokenUtils;
-import edu.fpt.customflorist.components.LocalizationUtils;
 import edu.fpt.customflorist.dtos.User.UpdateUserDTO;
 import edu.fpt.customflorist.dtos.User.UserDTO;
-import edu.fpt.customflorist.dtos.User.UserLoginGGDTO;
 import edu.fpt.customflorist.exceptions.DataNotFoundException;
 import edu.fpt.customflorist.exceptions.InvalidPasswordException;
 import edu.fpt.customflorist.exceptions.UserException;
 import edu.fpt.customflorist.models.Enums.AccountStatus;
+import edu.fpt.customflorist.models.Enums.Gender;
 import edu.fpt.customflorist.models.Enums.Role;
 import edu.fpt.customflorist.models.User;
 import edu.fpt.customflorist.repositories.UserRepository;
-import edu.fpt.customflorist.utils.MessageKeys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -34,7 +32,6 @@ public class UserService implements IUserService {
     private final AuthenticationManager authenticationManager;
     private final Role roleDefault = Role.CUSTOMER;
     private final AccountStatus accountStatusDefault = AccountStatus.ACTIVE;
-    private final LocalizationUtils localizationUtils;
 
     @Override
     public User createUser(UserDTO userDTO) throws Exception {
@@ -54,7 +51,7 @@ public class UserService implements IUserService {
                 .phone(userDTO.getPhone())
                 .email(userDTO.getEmail())
                 .loyaltyPoints(0)
-                .gender(userDTO.getGender())
+                .gender(Gender.valueOf(userDTO.getGender()))
                 .accountStatus(accountStatusDefault)
                 .role(roleDefault)
                 .build();
@@ -109,47 +106,6 @@ public class UserService implements IUserService {
     @Override
     public void blockOrEnable(Long userId, Boolean active) throws DataNotFoundException {
 
-    }
-
-    @Override
-    public String loginSocial(UserLoginGGDTO userLoginGGDTO) throws Exception {
-        Optional<User> optionalUser = Optional.empty();
-
-        // Kiểm tra Google Account ID
-        if (userLoginGGDTO.isGoogleAccountIdValid()) {
-            optionalUser = userRepository.findByGoogleAccountId(userLoginGGDTO.getGoogleAccountId());
-
-            // Tạo người dùng mới nếu không tìm thấy
-            if (optionalUser.isEmpty()) {
-                User newUser = User.builder()
-                        .name(Optional.ofNullable(userLoginGGDTO.getFullname()).orElse(""))
-                        .email(Optional.ofNullable(userLoginGGDTO.getEmail()).orElse(""))
-                        .profileImage(Optional.ofNullable(userLoginGGDTO.getProfileImage()).orElse(""))
-                        .role(roleDefault)
-                        .googleAccountId(userLoginGGDTO.getGoogleAccountId())
-                        .password("")
-                        .address("")
-                        .phone("")
-                        .loyaltyPoints(0)
-                        .accountStatus(accountStatusDefault)
-                        .build();
-
-                // Lưu người dùng mới
-                newUser = userRepository.save(newUser);
-                optionalUser = Optional.of(newUser);
-            }
-        } else {
-            throw new IllegalArgumentException("Invalid social account information.");
-        }
-        User user = optionalUser.get();
-
-        // Kiểm tra nếu tài khoản bị khóa
-        if (user.getAccountStatus() == AccountStatus.BANNED) {
-            throw new DataNotFoundException(localizationUtils.getLocalizedMessage(MessageKeys.USER_IS_LOCKED));
-        }
-
-        // Tạo JWT token cho người dùng
-        return jwtTokenUtil.generateToken(user);
     }
 
     @Override

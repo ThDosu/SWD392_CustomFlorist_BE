@@ -2,7 +2,6 @@ package edu.fpt.customflorist.services.User;
 
 import edu.fpt.customflorist.dtos.User.UpdateUserDTO;
 import edu.fpt.customflorist.dtos.User.UserDTO;
-import edu.fpt.customflorist.dtos.User.UserLoginGGDTO;
 import edu.fpt.customflorist.exceptions.DataNotFoundException;
 import edu.fpt.customflorist.exceptions.InvalidPasswordException;
 import edu.fpt.customflorist.models.User;
@@ -12,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 public interface IUserService {
     User createUser(UserDTO userDTO) throws Exception;
     String login(String userName, String password) throws Exception;
-    String loginSocial(UserLoginGGDTO userLoginGGDTO) throws Exception;
 
     User updateUser(Long userId, UpdateUserDTO updatedUserDTO) throws Exception;
     User getUserDetailsFromToken(String token) throws Exception;
