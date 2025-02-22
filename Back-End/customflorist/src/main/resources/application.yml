@@ -15,15 +15,15 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
-      dialect: org.hibernate.dialect.MySQLDialect
-      format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
   security:
     oauth2:
       client:
         registration:
           google:
-            client-id: 1
-            client-secret: 1
+            client-id: ${GOOGLE_CLIENT_ID:1}
+            client-secret: ${GOOGLE_CLIENT_SECRET:1}
             redirect-uri: "${GOOGLE_REDIRECT_URI:http://localhost:4300/auth/google/callback}"
             user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
             #auth-uri: "https://www.facebook.com/v3.2/dialog/oauth"
@@ -35,7 +35,7 @@ api:
 jwt:
   expiration: 2592000 #30 days = 30 * 24 * 60 * 60
   expiration-refresh-token: 5184000 #60 days = 60 * 24 * 60 * 60
-  secretKey: U3t9aQv9tqdw/mwvxDrl4ebJKiurzORBmS1gzYKDeT+zJOTg0xAauB7HpLCYasbo
+  secretKey: ${JWT_SECRET_KEY:U3t9aQv9tqdw/mwvxDrl4ebJKiurzORBmS1gzYKDeT+zJOTg0xAauB7HpLCYasbo}
 open:
   api:
     title: Custom Florist API
@@ -48,7 +48,7 @@ payment:
     url: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
     returnUrl: http://localhost:8080
     tmnCode: ZYVDT6EC
-    secretKey: O0FQ4IFU6EO79AV2YPTWMKCGK7T3WROH
+    secretKey: ${VNPAY_SECRET_KEY:O0FQ4IFU6EO79AV2YPTWMKCGK7T3WROH}
     version: 2.1.0
     command: pay
     orderType: Flower
