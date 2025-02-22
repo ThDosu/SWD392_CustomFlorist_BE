@@ -40,7 +40,22 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(requests -> {
                     requests
-                            .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**").permitAll()
+                            .requestMatchers("/api/v1/users/auth/**").permitAll()
+
+                            .requestMatchers(
+                                    String.format("%s/api/v1/users/register", apiPrefix),
+                                    String.format("%s/api/v1/users/login", apiPrefix),
+                                    "/swagger-ui/**",
+                                    "/v3/api-docs/**",
+                                    "/swagger-resources/**",
+                                    "/swagger-ui.html",
+                                    "/webjars/**",
+                                    //Google login
+                                    String.format("%s/api/v1/users/auth/social-login**", apiPrefix),
+                                    String.format("%s/api/v1/users/auth/social/callback**", apiPrefix)
+                            )
+                            .permitAll()
+
                             .requestMatchers(apiPrefix + "/api/v1/**").permitAll()
                             .anyRequest().authenticated();
 
@@ -50,7 +65,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
             @Override
             public void customize(CorsConfigurer<HttpSecurity> httpSecurityCorsConfigurer) {
                 CorsConfiguration configuration = new CorsConfiguration();
-                configuration.setAllowedOrigins(List.of("*"));
+                configuration.setAllowedOrigins(List.of("*", "http://localhost:4300", "http://localhost:4200"));
                 configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
                 configuration.setAllowedHeaders(Arrays.asList(
                         "authorization", "content-type", "x-auth-token", "accept",

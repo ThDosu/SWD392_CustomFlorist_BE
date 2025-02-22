@@ -15,14 +15,14 @@ import lombok.ToString;
 public class BouquetComposition {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long bouquetCompositionID;
+    private Long bouquetCompositionId;
 
     @ManyToOne
-    @JoinColumn(name = "bouquetID", nullable = false)
+    @JoinColumn(name = "bouquet_id", nullable = false)
     private Bouquet bouquet;
 
     @ManyToOne
-    @JoinColumn(name = "flowerID", nullable = false)
+    @JoinColumn(name = "flower_id", nullable = false)
     private Flower flower;
 
     @Column(nullable = false)
@@ -30,5 +30,8 @@ public class BouquetComposition {
 
     @Column(nullable = false)
     private Integer maxQuantity;
+
+    @Column(nullable = false)
+    private Boolean isActive;
 
 }

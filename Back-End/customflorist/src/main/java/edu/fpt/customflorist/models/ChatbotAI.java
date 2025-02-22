@@ -17,10 +17,10 @@ import java.time.LocalDateTime;
 public class ChatbotAI {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long chatSessionID;
+    private Long chatSessionId;
 
     @ManyToOne
-    @JoinColumn(name = "userID", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @Column(nullable = false, unique = true)
@@ -34,5 +34,8 @@ public class ChatbotAI {
 
     @Column(nullable = false)
     private LocalDateTime timestamp;
+
+    @Column(nullable = false)
+    private Boolean isActive;
 
 }

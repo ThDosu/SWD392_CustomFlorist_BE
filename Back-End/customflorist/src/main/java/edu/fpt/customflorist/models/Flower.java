@@ -16,13 +16,6 @@ public class Flower {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer flowerId;
 
-    @ManyToOne
-    @JoinColumn(name = "ProductID", nullable = false)
-    private Product product;
-
-    @Column(nullable = false, unique = true)
-    private String flowerCode;
-
     @Column(nullable = false, length = 255)
     private String name;
 
@@ -37,4 +30,7 @@ public class Flower {
 
     @Column(nullable = false, length = 255)
     private String image;
+
+    @Column(nullable = false)
+    private Boolean isActive;
 }

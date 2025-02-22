@@ -1,4 +1,4 @@
-package edu.fpt.customflorist.dtos;
+package edu.fpt.customflorist.dtos.User;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;

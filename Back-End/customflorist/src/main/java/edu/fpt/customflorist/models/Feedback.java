@@ -17,15 +17,16 @@ public class Feedback {
     private Integer feedbackId;
 
     @ManyToOne
-    @JoinColumn(name = "UserID", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "ProductID", nullable = false)
-    private Product product;
+    @JoinColumn(name = "bouquet_id", nullable = false)
+    private Bouquet bouquet;
 
-    @Column(nullable = false, unique = true)
-    private String feedbackCode;
+    @ManyToOne
+    @JoinColumn(name = "order_item_id", nullable = false)
+    private OrderItem orderItem;
 
     @Column(nullable = false)
     private Short rating;
@@ -35,5 +36,8 @@ public class Feedback {
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
+
+    @Column(nullable = false)
+    private Boolean isActive;
 }
 
