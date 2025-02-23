@@ -50,7 +50,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                             )
                             .permitAll()
 
-                            .requestMatchers(HttpMethod.POST, String.format("%s/api/v1/users/register", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.POST, String.format("%s/api/v1/users/signup", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.POST, String.format("%s/api/v1/users/login", apiPrefix)).permitAll()
 
                             .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/categories", apiPrefix)).permitAll()

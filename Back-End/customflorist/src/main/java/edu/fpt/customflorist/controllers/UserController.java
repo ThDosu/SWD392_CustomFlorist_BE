@@ -22,7 +22,7 @@ import java.util.List;
 public class UserController {
     private final IUserService userService;
 
-    @PostMapping("/register")
+    @PostMapping("/signup")
     public ResponseEntity<?> createUser(
             @Valid @RequestBody UserDTO userDTO,
             BindingResult result
