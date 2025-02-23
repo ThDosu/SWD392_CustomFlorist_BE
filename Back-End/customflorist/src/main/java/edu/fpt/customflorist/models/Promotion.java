@@ -10,7 +10,6 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 @Table(name = "Promotion")
 public class Promotion {

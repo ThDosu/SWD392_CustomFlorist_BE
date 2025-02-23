@@ -9,7 +9,6 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 @Table(name = "Category")
 public class Category {

@@ -1,9 +1,8 @@
 package edu.fpt.customflorist.dtos.User;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import edu.fpt.customflorist.models.Enums.Gender;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Data
@@ -39,6 +38,7 @@ public class UserDTO {
 
     @JsonProperty("gender")
     @NotBlank(message = "Gender is required")
+    @Schema(description = "User's gender (Male/Female/Other)", example = "Choose one of 3 Male/Female/Other")
     private String gender;
 
 }

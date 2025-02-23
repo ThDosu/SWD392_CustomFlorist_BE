@@ -42,8 +42,6 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                 .authorizeHttpRequests(requests -> {
                     requests
                             .requestMatchers(
-                                    String.format("%s/api/v1/users/register", apiPrefix),
-                                    String.format("%s/api/v1/users/login", apiPrefix),
                                     "/swagger-ui/**",
                                     "/v3/api-docs/**",
                                     "/swagger-resources/**",
@@ -51,6 +49,9 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                                     "/webjars/**"
                             )
                             .permitAll()
+
+                            .requestMatchers(HttpMethod.POST, String.format("%s/api/v1/users/register", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.POST, String.format("%s/api/v1/users/login", apiPrefix)).permitAll()
 
                             .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/categories", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/categories/**", apiPrefix)).permitAll()
@@ -61,6 +62,13 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                             .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/feedbacks/**", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.POST, String.format("%s/api/v1/feedbacks", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.PUT, String.format("%s/api/v1/feedbacks/**", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.DELETE, String.format("%s/api/v1/feedbacks/**", apiPrefix)).permitAll()
+
+                            .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/delivery-histories", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/delivery-histories/**", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.POST, String.format("%s/api/v1/delivery-histories", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.PUT, String.format("%s/api/v1/delivery-histories/**", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.DELETE, String.format("%s/api/v1/delivery-histories/**", apiPrefix)).permitAll()
 
                             .anyRequest().authenticated();
 
