@@ -22,8 +22,8 @@ spring:
       client:
         registration:
           google:
-            client-id: ${GOOGLE_CLIENT_ID:833352017043-3bd6ieqdukrkggbb7vo3acb8mmqh6oua.apps.googleusercontent.com}
-            client-secret: ${GOOGLE_CLIENT_SECRET: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}
+            client-id: ${GOOGLE_CLIENT_ID:1}
+            client-secret: ${GOOGLE_CLIENT_SECRET:1}
             redirect-uri: "${GOOGLE_REDIRECT_URI:http://localhost:4300/auth/google/callback}"
             user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
             #auth-uri: "https://www.facebook.com/v3.2/dialog/oauth"
