@@ -83,7 +83,11 @@ public class JwtTokenFilter extends OncePerRequestFilter{
 
                 //Feedback
                 Pair.of(String.format("%s/api/v1/feedbacks", apiPrefix), "GET"),
-                Pair.of(String.format("%s/api/v1/feedbacks/**", apiPrefix), "GET")
+                Pair.of(String.format("%s/api/v1/feedbacks/**", apiPrefix), "GET"),
+
+                //Delivery History
+                Pair.of(String.format("%s/api/v1/delivery-histories", apiPrefix), "GET"),
+                Pair.of(String.format("%s/api/v1/delivery-histories/**", apiPrefix), "GET")
         );
 
         String requestPath = request.getServletPath();

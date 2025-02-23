@@ -1,6 +1,8 @@
 package edu.fpt.customflorist.services.Feedback;
 
+import edu.fpt.customflorist.dtos.Feedback.DeleteFeedbackDTO;
 import edu.fpt.customflorist.dtos.Feedback.FeedbackDTO;
+import edu.fpt.customflorist.dtos.Feedback.UpdateFeedbackDTO;
 import edu.fpt.customflorist.models.Bouquet;
 import edu.fpt.customflorist.models.Enums.DeliveryStatus;
 import edu.fpt.customflorist.models.Feedback;
@@ -56,15 +58,24 @@ public class FeedbackService implements IFeedbackService {
     }
 
     @Override
-    public Feedback updateFeedback(Long feedbackId, FeedbackDTO feedbackDTO) throws Exception {
+    public Feedback updateFeedback(Long feedbackId, UpdateFeedbackDTO updateFeedbackDTO) throws Exception {
         Feedback feedback = feedbackRepository.findById(feedbackId)
                 .orElseThrow(() -> new Exception("Feedback not found"));
 
-        feedback.setRating(feedbackDTO.getRating());
-        feedback.setComment(feedbackDTO.getComment());
-        feedback.setIsActive(feedbackDTO.getIsActive());
+        feedback.setRating(updateFeedbackDTO.getRating());
+        feedback.setComment(updateFeedbackDTO.getComment());
 
         return feedbackRepository.save(feedback);
+    }
+
+    @Override
+    public void deleteFeedback(Long feedbackId, DeleteFeedbackDTO deleteFeedbackDTO) throws Exception {
+        Feedback feedback = feedbackRepository.findById(feedbackId)
+                .orElseThrow(() -> new Exception("Feedback not found"));
+
+        feedback.setIsActive(deleteFeedbackDTO.getIsActive());
+
+        feedbackRepository.save(feedback);
     }
 
     @Override
@@ -74,17 +85,27 @@ public class FeedbackService implements IFeedbackService {
     }
 
     @Override
-    public Page<Feedback> getAllFeedbacks(String keyword, Pageable pageable) {
-        return feedbackRepository.findByCommentContaining(keyword, pageable);
+    public Page<Feedback> getAllFeedbacks(LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
+        if (startDate == null || endDate == null) {
+            return feedbackRepository.findAll(pageable);
+        }
+        return feedbackRepository.findAllByDateRange(startDate, endDate, pageable);
     }
 
     @Override
-    public Page<Feedback> getFeedbacksByBouquetId(Long bouquetId, Pageable pageable) {
-        return feedbackRepository.findByBouquet_BouquetId(bouquetId, pageable);
+    public Page<Feedback> getFeedbacksByBouquetId(Long bouquetId, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
+        if (startDate == null || endDate == null) {
+            return feedbackRepository.findByBouquet_BouquetId(bouquetId, pageable);
+        }
+        return feedbackRepository.findByBouquetIdAndDateRange(bouquetId, startDate, endDate, pageable);
     }
 
     @Override
-    public Page<Feedback> getFeedbacksByUserId(Long userId, Pageable pageable) {
-        return feedbackRepository.findByUser_UserId(userId, pageable);
+    public Page<Feedback> getFeedbacksByUserId(Long userId, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
+        if (startDate == null || endDate == null) {
+            return feedbackRepository.findByUser_UserId(userId, pageable);
+        }
+        return feedbackRepository.findByUserIdAndDateRange(userId, startDate, endDate, pageable);
     }
+
 }

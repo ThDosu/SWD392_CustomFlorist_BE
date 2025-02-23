@@ -28,15 +28,20 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public void updateCategory(CategoryDTO categoryDTO) throws Exception {
-        Category category = categoryRepository.findByNameContaining(categoryDTO.getName(), Pageable.unpaged())
-                .stream().findFirst()
+    public Category updateCategory(Long categoryId, CategoryDTO categoryDTO) throws Exception {
+        Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new Exception("Category not found"));
 
+        boolean nameExists = categoryRepository.existsByNameAndCategoryIdNot(categoryDTO.getName(), categoryId);
+        if (nameExists) {
+            throw new Exception("Category name already exists");
+        }
+
+        category.setName(categoryDTO.getName());
         category.setDescription(categoryDTO.getDescription());
         category.setIsActive(categoryDTO.getIsActive());
 
-        categoryRepository.save(category);
+        return categoryRepository.save(category);
     }
 
     @Override

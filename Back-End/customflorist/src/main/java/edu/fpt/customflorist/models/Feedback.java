@@ -18,17 +18,14 @@ public class Feedback {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnore
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "bouquet_id", nullable = false)
-    @JsonIgnore
     private Bouquet bouquet;
 
     @ManyToOne
     @JoinColumn(name = "order_item_id", nullable = false)
-    @JsonIgnore
     private OrderItem orderItem;
 
     @Column(nullable = false)

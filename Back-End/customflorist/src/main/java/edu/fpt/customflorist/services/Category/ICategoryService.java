@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface ICategoryService {
     Category createCategory(CategoryDTO categoryDTO) throws Exception;
-    void updateCategory(CategoryDTO categoryDTO) throws Exception;
+    Category updateCategory(Long categoryId, CategoryDTO categoryDTO) throws Exception;
     Category getCategoryById(Long categoryId) throws Exception;
     Page<Category> findAll(String keyword, Pageable pageable) throws Exception;
 }

@@ -1,19 +1,16 @@
 package edu.fpt.customflorist.models;
 
-import edu.fpt.customflorist.models.Enums.DeliveryStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
-
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 @Table(name = "DeliveryHistory")
 public class DeliveryHistory {
@@ -36,15 +33,8 @@ public class DeliveryHistory {
     @Column(nullable = false, unique = true)
     private String deliveryCode;
 
-    @Column(nullable = false)
-    private LocalDateTime deliveryDate;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private DeliveryStatus status;
-
-    @Column(nullable = false)
-    private String description;
+    @OneToMany(mappedBy = "deliveryHistory", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<DeliveryStatusHistory> statusHistories = new ArrayList<>();
 
     @Column(nullable = false)
     private Boolean isActive;

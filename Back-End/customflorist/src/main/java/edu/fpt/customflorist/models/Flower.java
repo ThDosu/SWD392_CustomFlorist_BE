@@ -8,7 +8,6 @@ import java.math.BigDecimal;
 @Entity
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 @Table(name = "Flower")
 public class Flower {
