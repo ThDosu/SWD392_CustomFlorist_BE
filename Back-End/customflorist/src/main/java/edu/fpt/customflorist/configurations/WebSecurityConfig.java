@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -51,7 +52,16 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                             )
                             .permitAll()
 
-                            .requestMatchers(apiPrefix + "/api/v1/**").permitAll()
+                            .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/categories", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/categories/**", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.POST, String.format("%s/api/v1/categories", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.PUT, String.format("%s/api/v1/categories/**", apiPrefix)).permitAll()
+
+                            .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/feedbacks", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/feedbacks/**", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.POST, String.format("%s/api/v1/feedbacks", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.PUT, String.format("%s/api/v1/feedbacks/**", apiPrefix)).permitAll()
+
                             .anyRequest().authenticated();
 
                 }).csrf(AbstractHttpConfigurer::disable);

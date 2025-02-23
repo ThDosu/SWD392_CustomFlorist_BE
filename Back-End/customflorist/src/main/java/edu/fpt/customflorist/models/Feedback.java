@@ -1,5 +1,6 @@
 package edu.fpt.customflorist.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -8,24 +9,26 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 @Table(name = "Feedback")
 public class Feedback {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer feedbackId;
+    private Long feedbackId;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "bouquet_id", nullable = false)
+    @JsonIgnore
     private Bouquet bouquet;
 
     @ManyToOne
     @JoinColumn(name = "order_item_id", nullable = false)
+    @JsonIgnore
     private OrderItem orderItem;
 
     @Column(nullable = false)
