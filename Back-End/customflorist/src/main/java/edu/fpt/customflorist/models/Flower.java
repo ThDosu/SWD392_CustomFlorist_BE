@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 public class Flower {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer flowerId;
+    private Long flowerId;
 
     @Column(nullable = false, length = 255)
     private String name;

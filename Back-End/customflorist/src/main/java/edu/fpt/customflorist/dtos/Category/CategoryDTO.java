@@ -3,6 +3,7 @@ package edu.fpt.customflorist.dtos.Category;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Data
@@ -21,6 +22,6 @@ public class CategoryDTO {
     private String description;
 
     @JsonProperty("is_active")
-    @NotBlank(message = "Active is required")
+    @NotNull(message = "Active is required")
     private Boolean isActive;
 }
