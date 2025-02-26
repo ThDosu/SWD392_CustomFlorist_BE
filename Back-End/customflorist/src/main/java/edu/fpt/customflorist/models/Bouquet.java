@@ -32,7 +32,7 @@ public class Bouquet {
     @Column(nullable = false)
     private BigDecimal basePrice;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String image;
 
     @Column(nullable = false)

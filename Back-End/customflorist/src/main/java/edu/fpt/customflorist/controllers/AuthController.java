@@ -32,7 +32,6 @@ public class AuthController {
 
     private final IUserService userService;
 
-
     @GetMapping("/url")
     public ResponseEntity<UrlDto> auth() {
         String url = new GoogleAuthorizationCodeRequestUrl(clientId,

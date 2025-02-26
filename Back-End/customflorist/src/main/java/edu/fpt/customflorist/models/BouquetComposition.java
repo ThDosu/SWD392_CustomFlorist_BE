@@ -24,10 +24,10 @@ public class BouquetComposition {
     @JoinColumn(name = "flower_id", nullable = false)
     private Flower flower;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Integer minQuantity;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Integer maxQuantity;
 
     @Column(nullable = false)
