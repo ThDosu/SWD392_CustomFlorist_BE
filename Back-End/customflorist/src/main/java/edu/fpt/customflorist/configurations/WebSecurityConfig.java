@@ -11,12 +11,15 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -31,6 +34,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WebSecurityConfig implements WebMvcConfigurer {
 
+    private final WebClient userInfoClient;
     private final JwtTokenFilter jwtTokenFilter;
     @Value("${api.prefix}")
     private String apiPrefix;
@@ -39,6 +43,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(requests -> {
                     requests
                             .requestMatchers(
@@ -50,17 +55,14 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                             )
                             .permitAll()
 
+                            .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/auth/**", apiPrefix)).permitAll()
+
                             .requestMatchers(HttpMethod.POST, String.format("%s/api/v1/users/signup", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.POST, String.format("%s/api/v1/users/login", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/users", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/users/**", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.PUT, String.format("%s/api/v1/users/**", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.PATCH, String.format("%s/api/v1/users/**", apiPrefix)).permitAll()
-
-                            .requestMatchers(HttpMethod.GET, String.format("/api/v1/auth/google-login")).permitAll()
-                            .requestMatchers(HttpMethod.GET, String.format("/api/v1/auth/loginSuccess")).permitAll()
-                            .requestMatchers(HttpMethod.GET, String.format("/api/v1/auth/loginFailure")).permitAll()
-                            .requestMatchers(HttpMethod.POST, String.format("/api/v1/auth/exchange-token")).permitAll()
 
                             .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/payment/vn-pay-callback", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.POST, String.format("%s/api/v1/payment/vn-pay", apiPrefix)).permitAll()
@@ -88,18 +90,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                             .anyRequest().authenticated();
 
                 })
-                .oauth2Login(oauth2 -> oauth2
-                        .loginPage("/oauth2/authorization/google")
-
-                        .successHandler((request, response, authentication) -> {
-                            response.sendRedirect("http://localhost:4200/auth/google/callback");
-                        })
-                        .failureHandler((request, response, exception) -> {
-                            exception.printStackTrace();
-                            request.getSession().setAttribute("errorMessage", exception.getMessage());
-                            response.sendRedirect("/api/v1/auth/loginFailure");
-                        })
-                )
+                .oauth2ResourceServer(c -> c.opaqueToken(Customizer.withDefaults()))
                 .csrf(AbstractHttpConfigurer::disable);
 
         http.cors(new Customizer<CorsConfigurer<HttpSecurity>>() {
@@ -140,5 +131,10 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**")
                 .addResourceLocations("classpath:/static/");
+    }
+
+    @Bean
+    public OpaqueTokenIntrospector introspector() {
+        return new GoogleOpaqueTokenIntrospector(userInfoClient);
     }
 }

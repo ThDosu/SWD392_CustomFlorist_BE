@@ -20,6 +20,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -98,10 +99,10 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public String loginGoogle(OAuth2User user) throws Exception {
+    public String generateTokenForGoogleAccount(OAuth2AuthenticatedPrincipal principal) throws Exception {
 
-        String email = user.getAttribute("email");
-        String name = user.getAttribute("name");
+        String name = (String) principal.getAttributes().get("name");
+        String email = (String) principal.getAttributes().get("email");
 
         Optional<User> optionalUser = userRepository.findByEmail(email);
         User existingUser;
@@ -120,58 +121,6 @@ public class UserService implements IUserService {
         }
 
         return jwtTokenUtil.generateToken(existingUser);
-    }
-
-    @Override
-    public String exchangeAuthCodeForToken(String authCode) throws Exception {
-        String tokenUrl = "https://oauth2.googleapis.com/token";
-
-        MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
-        requestBody.add("code", authCode);
-        requestBody.add("client_id", "833352017043-3bd6ieqdukrkggbb7vo3acb8mmqh6oua.apps.googleusercontent.com");
-        requestBody.add("client_secret", "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");
-        requestBody.add("redirect_uri", "http://localhost:4200/auth/google/callback");
-        requestBody.add("grant_type", "authorization_code");
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(requestBody, headers);
-
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Map> response = restTemplate.exchange(
-                tokenUrl, HttpMethod.POST, requestEntity, Map.class);
-
-        System.out.println("Google Response: " + response);
-        System.out.println("Response Body: " + response.getBody());
-        System.out.println("Status Code: " + response.getStatusCode());
-
-        if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
-            return response.getBody().get("access_token").toString();
-        }
-
-        throw new RuntimeException("Unable to get token from authCode");
-    }
-
-    private Map<String, Object> getUserInfo(String accessToken) {
-        String userInfoUrl = "https://www.googleapis.com/oauth2/v3/userinfo";
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + accessToken);
-
-        HttpEntity<String> requestEntity = new HttpEntity<>(headers);
-        RestTemplate restTemplate = new RestTemplate();
-
-        ResponseEntity<Map> response = restTemplate.exchange(
-                userInfoUrl, HttpMethod.GET, requestEntity, Map.class);
-
-        System.out.println("User Info Response: " + response.getBody());
-
-        if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
-            return response.getBody();
-        }
-
-        throw new RuntimeException("Unable to get user information from Google");
     }
 
     @Override

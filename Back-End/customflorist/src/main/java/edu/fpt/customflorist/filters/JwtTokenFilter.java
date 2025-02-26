@@ -74,10 +74,7 @@ public class JwtTokenFilter extends OncePerRequestFilter{
                 Pair.of("/swagger-resources.*", "GET"),
                 Pair.of("/webjars.*", "GET"),
 
-                Pair.of(String.format("/api/v1/auth/google-login"), "GET"),
-                Pair.of(String.format("/api/v1/auth/loginSuccess"), "GET"),
-                Pair.of(String.format("/api/v1/auth/loginFailure"), "GET"),
-                Pair.of(String.format("/api/v1/auth/exchange-token"), "POST"),
+                Pair.of(String.format("%s/api/v1/auth/**", apiPrefix), "GET"),
 
                 //Login account
                 Pair.of(String.format("%s/api/v1/users/signup", apiPrefix), "POST"),

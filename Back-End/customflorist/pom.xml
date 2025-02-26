@@ -180,7 +180,18 @@
 			<artifactId>google-http-client-jackson2</artifactId>
 			<version>1.46.1</version>
 		</dependency>
-
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-webflux -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
+			<version>3.4.3</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-webflux -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webflux</artifactId>
+			<version>6.2.3</version>
+		</dependency>
 	</dependencies>
 
 	<build>
