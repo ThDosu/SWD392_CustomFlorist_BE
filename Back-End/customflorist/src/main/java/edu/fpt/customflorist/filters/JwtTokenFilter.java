@@ -8,6 +8,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.util.Pair;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -73,9 +74,18 @@ public class JwtTokenFilter extends OncePerRequestFilter{
                 Pair.of("/swagger-resources.*", "GET"),
                 Pair.of("/webjars.*", "GET"),
 
+                Pair.of(String.format("/api/v1/auth/google-login"), "GET"),
+                Pair.of(String.format("/api/v1/auth/loginSuccess"), "GET"),
+                Pair.of(String.format("/api/v1/auth/loginFailure"), "GET"),
+                Pair.of(String.format("/api/v1/auth/exchange-token"), "POST"),
+
                 //Login account
                 Pair.of(String.format("%s/api/v1/users/signup", apiPrefix), "POST"),
                 Pair.of(String.format("%s/api/v1/users/login", apiPrefix), "POST"),
+                Pair.of(String.format("%s/api/v1/users", apiPrefix), "GET"),
+                Pair.of(String.format("%s/api/v1/users/**", apiPrefix), "GET"),
+                Pair.of(String.format("%s/api/v1/users/**", apiPrefix), "PUT"),
+                Pair.of(String.format("%s/api/v1/users/**", apiPrefix), "PATCH"),
 
                 //Category
                 Pair.of(String.format("%s/api/v1/categories", apiPrefix), "GET"),
@@ -87,7 +97,15 @@ public class JwtTokenFilter extends OncePerRequestFilter{
 
                 //Delivery History
                 Pair.of(String.format("%s/api/v1/delivery-histories", apiPrefix), "GET"),
-                Pair.of(String.format("%s/api/v1/delivery-histories/**", apiPrefix), "GET")
+                Pair.of(String.format("%s/api/v1/delivery-histories/**", apiPrefix), "GET"),
+
+                //Payment
+                Pair.of(String.format("%s/api/v1/payment/vn-pay-callback", apiPrefix), "GET"),
+                Pair.of(String.format("%s/api/v1/payment/vn-pay", apiPrefix), "POST"),
+
+                Pair.of(String.format("/payment-success.html", apiPrefix), "GET"),
+                Pair.of(String.format("/payment-fail.html", apiPrefix), "GET"),
+                Pair.of(String.format("/error.html", apiPrefix), "GET")
         );
 
         String requestPath = request.getServletPath();

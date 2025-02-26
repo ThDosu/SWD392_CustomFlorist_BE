@@ -3,6 +3,7 @@ package edu.fpt.customflorist.models;
 import edu.fpt.customflorist.models.Enums.PaymentMethod;
 import edu.fpt.customflorist.models.Enums.PaymentStatus;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -36,10 +37,10 @@ public class Payment {
     private LocalDateTime paymentDate;
 
     @Column(nullable = false)
+    @Min(value = 5000, message = "Price must be greater than or equal to 5000")
     private BigDecimal amount;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private PaymentStatus status;
 
     @Column(nullable = false)

@@ -16,9 +16,6 @@ public class CustomerResponse {
     @JsonProperty("id")
     private Long id;
 
-    @JsonProperty("username")
-    private String username;
-
     @JsonProperty("name")
     private String name;
 
@@ -46,7 +43,6 @@ public class CustomerResponse {
     public static CustomerResponse fromUser(User user) {
         return CustomerResponse.builder()
                 .id(user.getUserId())
-                .username(user.getUsername())
                 .name(user.getName())
                 .address(user.getAddress())
                 .email(user.getEmail())

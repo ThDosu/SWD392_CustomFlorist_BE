@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.util.Pair;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,7 +17,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -52,6 +52,21 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 
                             .requestMatchers(HttpMethod.POST, String.format("%s/api/v1/users/signup", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.POST, String.format("%s/api/v1/users/login", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/users", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/users/**", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.PUT, String.format("%s/api/v1/users/**", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.PATCH, String.format("%s/api/v1/users/**", apiPrefix)).permitAll()
+
+                            .requestMatchers(HttpMethod.GET, String.format("/api/v1/auth/google-login")).permitAll()
+                            .requestMatchers(HttpMethod.GET, String.format("/api/v1/auth/loginSuccess")).permitAll()
+                            .requestMatchers(HttpMethod.GET, String.format("/api/v1/auth/loginFailure")).permitAll()
+                            .requestMatchers(HttpMethod.POST, String.format("/api/v1/auth/exchange-token")).permitAll()
+
+                            .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/payment/vn-pay-callback", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.POST, String.format("%s/api/v1/payment/vn-pay", apiPrefix)).permitAll()
+
+                            .requestMatchers("/payment-fail.html", "/payment-success.html","/error.html")
+                            .permitAll()
 
                             .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/categories", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/categories/**", apiPrefix)).permitAll()
@@ -72,7 +87,20 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 
                             .anyRequest().authenticated();
 
-                }).csrf(AbstractHttpConfigurer::disable);
+                })
+                .oauth2Login(oauth2 -> oauth2
+                        .loginPage("/oauth2/authorization/google")
+
+                        .successHandler((request, response, authentication) -> {
+                            response.sendRedirect("http://localhost:4200/auth/google/callback");
+                        })
+                        .failureHandler((request, response, exception) -> {
+                            exception.printStackTrace();
+                            request.getSession().setAttribute("errorMessage", exception.getMessage());
+                            response.sendRedirect("/api/v1/auth/loginFailure");
+                        })
+                )
+                .csrf(AbstractHttpConfigurer::disable);
 
         http.cors(new Customizer<CorsConfigurer<HttpSecurity>>() {
             @Override
