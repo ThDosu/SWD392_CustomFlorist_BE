@@ -26,8 +26,8 @@ public class User implements UserDetails {
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    @Column(name = "username")
-    private String username;
+    @Column(name = "email", unique = true, nullable = false)
+    private String email;
 
     @Column(name = "password")
     private String password;
@@ -35,10 +35,7 @@ public class User implements UserDetails {
     @Column(name = "name", nullable = false, length = 255)
     private String name;
 
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "phone", length = 20)
+    @Column(name = "phone", length = 20, unique = true)
     private String phone;
 
     @Column(name = "address", length = 255)
@@ -49,11 +46,11 @@ public class User implements UserDetails {
     private Role role;
 
     @Column(name = "loyalty_points", nullable = false)
-    private Integer loyaltyPoints;
+    private Integer loyaltyPoints = 0;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "account_status", nullable = false)
-    private AccountStatus accountStatus;
+    private AccountStatus accountStatus = AccountStatus.ACTIVE;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "gender")
@@ -62,7 +59,7 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
-        authorityList.add(new SimpleGrantedAuthority("ROLE_" + getRole()));
+        authorityList.add(new SimpleGrantedAuthority("ROLE_" + role.name()));
         //authorityList.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
 
         return authorityList;
@@ -75,7 +72,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
 
     @Override
@@ -85,7 +82,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return accountStatus != AccountStatus.BANNED;
     }
 
     @Override
@@ -95,7 +92,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return accountStatus == AccountStatus.ACTIVE;
     }
 }
 

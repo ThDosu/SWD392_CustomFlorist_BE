@@ -10,4 +10,5 @@ public interface ICategoryService {
     Category updateCategory(Long categoryId, CategoryDTO categoryDTO) throws Exception;
     Category getCategoryById(Long categoryId) throws Exception;
     Page<Category> findAll(String keyword, Pageable pageable) throws Exception;
+    Page<Category> findAllActive(String keyword, Pageable pageable) throws Exception;
 }

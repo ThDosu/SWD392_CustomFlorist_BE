@@ -237,4 +237,64 @@ public class FeedbackController {
         }
     }
 
+    @GetMapping("/bouquet/{bouquetId}/is-active")
+    public ResponseEntity<ResponseObject> getFeedbackIsActiveByBouquetId(
+            @PathVariable Long bouquetId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate
+    ) {
+        try {
+            Pageable pageable = PageRequest.of(page, size);
+            Page<Boolean> isActiveList = feedbackService.getFeedbackIsActiveByBouquetId(bouquetId, startDate, endDate, pageable);
+
+            return ResponseEntity.ok(
+                    ResponseObject.builder()
+                            .message("Feedback isActive status for bouquet retrieved successfully")
+                            .status(HttpStatus.OK)
+                            .data(isActiveList)
+                            .build()
+            );
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(
+                    ResponseObject.builder()
+                            .message("Failed to retrieve isActive status: " + e.getMessage())
+                            .status(HttpStatus.BAD_REQUEST)
+                            .data(null)
+                            .build()
+            );
+        }
+    }
+
+    @GetMapping("/user/{userId}/is-active")
+    public ResponseEntity<ResponseObject> getFeedbackIsActiveByUserId(
+            @PathVariable Long userId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate
+    ) {
+        try {
+            Pageable pageable = PageRequest.of(page, size);
+            Page<Boolean> isActiveList = feedbackService.getFeedbackIsActiveByUserId(userId, startDate, endDate, pageable);
+
+            return ResponseEntity.ok(
+                    ResponseObject.builder()
+                            .message("Feedback isActive status for user retrieved successfully")
+                            .status(HttpStatus.OK)
+                            .data(isActiveList)
+                            .build()
+            );
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(
+                    ResponseObject.builder()
+                            .message("Failed to retrieve isActive status: " + e.getMessage())
+                            .status(HttpStatus.BAD_REQUEST)
+                            .data(null)
+                            .build()
+            );
+        }
+    }
+
 }

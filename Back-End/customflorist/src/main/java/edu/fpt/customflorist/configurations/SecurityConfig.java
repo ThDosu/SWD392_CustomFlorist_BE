@@ -20,11 +20,11 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> userRepository
-                .findByUsername(username)
+        return email -> userRepository
+                .findByEmail(email)
                 .orElseThrow(() ->
                         new UsernameNotFoundException(
-                                "Cannot find user with username = " + username));
+                                "Cannot find user with email = " + email));
     }
 
     @Bean

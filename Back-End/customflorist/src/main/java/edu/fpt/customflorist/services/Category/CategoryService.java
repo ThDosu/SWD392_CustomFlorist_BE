@@ -51,7 +51,16 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public Page<Category> findAll(String keyword, Pageable pageable) throws Exception {
-        return categoryRepository.findByNameContaining(keyword, pageable);
+    public Page<Category> findAll(String keyword, Pageable pageable) {
+        return categoryRepository.findByNameContaining(
+                keyword != null ? keyword : "", pageable);
     }
+
+    @Override
+    public Page<Category> findAllActive(String keyword, Pageable pageable) {
+        return categoryRepository.findByNameContainingAndIsActiveTrue(
+                keyword != null ? keyword : "", pageable);
+    }
+
+
 }

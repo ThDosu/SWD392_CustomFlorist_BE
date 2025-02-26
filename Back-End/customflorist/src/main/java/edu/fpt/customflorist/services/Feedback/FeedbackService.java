@@ -16,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -86,26 +85,27 @@ public class FeedbackService implements IFeedbackService {
 
     @Override
     public Page<Feedback> getAllFeedbacks(LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
-        if (startDate == null || endDate == null) {
-            return feedbackRepository.findAll(pageable);
-        }
         return feedbackRepository.findAllByDateRange(startDate, endDate, pageable);
     }
 
     @Override
     public Page<Feedback> getFeedbacksByBouquetId(Long bouquetId, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
-        if (startDate == null || endDate == null) {
-            return feedbackRepository.findByBouquet_BouquetId(bouquetId, pageable);
-        }
         return feedbackRepository.findByBouquetIdAndDateRange(bouquetId, startDate, endDate, pageable);
     }
 
     @Override
     public Page<Feedback> getFeedbacksByUserId(Long userId, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
-        if (startDate == null || endDate == null) {
-            return feedbackRepository.findByUser_UserId(userId, pageable);
-        }
         return feedbackRepository.findByUserIdAndDateRange(userId, startDate, endDate, pageable);
+    }
+
+    @Override
+    public Page<Boolean> getFeedbackIsActiveByBouquetId(Long bouquetId, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
+        return feedbackRepository.findIsActiveByBouquetIdAndDateRange(bouquetId, startDate, endDate, pageable);
+    }
+
+    @Override
+    public Page<Boolean> getFeedbackIsActiveByUserId(Long userId, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
+        return feedbackRepository.findIsActiveByUserIdAndDateRange(userId, startDate, endDate, pageable);
     }
 
 }

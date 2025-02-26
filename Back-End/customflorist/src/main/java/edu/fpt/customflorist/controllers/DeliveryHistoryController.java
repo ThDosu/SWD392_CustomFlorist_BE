@@ -121,6 +121,56 @@ public class DeliveryHistoryController {
         }
     }
 
+    @GetMapping("/public/user/{userId}")
+    public ResponseEntity<ResponseObject> getAllActiveByUserId(
+            @PathVariable Long userId,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size
+    ) {
+        try {
+            Pageable pageable = PageRequest.of(page, size);
+
+            Page<DeliveryHistory> pages = deliveryHistoryService.getAllActiveByUserId(userId, startDate, endDate, pageable);
+
+            return ResponseEntity.ok(new ResponseObject(
+                    "User's active delivery history retrieved successfully",
+                    HttpStatus.OK,
+                    pages.map(DeliveryHistoryResponse::fromEntity))
+            );
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseObject("An error occurred while retrieving user's active delivery history",
+                            HttpStatus.INTERNAL_SERVER_ERROR, null));
+        }
+    }
+
+    @GetMapping("/public/courier/{courierId}")
+    public ResponseEntity<ResponseObject> getAllActiveByCourierId(
+            @PathVariable Long courierId,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size
+    ) {
+        try {
+            Pageable pageable = PageRequest.of(page, size);
+
+            Page<DeliveryHistory> pages = deliveryHistoryService.getAllActiveByCourierId(courierId, startDate, endDate, pageable);
+
+            return ResponseEntity.ok(new ResponseObject(
+                    "Courier's active delivery history retrieved successfully",
+                    HttpStatus.OK,
+                    pages.map(DeliveryHistoryResponse::fromEntity))
+            );
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseObject("An error occurred while retrieving courier's active delivery history",
+                            HttpStatus.INTERNAL_SERVER_ERROR, null));
+        }
+    }
+
     @GetMapping("/user/{userId}")
     public ResponseEntity<ResponseObject> getAllByUserId(
             @PathVariable Long userId,
