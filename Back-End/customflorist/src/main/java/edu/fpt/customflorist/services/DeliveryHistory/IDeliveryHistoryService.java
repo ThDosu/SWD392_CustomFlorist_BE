@@ -17,6 +17,8 @@ public interface IDeliveryHistoryService {
     void deleteDeliveryHistory(Long deliveryId, DeleteDeliveryHistoryDTO deleteDeliveryHistoryDTO) throws Exception;
 
     Page<DeliveryHistory> getAllDeliveryHistories(LocalDateTime startDate, LocalDateTime endDate,  Pageable pageable);
+    Page<DeliveryHistory> getAllActiveByUserId(Long userId, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable);
+    Page<DeliveryHistory> getAllActiveByCourierId(Long courierId, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable);
     Page<DeliveryHistory> getAllByUserId(Long userId, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable);
     Page<DeliveryHistory> getAllByCourierId(Long courierId, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable);
 }

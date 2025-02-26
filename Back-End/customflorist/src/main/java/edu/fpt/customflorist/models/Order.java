@@ -23,7 +23,7 @@ public class Order {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "promotion_id", nullable = false)
+    @JoinColumn(name = "promotion_id")
     private Promotion promotion;
 
     @Column(nullable = false)

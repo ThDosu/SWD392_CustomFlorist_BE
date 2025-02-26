@@ -12,6 +12,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -86,6 +89,25 @@ public class CategoryController {
         }
     }
 
+    @GetMapping("/public")
+    public ResponseEntity<ResponseObject> findAllActiveCategories(
+            @RequestParam(defaultValue = "") String keyword,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size
+    ) throws Exception {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<CategoryResponse> categories = categoryService.findAllActive(keyword, pageable)
+                .map(CategoryResponse::fromEntity);
+
+        return ResponseEntity.ok(
+                ResponseObject.builder()
+                        .message("Active categories retrieved successfully")
+                        .status(HttpStatus.OK)
+                        .data(categories)
+                        .build()
+        );
+    }
+
     @GetMapping
     public ResponseEntity<ResponseObject> findAllCategories(
             @RequestParam(defaultValue = "") String keyword,
@@ -94,8 +116,26 @@ public class CategoryController {
     ) {
         Pageable pageable = PageRequest.of(page, size);
         try {
-            Page<CategoryResponse> categories = categoryService.findAll(keyword, pageable)
-                    .map(CategoryResponse::fromEntity);
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+            boolean isAuthenticated = authentication != null && authentication.isAuthenticated() &&
+                    !(authentication instanceof AnonymousAuthenticationToken);
+
+            boolean isGuestOrCustomer = !isAuthenticated ||
+                    authentication.getAuthorities().stream()
+                            .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_CUSTOMER") ||
+                                    grantedAuthority.getAuthority().equals("ROLE_ANONYMOUS"));
+
+            Page<CategoryResponse> categories;
+            if (isGuestOrCustomer) {
+                // Nếu là GUEST hoặc CUSTOMER, chỉ lấy category có isActive = true
+                categories = categoryService.findAllActive(keyword, pageable)
+                        .map(CategoryResponse::fromEntity);
+            } else {
+                // Nếu là ADMIN hoặc STAFF, lấy tất cả category
+                categories = categoryService.findAll(keyword, pageable)
+                        .map(CategoryResponse::fromEntity);
+            }
 
             return ResponseEntity.ok(
                     ResponseObject.builder()

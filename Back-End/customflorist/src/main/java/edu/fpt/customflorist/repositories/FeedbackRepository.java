@@ -13,8 +13,6 @@ import java.util.List;
 
 @Repository
 public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
-    Page<Feedback> findByBouquet_BouquetId(Long bouquetId, Pageable pageable);
-    Page<Feedback> findByUser_UserId(Long userId, Pageable pageable);
 
     @Query("SELECT f FROM Feedback f WHERE (:startDate IS NULL OR f.createdAt >= :startDate) "
             + "AND (:endDate IS NULL OR f.createdAt <= :endDate)")
@@ -40,5 +38,24 @@ public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate,
             Pageable pageable);
+
+    @Query("SELECT f.isActive FROM Feedback f WHERE f.bouquet.bouquetId = :bouquetId "
+            + "AND (:startDate IS NULL OR f.createdAt >= :startDate) "
+            + "AND (:endDate IS NULL OR f.createdAt <= :endDate)")
+    Page<Boolean> findIsActiveByBouquetIdAndDateRange(
+            @Param("bouquetId") Long bouquetId,
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate,
+            Pageable pageable);
+
+    @Query("SELECT f.isActive FROM Feedback f WHERE f.user.userId = :userId "
+            + "AND (:startDate IS NULL OR f.createdAt >= :startDate) "
+            + "AND (:endDate IS NULL OR f.createdAt <= :endDate)")
+    Page<Boolean> findIsActiveByUserIdAndDateRange(
+            @Param("userId") Long userId,
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate,
+            Pageable pageable);
+
 }
 

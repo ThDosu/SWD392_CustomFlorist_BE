@@ -85,25 +85,30 @@ public class DeliveryHistoryService implements IDeliveryHistoryService{
 
     @Override
     public Page<DeliveryHistory> getAllDeliveryHistories(LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
-        if (startDate == null || endDate == null) {
-            return deliveryHistoryRepository.findAll(pageable);
-        }
+
         return deliveryHistoryRepository.findAllByStatusChangedAtBetween(startDate, endDate, pageable);
     }
 
     @Override
+    public Page<DeliveryHistory> getAllActiveByUserId(Long userId, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
+        return deliveryHistoryRepository.findActiveByUserUserIdAndStatusChangedAtBetween(userId, startDate, endDate, pageable);
+    }
+
+    @Override
+    public Page<DeliveryHistory> getAllActiveByCourierId(Long courierId, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
+        return deliveryHistoryRepository.findActiveByCourierUserIdAndStatusChangedAtBetween(courierId, startDate, endDate, pageable);
+    }
+
+
+    @Override
     public Page<DeliveryHistory> getAllByUserId(Long userId, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
-        if (startDate == null || endDate == null) {
-            return deliveryHistoryRepository.findByUserUserId(userId, pageable);
-        }
+
         return deliveryHistoryRepository.findByUserUserIdAndStatusChangedAtBetween(userId, startDate, endDate, pageable);
     }
 
     @Override
     public Page<DeliveryHistory> getAllByCourierId(Long courierId, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
-        if (startDate == null || endDate == null) {
-            return deliveryHistoryRepository.findByCourierUserId(courierId, pageable);
-        }
+
         return deliveryHistoryRepository.findByCourierUserIdAndStatusChangedAtBetween(courierId, startDate, endDate, pageable);
     }
 }
