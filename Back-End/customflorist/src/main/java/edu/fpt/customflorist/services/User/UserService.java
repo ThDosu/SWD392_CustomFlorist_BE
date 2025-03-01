@@ -11,6 +11,7 @@ import edu.fpt.customflorist.models.Enums.Gender;
 import edu.fpt.customflorist.models.Enums.Role;
 import edu.fpt.customflorist.models.User;
 import edu.fpt.customflorist.repositories.UserRepository;
+import edu.fpt.customflorist.services.Email.IEmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -27,22 +28,21 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class UserService implements IUserService {
     private final UserRepository userRepository;
+    private final IEmailService emailService;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenUtils jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
     private final Role roleDefault = Role.CUSTOMER;
     private final AccountStatus accountStatusDefault = AccountStatus.ACTIVE;
     private final RestTemplate restTemplate = new RestTemplate();
+    private final String linkPageResetPassword = "http://localhost:8080/auth/reset-password";
 
     @Override
     public User createUser(UserDTO userDTO) throws Exception {
@@ -52,6 +52,8 @@ public class UserService implements IUserService {
         if(userRepository.existsByPhone(userDTO.getPhone())) {
             throw new DataIntegrityViolationException("Phone number already exists");
         }
+
+        String verificationCode = UUID.randomUUID().toString();
 
         //convert from userDTO => user
         User newUser = User.builder()
@@ -64,12 +66,18 @@ public class UserService implements IUserService {
                 .gender(Gender.valueOf(userDTO.getGender()))
                 .accountStatus(accountStatusDefault)
                 .role(roleDefault)
+                .verificationCode(verificationCode)
+                .isVerified(false)
                 .build();
 
         String password = userDTO.getPassword();
         String encodedPassword = passwordEncoder.encode(password);
         newUser.setPassword(encodedPassword);
-        return userRepository.save(newUser);
+        userRepository.save(newUser);
+
+        emailService.sendVerificationEmail(newUser);
+
+        return newUser;
     }
 
     @Override
@@ -80,6 +88,9 @@ public class UserService implements IUserService {
         }
 
         User existingUser = optionalUser.get();
+        if (!existingUser.isVerified()) {
+            throw new UserException("Account not verified, please check email.");
+        }
         if(existingUser.getAccountStatus() == AccountStatus.BANNED){
             throw new UserException("User is not active");
         }
@@ -96,6 +107,62 @@ public class UserService implements IUserService {
         //authenticate with Java Spring security
         authenticationManager.authenticate(authenticationToken);
         return jwtTokenUtil.generateToken(existingUser);
+    }
+
+    @Override
+    public void requestResetPassword(String email) throws Exception {
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+        if (optionalUser.isEmpty()) {
+            throw new DataNotFoundException("Email not found");
+        }
+
+        User user = optionalUser.get();
+        String resetToken = UUID.randomUUID().toString();
+        user.setVerificationCode(resetToken);
+        userRepository.save(user);
+
+        String resetLink = linkPageResetPassword + "?token=" + resetToken;
+        String subject = "Password Reset Request";
+        String content = "Hi " + user.getName() + ",<br><br>"
+                + "We received a request to reset your password. Click the link below to reset it:<br>"
+                + "<a href=\"" + resetLink + "\">Reset Password</a><br><br>"
+                + "If you didn’t request a password reset, please ignore this email.<br><br>"
+                + "Best regards,<br>"
+                + "Custom Florist Team";
+
+        emailService.sendEmail(user.getEmail(), subject, content);
+
+    }
+
+    @Override
+    public void confirmResetPassword(String token, String newPassword) throws Exception {
+        Optional<User> optionalUser = userRepository.findByVerificationCode(token);
+        if (optionalUser.isEmpty()) {
+            throw new DataNotFoundException("Invalid or expired reset token.");
+        }
+
+        User user = optionalUser.get();
+        user.setPassword(passwordEncoder.encode(newPassword));
+        user.setVerificationCode(null);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void verifyAccount(String verificationCode) throws Exception {
+        Optional<User> optionalUser = userRepository.findByVerificationCode(verificationCode);
+
+        if (optionalUser.isEmpty()) {
+            throw new DataNotFoundException("The verification code is invalid or has already been used.");
+        }
+
+        User user = optionalUser.get();
+        if (user.isVerified()) {
+            throw new DataNotFoundException("The account is already verified.");
+        }
+
+        user.setVerified(true);
+        user.setVerificationCode(null);
+        userRepository.save(user);
     }
 
     @Override

@@ -56,6 +56,12 @@ public class User implements UserDetails {
     @Column(name = "gender")
     private Gender gender;
 
+    @Column(name = "verification_code")
+    private String verificationCode;
+
+    @Column(name = "is_verified", nullable = false)
+    private boolean isVerified = false;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorityList = new ArrayList<>();

@@ -22,8 +22,19 @@ spring:
       resourceserver:
         opaque-token:
           introspection-uri: https://www.googleapis.com/
-          clientId: "833352017043-3bd6ieqdukrkggbb7vo3acb8mmqh6oua.apps.googleusercontent.com"
-          clientSecret: "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"
+          clientId: ${GOOGLE_OAUTH2_CLIENT_ID:833352017043-3bd6ieqdukrkggbb7vo3acb8mmqh6oua.apps.googleusercontent.com}
+          clientSecret: ${GOOGLE_OAUTH2_CLIENT_SECRET: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}
+  mail:
+    host: ${MAIL_HOST:smtp-relay.brevo.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:86e661001@smtp-brevo.com}
+    password: ${MAIL_PASSWORD:L3TydZJVxUjQcGmt}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 api:
   prefix: /custom-florist
 jwt:
@@ -41,7 +52,7 @@ payment:
   vnpay:
     url: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
     returnUrl: http://localhost:8080/custom-florist/api/v1/payment/vn-pay-callback
-    tmnCode: 07IVPW62
+    tmnCode: ${VNPAY_TMN_CODE:07IVPW62}
     secretKey: ${VNPAY_SECRET_KEY:6LGP36DS9S6IYW5R523GNZRK9E6X7216}
     version: 2.1.0
     command: pay

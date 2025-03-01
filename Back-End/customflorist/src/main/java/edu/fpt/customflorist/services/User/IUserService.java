@@ -13,6 +13,9 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 public interface IUserService {
     User createUser(UserDTO userDTO) throws Exception;
     String login(String email, String password) throws Exception;
+    void requestResetPassword(String email) throws Exception;
+    void confirmResetPassword(String token, String newPassword) throws Exception;
+    void verifyAccount(String verificationCode) throws Exception;
     String generateTokenForGoogleAccount(OAuth2AuthenticatedPrincipal principal) throws Exception;
 
     User updateUser(Long userId, UpdateUserDTO updatedUserDTO) throws Exception;
