@@ -75,12 +75,15 @@ public class JwtTokenFilter extends OncePerRequestFilter{
                 Pair.of("/webjars.*", "GET"),
 
                 Pair.of(String.format("%s/api/v1/auth/**", apiPrefix), "GET"),
+                Pair.of(String.format("/auth/**"), "GET"),
 
                 //Login account
                 Pair.of(String.format("%s/api/v1/users/signup", apiPrefix), "POST"),
                 Pair.of(String.format("%s/api/v1/users/login", apiPrefix), "POST"),
+                Pair.of(String.format("%s/api/v1/users/reset-password/**", apiPrefix), "POST"),
                 Pair.of(String.format("%s/api/v1/users", apiPrefix), "GET"),
                 Pair.of(String.format("%s/api/v1/users/**", apiPrefix), "GET"),
+                Pair.of(String.format("%s/api/v1/users/verify", apiPrefix), "GET"),
                 Pair.of(String.format("%s/api/v1/users/**", apiPrefix), "PUT"),
                 Pair.of(String.format("%s/api/v1/users/**", apiPrefix), "PATCH"),
 

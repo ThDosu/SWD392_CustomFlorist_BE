@@ -56,13 +56,16 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                             .permitAll()
 
                             .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/auth/**", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.GET, String.format("/auth/**")).permitAll()
 
                             .requestMatchers(HttpMethod.POST, String.format("%s/api/v1/users/signup", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.POST, String.format("%s/api/v1/users/login", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.POST, String.format("%s/api/v1/users/reset-password/**", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/users", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/users/**", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.PUT, String.format("%s/api/v1/users/**", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.PATCH, String.format("%s/api/v1/users/**", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/users/verify", apiPrefix)).permitAll()
 
                             .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/payment/vn-pay-callback", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.POST, String.format("%s/api/v1/payment/vn-pay", apiPrefix)).permitAll()

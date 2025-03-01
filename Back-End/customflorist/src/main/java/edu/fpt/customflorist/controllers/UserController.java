@@ -3,7 +3,9 @@ package edu.fpt.customflorist.controllers;
 import edu.fpt.customflorist.dtos.User.UpdateUserDTO;
 import edu.fpt.customflorist.dtos.User.UserDTO;
 import edu.fpt.customflorist.dtos.User.UserLoginDTO;
+import edu.fpt.customflorist.exceptions.DataNotFoundException;
 import edu.fpt.customflorist.models.User;
+import edu.fpt.customflorist.repositories.UserRepository;
 import edu.fpt.customflorist.responses.ResponseObject;
 import edu.fpt.customflorist.responses.User.CustomerResponse;
 import edu.fpt.customflorist.services.User.IUserService;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.FieldError;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -76,6 +79,54 @@ public class UserController {
             );
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/verify")
+    public ResponseEntity<?> verifyAccount(@RequestParam("code") String verificationCode) {
+        try {
+            userService.verifyAccount(verificationCode);
+            return ResponseEntity.ok(ResponseObject.builder()
+                    .message("Account verified successfully!")
+                    .data(null)
+                    .status(HttpStatus.OK)
+                    .build());
+        } catch (DataNotFoundException e) {
+            return ResponseEntity.badRequest().body(ResponseObject.builder()
+                    .message("The verification code is invalid or has already been used.")
+                    .data(null)
+                    .status(HttpStatus.BAD_REQUEST)
+                    .build());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(ResponseObject.builder()
+                    .message("An error occurred while verifying the account.")
+                    .data(null)
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .build());
+        }
+    }
+
+    @PostMapping("/reset-password/request")
+    public ResponseEntity<ResponseObject> requestResetPassword(@RequestParam String email) {
+        try {
+            userService.requestResetPassword(email);
+            return ResponseEntity.ok(new ResponseObject(
+                    "Password reset link has been sent to your email.", HttpStatus.OK, null));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new ResponseObject(
+                    e.getMessage(), HttpStatus.BAD_REQUEST, null));
+        }
+    }
+
+    @PostMapping("/reset-password/confirm")
+    public ResponseEntity<ResponseObject> confirmResetPassword(@RequestParam String token, @RequestParam String newPassword) {
+        try {
+            userService.confirmResetPassword(token, newPassword);
+            return ResponseEntity.ok(new ResponseObject(
+                    "Password has been reset successfully.", HttpStatus.OK, null));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(new ResponseObject(
+                    e.getMessage(), HttpStatus.BAD_REQUEST, null));
         }
     }
 

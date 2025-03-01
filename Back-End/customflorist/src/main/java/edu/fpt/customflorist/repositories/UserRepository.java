@@ -16,6 +16,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
     boolean existsByPhone(String phone);
     Optional<User> findByUserId(Long id);
+    Optional<User> findByVerificationCode(String verificationCode);
 
     @Query("SELECT u FROM User u WHERE " +
             "(:keyword IS NULL OR LOWER(u.name) LIKE LOWER(CONCAT('%', :keyword, '%'))) OR " +
