@@ -7,4 +7,5 @@ import jakarta.servlet.http.HttpServletRequest;
 
 public interface IPaymentService {
     VnpayResponse createVnPayPayment(HttpServletRequest request, PaymentDTO paymentDTO) throws DataNotFoundException;
+    void updatePayment(Long orderId) throws DataNotFoundException;
 }
