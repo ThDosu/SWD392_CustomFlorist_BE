@@ -5,18 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="94b8da7f-ee37-4b48-a1e7-ec4ccd2d5783" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Dockerfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/edu/fpt/customflorist/CustomfloristApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/edu/fpt/customflorist/configurations/SwaggerApiConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/java/edu/fpt/customflorist/controllers/TestAPI/TestAPI.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/main/resources/application.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../src/test/java/edu/fpt/customflorist/CustomfloristApplicationTests.java" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/controllers/TestAPI/AuthEmailController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/services/Email/EmailService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/services/Email/IEmailService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/customflorist/src/main/resources/templates/reset-password.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jpa-buddy.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jpa-buddy.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/customflorist/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/configurations/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/configurations/WebSecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/controllers/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/controllers/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/controllers/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/controllers/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/filters/JwtTokenFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/filters/JwtTokenFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/models/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/repositories/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/repositories/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/services/User/IUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/services/User/IUserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/services/User/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/services/User/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/customflorist/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +31,10 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Dockerfile" />
+        <option value="Enum" />
+        <option value="Record" />
+        <option value="Interface" />
+        <option value="HTML File" />
         <option value="Class" />
       </list>
     </option>
@@ -53,27 +61,38 @@
   &quot;associatedIndex&quot;: 8
 }</component>
   <component name="ProjectId" id="2smdy9yxvBwbvqGkRSY7ZEtPIOd" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.CustomFloristApplication.executor": "Run",
     "Application.CustomfloristApplication.executor": "Run",
+    "DefaultHtmlFileTemplate": "HTML File",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "ManhCuong",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "E:/test_PE/SWD392_CustomFlorist_BE/Back-End",
+    "last_opened_file_path": "E:/test_PE/backend",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.customizations"
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\test_PE\SWD392_CustomFlorist_BE\Back-End\customflorist\src\main\resources\static" />
+    </key>
+  </component>
   <component name="RunManager">
-    <configuration name="CustomfloristApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="edu.fpt.customflorist.CustomfloristApplication" />
+    <configuration name="CustomFloristApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="edu.fpt.customflorist.CustomFloristApplication" />
       <module name="customflorist" />
       <extension name="coverage">
         <pattern>
@@ -87,8 +106,7 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.CustomfloristApplication" />
-        <item itemvalue="Application.CustomfloristApplication" />
+        <item itemvalue="Application.CustomFloristApplication" />
       </list>
     </recent_temporary>
   </component>
@@ -102,5 +120,12 @@
       <updated>1739064935609</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="org.springframework.security.authentication.AnonymousAuthenticationToken" memberName="principal" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
 </project>
