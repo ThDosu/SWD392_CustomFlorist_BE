@@ -40,13 +40,13 @@ public class PaymentController {
         try{
             String status = request.getParameter("vnp_ResponseCode");
             String vnpOrderInfo = request.getParameter("vnp_OrderInfo");
-            int orderId = Integer.parseInt(vnpOrderInfo);
+            Long orderId = Long.parseLong(vnpOrderInfo);
 
             RedirectView redirectView = new RedirectView();
 
             if (status.equals("00")) {
                 if(orderId != 0){
-                    //statusOrderService.createStatusOrder(new StatusOrderDTO(orderId, "PENDING"));
+                    paymentService.updatePayment(orderId);
 
                     redirectView = new RedirectView("/payment-success.html");
                     redirectView.addStaticAttribute("orderId", orderId);

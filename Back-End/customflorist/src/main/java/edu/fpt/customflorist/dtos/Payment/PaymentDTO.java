@@ -21,5 +21,5 @@ public class PaymentDTO {
     private String bankCode;
 
     @NotNull(message = "orderId is required")
-    private int orderId;
+    private Long orderId;
 }
