@@ -27,7 +27,7 @@ public class PaymentController {
             BindingResult result
     ) throws DataNotFoundException {
 
-        VnpayResponse vnpayResponse = paymentService.createVnPayPayment(request, paymentDTO);
+        String vnpayResponse = paymentService.createVnPayPayment(request, paymentDTO);
         return ResponseEntity.ok(ResponseObject.builder()
                 .message("Payment page")
                 .status(HttpStatus.OK)
@@ -46,13 +46,15 @@ public class PaymentController {
 
             if (status.equals("00")) {
                 if(orderId != 0){
-                    paymentService.updatePayment(orderId);
+                    paymentService.updatePayment(orderId, "COMPLETED");
 
                     redirectView = new RedirectView("/payment-success.html");
                     redirectView.addStaticAttribute("orderId", orderId);
                 }
             } else {
                 if(orderId != 0 ){
+                    paymentService.updatePayment(orderId, "FAILED");
+
                     redirectView = new RedirectView("/payment-fail.html");
                     redirectView.addStaticAttribute("orderId", orderId);
                 }
