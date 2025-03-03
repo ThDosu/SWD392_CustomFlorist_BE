@@ -30,7 +30,7 @@ public class PaymentService implements IPaymentService{
     private final RandomStringGenerator randomStringGenerator;
 
     @Override
-    public VnpayResponse createVnPayPayment(HttpServletRequest request, PaymentDTO paymentDTO) throws DataNotFoundException {
+    public String createVnPayPayment(HttpServletRequest request, PaymentDTO paymentDTO) throws DataNotFoundException {
         long amount = (int)paymentDTO.getFinalAmount() * 100L;
         String bankCode = paymentDTO.getBankCode();
         Map<String, String> vnpParamsMap = vnPayConfig.getVNPayConfig();
@@ -47,34 +47,32 @@ public class PaymentService implements IPaymentService{
         queryUrl += "&vnp_SecureHash=" + vnpSecureHash;
         String paymentUrl = vnPayConfig.getVnp_PayUrl() + "?" + queryUrl;
 
-        Payment payment = new Payment();
-        Order order = orderRepository.findById(paymentDTO.getOrderId()).orElseThrow(()-> new DataNotFoundException("order not found"));
-        payment.setOrder(order);
-        payment.setAmount(BigDecimal.valueOf(paymentDTO.getFinalAmount()));
-        payment.setPaymentMethod(PaymentMethod.VNPAY);
-        payment.setPaymentDate(LocalDateTime.now());
-        payment.setStatus(PaymentStatus.PENDING);
-        payment.setIsActive(true);
-        payment.setTransactionCode(randomStringGenerator.generateRandomString(20));
+        if (!paymentRepository.existsByOrderId(paymentDTO.getOrderId())){
+            Payment payment = new Payment();
+            Order order = orderRepository.findById(paymentDTO.getOrderId()).orElseThrow(()-> new DataNotFoundException("order not found"));
+            payment.setOrder(order);
+            payment.setAmount(BigDecimal.valueOf(paymentDTO.getFinalAmount()));
+            payment.setPaymentMethod(PaymentMethod.VNPAY);
+            payment.setPaymentDate(LocalDateTime.now());
+            payment.setStatus(PaymentStatus.PENDING);
+            payment.setIsActive(true);
+            payment.setTransactionCode(randomStringGenerator.generateRandomString(20));
 
-        paymentRepository.save(payment);
+            paymentRepository.save(payment);
+        }
 
-        return VnpayResponse.builder()
-                .code("ok")
-                .message("success")
-                .paymentUrl(paymentUrl)
-                .build();
+        return paymentUrl;
     }
 
     @Override
-    public void updatePayment(Long orderId) throws DataNotFoundException {
+    public void updatePayment(Long orderId, String statusPayment) throws DataNotFoundException {
         Order order = orderRepository.findById(orderId).orElseThrow(()-> new DataNotFoundException("order not found"));
         order.setStatus(Status.PROCESSING);
         orderRepository.save(order);
 
         Payment payment = paymentRepository.findByOrderId(orderId)
                 .orElseThrow(() -> new DataNotFoundException("payment not found for orderId: " + orderId));
-        payment.setStatus(PaymentStatus.COMPLETED);
+        payment.setStatus(PaymentStatus.valueOf(statusPayment));
         paymentRepository.save(payment);
     }
 }

@@ -40,7 +40,7 @@ public class OrderService {
         order.setTotalPrice(orderDTO.getTotalPrice());
         order.setShippingAddress(orderDTO.getShippingAddress());
         order.setIsActive(orderDTO.getIsActive());
-        order.setOrderItems(orderDTO.getOrderItems());
+//        order.setOrderItems(orderDTO.getOrderItems());
 
         return orderRepository.save(order);
     }
@@ -65,7 +65,7 @@ public class OrderService {
         order.setTotalPrice(orderDTO.getTotalPrice());
         order.setShippingAddress(orderDTO.getShippingAddress());
         order.setIsActive(orderDTO.getIsActive());
-        order.setOrderItems(orderDTO.getOrderItems());
+//        order.setOrderItems(orderDTO.getOrderItems());
 
         return orderRepository.save(order);
     }

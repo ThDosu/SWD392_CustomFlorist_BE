@@ -6,6 +6,6 @@ import edu.fpt.customflorist.responses.Payment.VnpayResponse;
 import jakarta.servlet.http.HttpServletRequest;
 
 public interface IPaymentService {
-    VnpayResponse createVnPayPayment(HttpServletRequest request, PaymentDTO paymentDTO) throws DataNotFoundException;
-    void updatePayment(Long orderId) throws DataNotFoundException;
+    String createVnPayPayment(HttpServletRequest request, PaymentDTO paymentDTO) throws DataNotFoundException;
+    void updatePayment(Long orderId, String statusPayment) throws DataNotFoundException;
 }
