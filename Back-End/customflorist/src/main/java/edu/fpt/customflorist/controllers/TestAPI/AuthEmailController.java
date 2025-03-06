@@ -15,8 +15,4 @@ public class AuthEmailController {
         model.addAttribute("token", token);
         return "reset-password";
     }
-
-    public String Test() {
-        return "";
-    }
 }
