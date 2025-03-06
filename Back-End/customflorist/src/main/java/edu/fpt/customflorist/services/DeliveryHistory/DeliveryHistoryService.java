@@ -99,7 +99,6 @@ public class DeliveryHistoryService implements IDeliveryHistoryService{
         return deliveryHistoryRepository.findActiveByCourierUserIdAndStatusChangedAtBetween(courierId, startDate, endDate, pageable);
     }
 
-
     @Override
     public Page<DeliveryHistory> getAllByUserId(Long userId, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
 
