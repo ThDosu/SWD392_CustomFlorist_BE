@@ -2,7 +2,9 @@ package edu.fpt.customflorist.dtos.User;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -16,6 +18,7 @@ public class UserDTO {
 
     @JsonProperty("email")
     @NotBlank(message = "Email is mandatory")
+    @Email(message = "Invalid email format")
     private String email;
 
     @JsonProperty("password")
@@ -33,6 +36,7 @@ public class UserDTO {
 
     @JsonProperty("phone")
     @NotBlank(message = "Phone is required")
+    @Pattern(regexp = "^(0|\\+84)(\\s)?([2-9])([0-9]{8})$", message = "Invalid phone number format")
     private String phone;
 
     @JsonProperty("gender")
