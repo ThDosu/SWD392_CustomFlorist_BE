@@ -3,19 +3,25 @@ package edu.fpt.customflorist.controllers;
 import edu.fpt.customflorist.dtos.Order.OrderDTO;
 import edu.fpt.customflorist.exceptions.DataNotFoundException;
 import edu.fpt.customflorist.models.Order;
+import edu.fpt.customflorist.responses.Order.OrderResponse;
 import edu.fpt.customflorist.responses.ResponseObject;
 import edu.fpt.customflorist.services.Order.OrderService;
+import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -25,48 +31,31 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<?> createOrder(@Valid @RequestBody OrderDTO orderDTO, BindingResult result) {
+    public ResponseEntity<?> createOrder(@RequestBody OrderDTO orderDTO) {
         try {
-            if (result.hasErrors()) {
-                List<String> errorMessages = result.getFieldErrors()
-                        .stream()
-                        .map(FieldError::getDefaultMessage)
-                        .toList();
-                return ResponseEntity.badRequest().body(errorMessages);
-            }
-            Order order = orderService.createOrder(orderDTO);
+            Order createdOrder = orderService.createOrder(orderDTO);
+            OrderResponse orderResponse = orderService.convertToOrderResponse(createdOrder);
             return ResponseEntity.ok().body(
                     ResponseObject.builder()
                             .message("Order created successfully")
-                            .data(order)
+                            .data(orderResponse)
                             .status(HttpStatus.CREATED)
                             .build()
             );
         } catch (DataNotFoundException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-
-    @PutMapping("/{orderId}")
-    public ResponseEntity<?> updateOrder(@PathVariable Long orderId, @Valid @RequestBody OrderDTO orderDTO, BindingResult result) {
-        try {
-            if (result.hasErrors()) {
-                List<String> errorMessages = result.getFieldErrors()
-                        .stream()
-                        .map(FieldError::getDefaultMessage)
-                        .toList();
-                return ResponseEntity.badRequest().body(errorMessages);
-            }
-            Order order = orderService.updateOrder(orderId, orderDTO);
-            return ResponseEntity.ok().body(
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                     ResponseObject.builder()
-                            .message("Order updated successfully")
-                            .data(order)
-                            .status(HttpStatus.OK)
+                            .message(e.getMessage())
+                            .status(HttpStatus.NOT_FOUND)
                             .build()
             );
-        } catch (DataNotFoundException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(
+                    ResponseObject.builder()
+                            .message("Error creating order: " + e.getMessage())
+                            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                            .build()
+            );
         }
     }
 
@@ -77,11 +66,23 @@ public class OrderController {
             return ResponseEntity.ok().body(
                     ResponseObject.builder()
                             .message("Order deleted successfully")
-                            .status(HttpStatus.NO_CONTENT)
+                            .status(HttpStatus.OK)
                             .build()
             );
         } catch (DataNotFoundException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    ResponseObject.builder()
+                            .message(e.getMessage())
+                            .status(HttpStatus.NOT_FOUND)
+                            .build()
+            );
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(
+                    ResponseObject.builder()
+                            .message("Error deleting order: " + e.getMessage())
+                            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                            .build()
+            );
         }
     }
 
@@ -89,29 +90,99 @@ public class OrderController {
     public ResponseEntity<?> getOrderById(@PathVariable Long orderId) {
         try {
             Order order = orderService.getOrderById(orderId);
+            OrderResponse orderResponse = orderService.convertToOrderResponse(order);
             return ResponseEntity.ok().body(
                     ResponseObject.builder()
                             .message("Order retrieved successfully")
-                            .data(order)
+                            .data(orderResponse)
                             .status(HttpStatus.OK)
                             .build()
             );
         } catch (DataNotFoundException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    ResponseObject.builder()
+                            .message(e.getMessage())
+                            .status(HttpStatus.NOT_FOUND)
+                            .build()
+            );
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(
+                    ResponseObject.builder()
+                            .message("Error retrieving order: " + e.getMessage())
+                            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                            .build()
+            );
+        }
+    }
+
+    @GetMapping("/active")
+    public ResponseEntity<?> getAllOrdersActive(
+            @Parameter(description = "Order filtering start date (ISO-8601: yyyy-MM-dd'T'HH:mm:ss)", example = "2024-03-01T00:00:00")
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime minOrderDate,
+            @Parameter(description = "Order filtering end date (ISO-8601: yyyy-MM-dd'T'HH:mm:ss)", example = "2024-03-07T23:59:59")
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime maxOrderDate,
+            @RequestParam(required = false) BigDecimal minPrice,
+            @RequestParam(required = false) BigDecimal maxPrice,
+            @RequestParam(required = false) String status,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size,
+            @Parameter(description = "Sort direction (ASC or DESC), default is ASC", example = "ASC")
+            @RequestParam(defaultValue = "ASC") Sort.Direction direction) {
+        try {
+            Pageable pageable = PageRequest.of(page, size, Sort.by(direction, "orderId"));
+            Page<Order> orders = orderService.getAllOrdersActive(minOrderDate, maxOrderDate, minPrice, maxPrice, status, pageable);
+            Page<OrderResponse> orderResponses = orders.map(orderService::convertToOrderResponse);
+
+            return ResponseEntity.ok().body(
+                    ResponseObject.builder()
+                            .message("Orders retrieved successfully")
+                            .data(orderResponses)
+                            .status(HttpStatus.OK)
+                            .build()
+            );
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(
+                    ResponseObject.builder()
+                            .message("Error retrieving orders: " + e.getMessage())
+                            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                            .build()
+            );
         }
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllOrders(@RequestParam(defaultValue = "0") int page,
-                                          @RequestParam(defaultValue = "50") int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        Page<Order> orders = orderService.getAllOrders(pageable);
-        return ResponseEntity.ok().body(
-                ResponseObject.builder()
-                        .message("Orders retrieved successfully")
-                        .data(orders)
-                        .status(HttpStatus.OK)
-                        .build()
-        );
+    public ResponseEntity<?> getAllOrders(
+            @Parameter(description = "Order filtering start date (ISO-8601: yyyy-MM-dd'T'HH:mm:ss)", example = "2024-03-01T00:00:00")
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime minOrderDate,
+            @Parameter(description = "Order filtering end date (ISO-8601: yyyy-MM-dd'T'HH:mm:ss)", example = "2024-03-07T23:59:59")
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime maxOrderDate,
+            @RequestParam(required = false) BigDecimal minPrice,
+            @RequestParam(required = false) BigDecimal maxPrice,
+            @RequestParam(required = false) String status,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size,
+            @Parameter(description = "Sort direction (ASC or DESC), default is ASC", example = "ASC")
+            @RequestParam(defaultValue = "ASC") Sort.Direction direction) {
+        try {
+            Pageable pageable = PageRequest.of(page, size, Sort.by(direction, "orderId"));
+            Page<Order> orders = orderService.getAllOrders(minOrderDate, maxOrderDate, minPrice, maxPrice, status, pageable);
+            Page<OrderResponse> orderResponses = orders.map(orderService::convertToOrderResponse);
+
+            return ResponseEntity.ok().body(
+                    ResponseObject.builder()
+                            .message("Orders retrieved successfully")
+                            .data(orderResponses)
+                            .status(HttpStatus.OK)
+                            .build()
+            );
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(
+                    ResponseObject.builder()
+                            .message("Error retrieving orders: " + e.getMessage())
+                            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                            .build()
+            );
+        }
     }
+
 }

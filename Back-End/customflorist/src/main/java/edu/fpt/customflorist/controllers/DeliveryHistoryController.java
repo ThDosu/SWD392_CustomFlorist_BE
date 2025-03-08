@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -102,10 +103,12 @@ public class DeliveryHistoryController {
             @RequestParam(required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "50") int size
+            @RequestParam(defaultValue = "50") int size,
+            @Parameter(description = "Sort direction (ASC or DESC), default is ASC", example = "ASC")
+            @RequestParam(defaultValue = "ASC") Sort.Direction direction
     ) {
         try {
-            Pageable pageable = PageRequest.of(page, size);
+            Pageable pageable = PageRequest.of(page, size, Sort.by(direction, "deliveryId"));
 
             Page<DeliveryHistory> pages = deliveryHistoryService.getAllDeliveryHistories(startDate, endDate, pageable);
 
@@ -127,10 +130,12 @@ public class DeliveryHistoryController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "50") int size
+            @RequestParam(defaultValue = "50") int size,
+            @Parameter(description = "Sort direction (ASC or DESC), default is ASC", example = "ASC")
+            @RequestParam(defaultValue = "ASC") Sort.Direction direction
     ) {
         try {
-            Pageable pageable = PageRequest.of(page, size);
+            Pageable pageable = PageRequest.of(page, size, Sort.by(direction, "deliveryId"));
 
             Page<DeliveryHistory> pages = deliveryHistoryService.getAllActiveByUserId(userId, startDate, endDate, pageable);
 
@@ -152,10 +157,12 @@ public class DeliveryHistoryController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "50") int size
+            @RequestParam(defaultValue = "50") int size,
+            @Parameter(description = "Sort direction (ASC or DESC), default is ASC", example = "ASC")
+            @RequestParam(defaultValue = "ASC") Sort.Direction direction
     ) {
         try {
-            Pageable pageable = PageRequest.of(page, size);
+            Pageable pageable = PageRequest.of(page, size, Sort.by(direction, "deliveryId"));
 
             Page<DeliveryHistory> pages = deliveryHistoryService.getAllActiveByCourierId(courierId, startDate, endDate, pageable);
 
@@ -177,10 +184,12 @@ public class DeliveryHistoryController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "50") int size
+            @RequestParam(defaultValue = "50") int size,
+            @Parameter(description = "Sort direction (ASC or DESC), default is ASC", example = "ASC")
+            @RequestParam(defaultValue = "ASC") Sort.Direction direction
     ) {
         try {
-            Pageable pageable = PageRequest.of(page, size);
+            Pageable pageable = PageRequest.of(page, size, Sort.by(direction, "deliveryId"));
 
             Page<DeliveryHistory> pages = deliveryHistoryService.getAllByUserId(userId, startDate, endDate, pageable);
 
@@ -202,10 +211,12 @@ public class DeliveryHistoryController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "50") int size
+            @RequestParam(defaultValue = "50") int size,
+            @Parameter(description = "Sort direction (ASC or DESC), default is ASC", example = "ASC")
+            @RequestParam(defaultValue = "ASC") Sort.Direction direction
     ) {
         try {
-            Pageable pageable = PageRequest.of(page, size);
+            Pageable pageable = PageRequest.of(page, size, Sort.by(direction, "deliveryId"));
 
             Page<DeliveryHistory> pages = deliveryHistoryService.getAllByCourierId(courierId, startDate, endDate, pageable);
 

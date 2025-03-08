@@ -16,31 +16,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderDTO {
-    @NotNull(message = "Order ID is required")
-    private Long orderId;
-
-    @NotNull(message = "User ID is required")
     private Long userId;
-
     private Long promotionId;
-
-    @NotNull(message = "Order date is required")
-    private LocalDateTime orderDate;
-
-    @NotNull(message = "Delivery date is required")
-    private LocalDateTime deliveryDate;
-
-    @NotNull(message = "Status is required")
-    private Status status;
-
-    @NotNull(message = "Total price is required")
     private BigDecimal totalPrice;
-
-    @NotNull(message = "Shipping address is required")
     private String shippingAddress;
-
-    @NotNull(message = "Active status is required")
-    private Boolean isActive;
-
     private List<OrderItemDTO> orderItems;
 }

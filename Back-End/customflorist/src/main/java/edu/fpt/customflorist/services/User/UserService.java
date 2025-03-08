@@ -197,8 +197,8 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public Page<User> findAll(String keyword, Pageable pageable) throws Exception {
-        return userRepository.searchUsers(keyword == null || keyword.isBlank() ? null : keyword, pageable);
+    public Page<User> findAll(String keyword, String role, String accountStatus, String gender, Pageable pageable) throws Exception {
+        return userRepository.searchUsers(keyword == null || keyword.isBlank() ? null : keyword, role, accountStatus, gender, pageable);
     }
 
     @Override

@@ -13,9 +13,6 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FlowerDTO {
-    @NotNull(message = "Flower ID is required")
-    private Long flowerId;
-
     @NotNull(message = "Name is required")
     private String name;
 

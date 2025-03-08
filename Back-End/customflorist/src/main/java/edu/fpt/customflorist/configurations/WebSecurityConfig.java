@@ -90,6 +90,16 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                             .requestMatchers(HttpMethod.PUT, String.format("%s/api/v1/delivery-histories/**", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.DELETE, String.format("%s/api/v1/delivery-histories/**", apiPrefix)).permitAll()
 
+                            .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/flowers", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/flowers/**", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.POST, String.format("%s/api/v1/flowers", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.PUT, String.format("%s/api/v1/flowers/**", apiPrefix)).permitAll()
+
+                            .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/orders", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/orders/**", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.POST, String.format("%s/api/v1/orders", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.DELETE, String.format("%s/api/v1/orders/**", apiPrefix)).permitAll()
+
                             .anyRequest().authenticated();
 
                 })
