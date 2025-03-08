@@ -243,10 +243,18 @@ public class FeedbackController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "50") int size,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
+            @Parameter(description = "Field to sort by, can be 'createdAt' or 'rating'", example = "createdAt")
+            @RequestParam(defaultValue = "createdAt") String sortBy,
+            @Parameter(description = "Sort order, 'asc' for ascending, 'desc' for descending", example = "desc")
+            @RequestParam(defaultValue = "desc") String sortDir
     ) {
         try {
-            Pageable pageable = PageRequest.of(page, size);
+            Sort sort = sortDir.equalsIgnoreCase("asc")
+                    ? Sort.by(sortBy).ascending()
+                    : Sort.by(sortBy).descending();
+
+            Pageable pageable = PageRequest.of(page, size, sort);
             Page<Boolean> isActiveList = feedbackService.getFeedbackIsActiveByBouquetId(bouquetId, startDate, endDate, pageable);
 
             return ResponseEntity.ok(
@@ -273,10 +281,18 @@ public class FeedbackController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "50") int size,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
+            @Parameter(description = "Field to sort by, can be 'createdAt' or 'rating'", example = "createdAt")
+            @RequestParam(defaultValue = "createdAt") String sortBy,
+            @Parameter(description = "Sort order, 'asc' for ascending, 'desc' for descending", example = "desc")
+            @RequestParam(defaultValue = "desc") String sortDir
     ) {
         try {
-            Pageable pageable = PageRequest.of(page, size);
+            Sort sort = sortDir.equalsIgnoreCase("asc")
+                    ? Sort.by(sortBy).ascending()
+                    : Sort.by(sortBy).descending();
+
+            Pageable pageable = PageRequest.of(page, size, sort);
             Page<Boolean> isActiveList = feedbackService.getFeedbackIsActiveByUserId(userId, startDate, endDate, pageable);
 
             return ResponseEntity.ok(

@@ -9,15 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderBouquetFlowerDTO {
-    @NotNull(message = "Order Bouquet Flower ID is required")
-    private Long orderBouquetFlowerId;
-
-    @NotNull(message = "Order Item ID is required")
-    private Long orderItemId;
-
-    @NotNull(message = "Flower ID is required")
     private Long flowerId;
-
-    @NotNull(message = "Quantity is required")
     private Integer quantity;
 }

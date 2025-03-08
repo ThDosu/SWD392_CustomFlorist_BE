@@ -9,6 +9,7 @@ import edu.fpt.customflorist.repositories.UserRepository;
 import edu.fpt.customflorist.responses.ResponseObject;
 import edu.fpt.customflorist.responses.User.CustomerResponse;
 import edu.fpt.customflorist.services.User.IUserService;
+import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -132,12 +133,18 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<?> getAllUsers(@RequestParam(required = false) String keyword,
+                                         @Parameter(description = "Role to filter by (ADMIN, CUSTOMER, SHIPPER, MANAGER)")
+                                         @RequestParam(required = false) String role,
+                                         @Parameter(description = "Account status to filter by (ACTIVE, BANNED)")
+                                             @RequestParam(required = false) String accountStatus,
+                                         @Parameter(description = "Gender to filter by (Male, Female, Other)")
+                                             @RequestParam(required = false) String gender,
                                          @RequestParam(defaultValue = "0") int page,
                                          @RequestParam(defaultValue = "50") int size
     ) {
         try {
             Pageable pageable = PageRequest.of(page, size);
-            Page<CustomerResponse> users = userService.findAll(keyword, pageable).map(CustomerResponse::fromUser);
+            Page<CustomerResponse> users = userService.findAll(keyword, role, accountStatus, gender, pageable).map(CustomerResponse::fromUser);
 
             return ResponseEntity.ok(ResponseObject.builder()
                     .message("Fetch users successfully")

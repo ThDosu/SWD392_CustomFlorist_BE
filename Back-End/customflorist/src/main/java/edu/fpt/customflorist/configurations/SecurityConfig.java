@@ -4,6 +4,7 @@ import edu.fpt.customflorist.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -19,6 +20,7 @@ public class SecurityConfig {
     private final UserRepository userRepository;
 
     @Bean
+    @Primary
     public UserDetailsService userDetailsService() {
         return email -> userRepository
                 .findByEmail(email)
