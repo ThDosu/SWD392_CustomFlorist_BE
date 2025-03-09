@@ -61,6 +61,8 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 
                             .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/auth/**", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.GET, String.format("/auth/**")).permitAll()
+                            .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/auth/**", apiPrefix)).authenticated()
+                            .requestMatchers(HttpMethod.GET, "/auth/**").authenticated()
 
                             .requestMatchers(HttpMethod.POST, String.format("%s/api/v1/users/signup", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.POST, String.format("%s/api/v1/users/login", apiPrefix)).permitAll()
@@ -72,6 +74,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                             .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/users/verify", apiPrefix)).permitAll()
 
                             .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/payment/vn-pay-callback", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/payment", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.POST, String.format("%s/api/v1/payment/vn-pay", apiPrefix)).permitAll()
 
                             .requestMatchers("/payment-fail.html", "/payment-success.html","/error.html")
@@ -108,8 +111,11 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                             .anyRequest().authenticated();
 
                 })
-//                .oauth2ResourceServer(c -> c.opaqueToken(Customizer.withDefaults()))
+                //.oauth2ResourceServer(c -> c.opaqueToken(Customizer.withDefaults()))
                 .csrf(AbstractHttpConfigurer::disable);
+
+        http.securityMatcher(String.format("%s/api/v1/auth/**", apiPrefix), "/auth/**")
+                .oauth2ResourceServer(c -> c.opaqueToken(Customizer.withDefaults()));
 
         http.cors(new Customizer<CorsConfigurer<HttpSecurity>>() {
             @Override

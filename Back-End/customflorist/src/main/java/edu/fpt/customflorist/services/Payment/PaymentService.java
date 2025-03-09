@@ -15,6 +15,8 @@ import edu.fpt.customflorist.repositories.PromotionManagerRepository;
 import edu.fpt.customflorist.responses.Payment.VnpayResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -30,6 +32,19 @@ public class PaymentService implements IPaymentService{
     private final OrderRepository orderRepository;
     private final RandomStringGenerator randomStringGenerator;
     private final PromotionManagerRepository promotionManagerRepository;
+
+    @Override
+    public Page<Payment> getAllPayments(Pageable pageable, String statusStr, LocalDateTime fromDate, LocalDateTime toDate, BigDecimal minAmount, BigDecimal maxAmount) {
+        PaymentStatus status = null;
+        if (statusStr != null && !statusStr.isEmpty()) {
+            try {
+                status = PaymentStatus.valueOf(statusStr.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Invalid status: " + statusStr);
+            }
+        }
+        return paymentRepository.findAllWithFilters(status, fromDate, toDate, minAmount, maxAmount, pageable);
+    }
 
     @Override
     public String createVnPayPayment(HttpServletRequest request, PaymentDTO paymentDTO) throws DataNotFoundException {

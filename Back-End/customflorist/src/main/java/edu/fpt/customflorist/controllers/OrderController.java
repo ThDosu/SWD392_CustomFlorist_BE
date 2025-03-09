@@ -159,6 +159,7 @@ public class OrderController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime maxOrderDate,
             @RequestParam(required = false) BigDecimal minPrice,
             @RequestParam(required = false) BigDecimal maxPrice,
+            @Parameter(description = "Order status filter: PENDING, PROCESSING, SHIPPED, DELIVERED, CANCELLED")
             @RequestParam(required = false) String status,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "50") int size,
@@ -194,6 +195,7 @@ public class OrderController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime maxOrderDate,
             @RequestParam(required = false) BigDecimal minPrice,
             @RequestParam(required = false) BigDecimal maxPrice,
+            @Parameter(description = "Order status filter: PENDING, PROCESSING, SHIPPED, DELIVERED, CANCELLED")
             @RequestParam(required = false) String status,
             @RequestParam(required = false) Long userId,
             @RequestParam(defaultValue = "0") int page,
