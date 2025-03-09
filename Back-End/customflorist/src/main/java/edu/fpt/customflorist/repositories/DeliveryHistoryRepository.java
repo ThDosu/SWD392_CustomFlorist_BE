@@ -13,14 +13,21 @@ import java.time.LocalDateTime;
 @Repository
 public interface DeliveryHistoryRepository extends JpaRepository<DeliveryHistory, Long> {
 
-    @Query("SELECT DISTINCT d FROM DeliveryHistory d " +
-            "JOIN d.statusHistories s " +
-            "WHERE (:startDate IS NULL OR s.changedAt >= :startDate) " +
-            "AND (:endDate IS NULL OR s.changedAt <= :endDate)")
-    Page<DeliveryHistory> findAllByStatusChangedAtBetween(
+    @Query("""
+        SELECT DISTINCT d FROM DeliveryHistory d 
+        JOIN d.statusHistories s 
+        WHERE (:startDate IS NULL OR s.changedAt >= :startDate)
+        AND (:endDate IS NULL OR s.changedAt <= :endDate)
+        AND (:userId IS NULL OR d.user.userId = :userId)
+        AND (:courierId IS NULL OR d.courier.userId = :courierId)
+    """)
+    Page<DeliveryHistory> findAllByFilters(
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate,
-            Pageable pageable);
+            @Param("userId") Long userId,
+            @Param("courierId") Long courierId,
+            Pageable pageable
+    );
 
     @Query("SELECT DISTINCT d FROM DeliveryHistory d " +
             "JOIN d.statusHistories s " +

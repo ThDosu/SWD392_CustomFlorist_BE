@@ -22,8 +22,30 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
         AND (:minPrice IS NULL OR o.totalPrice >= :minPrice)
         AND (:maxPrice IS NULL OR o.totalPrice <= :maxPrice)
         AND (:status IS NULL OR o.status = :status)
+        AND (:userId IS NULL OR o.user.userId = :userId)
     """)
     Page<Order> findAllByFilters(
+            @Param("minOrderDate") LocalDateTime minOrderDate,
+            @Param("maxOrderDate") LocalDateTime maxOrderDate,
+            @Param("minPrice") BigDecimal minPrice,
+            @Param("maxPrice") BigDecimal maxPrice,
+            @Param("status") Status status,
+            @Param("userId") Long userId,
+            Pageable pageable
+    );
+
+    @Query("""
+        SELECT o FROM Order o
+        WHERE o.isActive = true
+        AND o.user.userId = :userId
+        AND (:minOrderDate IS NULL OR o.orderDate >= :minOrderDate)
+        AND (:maxOrderDate IS NULL OR o.orderDate <= :maxOrderDate)
+        AND (:minPrice IS NULL OR o.totalPrice >= :minPrice)
+        AND (:maxPrice IS NULL OR o.totalPrice <= :maxPrice)
+        AND (:status IS NULL OR o.status = :status)
+    """)
+    Page<Order> findActiveByFilters(
+            @Param("userId") Long userId,
             @Param("minOrderDate") LocalDateTime minOrderDate,
             @Param("maxOrderDate") LocalDateTime maxOrderDate,
             @Param("minPrice") BigDecimal minPrice,
@@ -32,21 +54,4 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             Pageable pageable
     );
 
-    @Query("""
-        SELECT o FROM Order o
-        WHERE o.isActive = true
-        AND (:minOrderDate IS NULL OR o.orderDate >= :minOrderDate)
-        AND (:maxOrderDate IS NULL OR o.orderDate <= :maxOrderDate)
-        AND (:minPrice IS NULL OR o.totalPrice >= :minPrice)
-        AND (:maxPrice IS NULL OR o.totalPrice <= :maxPrice)
-        AND (:status IS NULL OR o.status = :status)
-    """)
-    Page<Order> findActiveByFilters(
-            @Param("minOrderDate") LocalDateTime minOrderDate,
-            @Param("maxOrderDate") LocalDateTime maxOrderDate,
-            @Param("minPrice") BigDecimal minPrice,
-            @Param("maxPrice") BigDecimal maxPrice,
-            @Param("status") Status status,
-            Pageable pageable
-    );
 }

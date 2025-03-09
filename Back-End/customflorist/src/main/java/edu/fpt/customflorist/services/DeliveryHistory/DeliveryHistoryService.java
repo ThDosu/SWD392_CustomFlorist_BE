@@ -17,6 +17,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -51,6 +53,11 @@ public class DeliveryHistoryService implements IDeliveryHistoryService{
 
         deliveryStatusHistoryRepository.save(statusHistory);
 
+        List<DeliveryStatusHistory> statusHistories = new ArrayList<>();
+        statusHistories.add(statusHistory);
+
+        deliveryHistory.setStatusHistories(statusHistories);
+
         return deliveryHistory;
     }
 
@@ -84,9 +91,8 @@ public class DeliveryHistoryService implements IDeliveryHistoryService{
     }
 
     @Override
-    public Page<DeliveryHistory> getAllDeliveryHistories(LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
-
-        return deliveryHistoryRepository.findAllByStatusChangedAtBetween(startDate, endDate, pageable);
+    public Page<DeliveryHistory> getAllDeliveryHistories(LocalDateTime startDate, LocalDateTime endDate, Long userId, Long courierId, Pageable pageable) {
+        return deliveryHistoryRepository.findAllByFilters(startDate, endDate, userId, courierId, pageable);
     }
 
     @Override

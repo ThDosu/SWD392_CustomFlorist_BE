@@ -1,6 +1,7 @@
 package edu.fpt.customflorist.controllers;
 
 import edu.fpt.customflorist.dtos.Order.OrderDTO;
+import edu.fpt.customflorist.dtos.Order.OrderUpdateDTO;
 import edu.fpt.customflorist.exceptions.DataNotFoundException;
 import edu.fpt.customflorist.models.Order;
 import edu.fpt.customflorist.responses.Order.OrderResponse;
@@ -53,6 +54,40 @@ public class OrderController {
             return ResponseEntity.internalServerError().body(
                     ResponseObject.builder()
                             .message("Error creating order: " + e.getMessage())
+                            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                            .build()
+            );
+        }
+    }
+
+    @PatchMapping("/{orderId}/status")
+    public ResponseEntity<?> updateOrderStatus(@PathVariable Long orderId, @RequestBody OrderUpdateDTO status) {
+        try {
+            orderService.updateOrder(orderId, status);
+            return ResponseEntity.ok().body(
+                    ResponseObject.builder()
+                            .message("Order status updated successfully")
+                            .status(HttpStatus.OK)
+                            .build()
+            );
+        } catch (DataNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    ResponseObject.builder()
+                            .message(e.getMessage())
+                            .status(HttpStatus.NOT_FOUND)
+                            .build()
+            );
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    ResponseObject.builder()
+                            .message(e.getMessage())
+                            .status(HttpStatus.BAD_REQUEST)
+                            .build()
+            );
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(
+                    ResponseObject.builder()
+                            .message("Error updating order status: " + e.getMessage())
                             .status(HttpStatus.INTERNAL_SERVER_ERROR)
                             .build()
             );
@@ -115,8 +150,9 @@ public class OrderController {
         }
     }
 
-    @GetMapping("/active")
+    @GetMapping("/user/{userId}")
     public ResponseEntity<?> getAllOrdersActive(
+            @PathVariable Long userId,
             @Parameter(description = "Order filtering start date (ISO-8601: yyyy-MM-dd'T'HH:mm:ss)", example = "2024-03-01T00:00:00")
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime minOrderDate,
             @Parameter(description = "Order filtering end date (ISO-8601: yyyy-MM-dd'T'HH:mm:ss)", example = "2024-03-07T23:59:59")
@@ -130,7 +166,7 @@ public class OrderController {
             @RequestParam(defaultValue = "ASC") Sort.Direction direction) {
         try {
             Pageable pageable = PageRequest.of(page, size, Sort.by(direction, "orderId"));
-            Page<Order> orders = orderService.getAllOrdersActive(minOrderDate, maxOrderDate, minPrice, maxPrice, status, pageable);
+            Page<Order> orders = orderService.getAllOrdersActive(userId, minOrderDate, maxOrderDate, minPrice, maxPrice, status, pageable);
             Page<OrderResponse> orderResponses = orders.map(orderService::convertToOrderResponse);
 
             return ResponseEntity.ok().body(
@@ -159,13 +195,14 @@ public class OrderController {
             @RequestParam(required = false) BigDecimal minPrice,
             @RequestParam(required = false) BigDecimal maxPrice,
             @RequestParam(required = false) String status,
+            @RequestParam(required = false) Long userId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "50") int size,
             @Parameter(description = "Sort direction (ASC or DESC), default is ASC", example = "ASC")
             @RequestParam(defaultValue = "ASC") Sort.Direction direction) {
         try {
             Pageable pageable = PageRequest.of(page, size, Sort.by(direction, "orderId"));
-            Page<Order> orders = orderService.getAllOrders(minOrderDate, maxOrderDate, minPrice, maxPrice, status, pageable);
+            Page<Order> orders = orderService.getAllOrders(minOrderDate, maxOrderDate, minPrice, maxPrice, status, userId, pageable);
             Page<OrderResponse> orderResponses = orders.map(orderService::convertToOrderResponse);
 
             return ResponseEntity.ok().body(

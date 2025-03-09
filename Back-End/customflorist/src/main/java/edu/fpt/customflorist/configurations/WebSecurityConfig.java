@@ -12,6 +12,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -25,6 +28,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -64,7 +68,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                             .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/users", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/users/**", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.PUT, String.format("%s/api/v1/users/**", apiPrefix)).permitAll()
-                            .requestMatchers(HttpMethod.PATCH, String.format("%s/api/v1/users/**", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.PATCH, String.format("%s/api/v1/users/**", apiPrefix)).hasAnyRole("ADMIN", "MANAGER")
                             .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/users/verify", apiPrefix)).permitAll()
 
                             .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/payment/vn-pay-callback", apiPrefix)).permitAll()
@@ -99,11 +103,12 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                             .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/orders/**", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.POST, String.format("%s/api/v1/orders", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.DELETE, String.format("%s/api/v1/orders/**", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.PATCH, String.format("%s/api/v1/orders/**", apiPrefix)).permitAll()
 
                             .anyRequest().authenticated();
 
                 })
-                .oauth2ResourceServer(c -> c.opaqueToken(Customizer.withDefaults()))
+//                .oauth2ResourceServer(c -> c.opaqueToken(Customizer.withDefaults()))
                 .csrf(AbstractHttpConfigurer::disable);
 
         http.cors(new Customizer<CorsConfigurer<HttpSecurity>>() {
@@ -150,4 +155,5 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     public OpaqueTokenIntrospector introspector() {
         return new GoogleOpaqueTokenIntrospector(userInfoClient);
     }
+
 }

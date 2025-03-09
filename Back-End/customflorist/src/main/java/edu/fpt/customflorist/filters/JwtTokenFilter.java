@@ -49,6 +49,7 @@ public class JwtTokenFilter extends OncePerRequestFilter{
             if (username != null
                     && SecurityContextHolder.getContext().getAuthentication() == null) {
                 User userDetails = (User) userDetailsService.loadUserByUsername(username);
+
                 if(jwtTokenUtil.validateToken(token, userDetails)) {
                     UsernamePasswordAuthenticationToken authenticationToken =
                             new UsernamePasswordAuthenticationToken(
@@ -67,6 +68,7 @@ public class JwtTokenFilter extends OncePerRequestFilter{
         }
 
     }
+
     private boolean isBypassToken(@NonNull  HttpServletRequest request) {
         final List<Pair<String, String>> bypassTokens = Arrays.asList(
                 Pair.of("/swagger-ui.*", "GET"),
@@ -84,13 +86,11 @@ public class JwtTokenFilter extends OncePerRequestFilter{
                 Pair.of(String.format("%s/api/v1/users", apiPrefix), "GET"),
                 Pair.of(String.format("%s/api/v1/users/**", apiPrefix), "GET"),
                 Pair.of(String.format("%s/api/v1/users/verify", apiPrefix), "GET"),
-                Pair.of(String.format("%s/api/v1/users/**", apiPrefix), "PUT"),
-                Pair.of(String.format("%s/api/v1/users/**", apiPrefix), "PATCH"),
 
                 //Category
                 Pair.of(String.format("%s/api/v1/categories/public", apiPrefix), "GET"),
                 Pair.of(String.format("%s/api/v1/categories/**", apiPrefix), "GET"),
-                Pair.of(String.format("%s/api/v1/categories", apiPrefix), "GET"),
+//                Pair.of(String.format("%s/api/v1/categories", apiPrefix), "GET"),
 
                 //Feedback
                 Pair.of(String.format("%s/api/v1/feedbacks", apiPrefix), "GET"),

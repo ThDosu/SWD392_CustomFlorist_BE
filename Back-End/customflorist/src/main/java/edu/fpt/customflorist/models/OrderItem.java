@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -36,7 +37,7 @@ public class OrderItem {
     @Column(nullable = false)
     private Boolean isActive;
 
-    @OneToMany(mappedBy = "orderItem", cascade = CascadeType.ALL)
-    private List<OrderBouquetFlower> orderBouquetFlowers;
+    @OneToMany(mappedBy = "orderItem", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<OrderBouquetFlower> orderBouquetFlowers = new ArrayList<>();
 
 }

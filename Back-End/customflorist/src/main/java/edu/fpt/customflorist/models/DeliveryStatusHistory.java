@@ -30,7 +30,7 @@ public class DeliveryStatusHistory {
     @Column(nullable = false)
     private LocalDateTime changedAt;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String note;
 
     @PrePersist
