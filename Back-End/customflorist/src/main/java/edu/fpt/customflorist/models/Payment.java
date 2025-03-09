@@ -1,5 +1,6 @@
 package edu.fpt.customflorist.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.fpt.customflorist.models.Enums.PaymentMethod;
 import edu.fpt.customflorist.models.Enums.PaymentStatus;
 import jakarta.persistence.*;
@@ -24,6 +25,7 @@ public class Payment {
 
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
+    @JsonIgnore
     private Order order;
 
     @Column(nullable = false, unique = true)
