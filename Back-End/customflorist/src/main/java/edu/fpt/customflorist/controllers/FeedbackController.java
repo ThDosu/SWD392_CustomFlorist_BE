@@ -126,6 +126,7 @@ public class FeedbackController {
                     description = "End date for filtering feedbacks (Format: yyyy-MM-dd'T'HH:mm:ss)",
                     example = "2024-02-21T08:30:00")
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
+            @RequestParam(required = false) Long userId,
             @Parameter(description = "Field to sort by, can be 'createdAt' or 'rating'", example = "createdAt")
             @RequestParam(defaultValue = "createdAt") String sortBy,
             @Parameter(description = "Sort order, 'asc' for ascending, 'desc' for descending", example = "desc")
@@ -137,7 +138,7 @@ public class FeedbackController {
                     : Sort.by(sortBy).descending();
 
             Pageable pageable = PageRequest.of(page, size, sort);
-            Page<FeedbackResponse> feedbacks = feedbackService.getAllFeedbacks(startDate, endDate, pageable)
+            Page<FeedbackResponse> feedbacks = feedbackService.getAllFeedbacks(startDate, endDate, userId, pageable)
                     .map(FeedbackResponse::convertToDTO);
 
             return ResponseEntity.ok(

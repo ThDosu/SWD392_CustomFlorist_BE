@@ -14,12 +14,18 @@ import java.util.List;
 @Repository
 public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
 
-    @Query("SELECT f FROM Feedback f WHERE (:startDate IS NULL OR f.createdAt >= :startDate) "
-            + "AND (:endDate IS NULL OR f.createdAt <= :endDate)")
+    @Query("""
+        SELECT f FROM Feedback f
+        WHERE (:startDate IS NULL OR f.createdAt >= :startDate)
+        AND (:endDate IS NULL OR f.createdAt <= :endDate)
+        AND (:userId IS NULL OR f.user.userId = :userId)
+    """)
     Page<Feedback> findAllByDateRange(
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate,
-            Pageable pageable);
+            @Param("userId") Long userId,
+            Pageable pageable
+    );
 
     @Query("SELECT f FROM Feedback f WHERE f.bouquet.bouquetId = :bouquetId "
             + "AND (:startDate IS NULL OR f.createdAt >= :startDate) "

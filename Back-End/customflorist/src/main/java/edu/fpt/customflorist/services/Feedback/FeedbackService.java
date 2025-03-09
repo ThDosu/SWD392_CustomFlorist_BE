@@ -84,8 +84,8 @@ public class FeedbackService implements IFeedbackService {
     }
 
     @Override
-    public Page<Feedback> getAllFeedbacks(LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
-        return feedbackRepository.findAllByDateRange(startDate, endDate, pageable);
+    public Page<Feedback> getAllFeedbacks(LocalDateTime startDate, LocalDateTime endDate, Long userId, Pageable pageable) {
+        return feedbackRepository.findAllByDateRange(startDate, endDate, userId, pageable);
     }
 
     @Override

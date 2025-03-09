@@ -1,6 +1,7 @@
 package edu.fpt.customflorist.services.Order;
 
 import edu.fpt.customflorist.dtos.Order.OrderDTO;
+import edu.fpt.customflorist.dtos.Order.OrderUpdateDTO;
 import edu.fpt.customflorist.exceptions.DataNotFoundException;
 import edu.fpt.customflorist.models.*;
 import edu.fpt.customflorist.models.Enums.Status;
@@ -12,9 +13,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,17 +35,22 @@ public class OrderService implements IOrderService{
 
     @Override
     public Order createOrder(OrderDTO orderDTO) throws DataNotFoundException {
-        // Lấy thông tin User
+        List<OrderItem> orderItems = new ArrayList<>();
+        List<OrderBouquetFlower> orderBouquetFlowers = new ArrayList<>();
+
         User user = userRepository.findById(orderDTO.getUserId())
                 .orElseThrow(() -> new DataNotFoundException("User not found"));
 
-        // Lấy thông tin Promotion nếu có
-        Promotion promotion = orderDTO.getPromotionId() != null ?
-                promotionRepository.findById(orderDTO.getPromotionId())
-                        .orElseThrow(() -> new DataNotFoundException("Promotion not found"))
-                : null;
+        Promotion promotion = null;
+        if (orderDTO.getPromotionId() != null) {
+            promotion = promotionRepository.findById(orderDTO.getPromotionId())
+                    .orElseThrow(() -> new DataNotFoundException("Promotion not found"));
 
-        // Tạo Order mới
+            if (promotion.getValidTo().isBefore(LocalDate.now())) {
+                throw new DataNotFoundException("Promotion has expired");
+            }
+        }
+
         Order order = new Order();
         order.setUser(user);
         order.setPromotion(promotion);
@@ -50,10 +60,8 @@ public class OrderService implements IOrderService{
         order.setShippingAddress(orderDTO.getShippingAddress());
         order.setIsActive(true);
 
-        // Lưu order vào DB trước để có orderId
         order = orderRepository.save(order);
 
-        // Tạo danh sách OrderItem từ DTO
         for (var orderItemDTO : orderDTO.getOrderItems()) {
             Bouquet bouquet = bouquetRepository.findById(orderItemDTO.getBouquetId())
                     .orElseThrow(() -> new DataNotFoundException("Bouquet not found"));
@@ -65,10 +73,10 @@ public class OrderService implements IOrderService{
             orderItem.setSubTotal(orderItemDTO.getSubTotal());
             orderItem.setIsActive(true);
 
-            // Lưu OrderItem trước để có orderItemId
+            orderItems.add(orderItem);
+
             orderItem = orderItemRepository.save(orderItem);
 
-            // Tạo danh sách OrderBouquetFlower từ DTO
             for (var bouquetFlowerDTO : orderItemDTO.getOrderBouquetFlowers()) {
                 Flower flower = flowerRepository.findById(bouquetFlowerDTO.getFlowerId())
                         .orElseThrow(() -> new DataNotFoundException("Flower not found"));
@@ -78,11 +86,32 @@ public class OrderService implements IOrderService{
                 orderBouquetFlower.setFlower(flower);
                 orderBouquetFlower.setQuantity(bouquetFlowerDTO.getQuantity());
 
+                orderBouquetFlowers.add(orderBouquetFlower);
+
                 orderBouquetFlowerRepository.save(orderBouquetFlower);
             }
+
+            orderItem.setOrderBouquetFlowers(orderBouquetFlowers);
+            orderBouquetFlowers = new ArrayList<>();
         }
+
+        order.setOrderItems(orderItems);
         return order;
     }
+
+    @Override
+    public void updateOrder(Long orderId, OrderUpdateDTO status) throws DataNotFoundException {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new DataNotFoundException("Order not found"));
+
+        if (order.getStatus() == Status.DELIVERED || order.getStatus() == Status.CANCELLED) {
+            throw new IllegalStateException("Cannot update order as it is already " + order.getStatus());
+        }
+
+        order.setStatus(status.getStatus());
+        orderRepository.save(order);
+    }
+
 
     @Override
     public void deleteOrder(Long orderId) throws DataNotFoundException {
@@ -99,32 +128,35 @@ public class OrderService implements IOrderService{
                 .orElseThrow(() -> new DataNotFoundException("Order not found"));
     }
 
+    @Transactional
     @Override
-    public Page<Order> getAllOrdersActive(LocalDateTime minOrderDate, LocalDateTime maxOrderDate,
-                                    BigDecimal minPrice, BigDecimal maxPrice, String statusStr, Pageable pageable) {
-        Status status = null;
-        if (statusStr != null && !statusStr.isEmpty()) {
-            try {
-                status = Status.valueOf(statusStr.toUpperCase());
-            } catch (IllegalArgumentException e) {
-                throw new IllegalArgumentException("Invalid status:" + statusStr);
-            }
-        }
-        return orderRepository.findActiveByFilters(minOrderDate, maxOrderDate, minPrice, maxPrice, status, pageable);
-    }
-
-    @Override
-    public Page<Order> getAllOrders(LocalDateTime minOrderDate, LocalDateTime maxOrderDate,
+    public Page<Order> getAllOrdersActive(Long userId, LocalDateTime minOrderDate, LocalDateTime maxOrderDate,
                                           BigDecimal minPrice, BigDecimal maxPrice, String statusStr, Pageable pageable) {
         Status status = null;
         if (statusStr != null && !statusStr.isEmpty()) {
             try {
                 status = Status.valueOf(statusStr.toUpperCase());
             } catch (IllegalArgumentException e) {
-                throw new IllegalArgumentException("Invalid status:" + statusStr);
+                throw new IllegalArgumentException("Invalid status: " + statusStr);
             }
         }
-        return orderRepository.findAllByFilters(minOrderDate, maxOrderDate, minPrice, maxPrice, status, pageable);
+        return orderRepository.findActiveByFilters(userId, minOrderDate, maxOrderDate, minPrice, maxPrice, status, pageable);
+    }
+
+    @Transactional
+    @Override
+    public Page<Order> getAllOrders(LocalDateTime minOrderDate, LocalDateTime maxOrderDate,
+                                    BigDecimal minPrice, BigDecimal maxPrice, String statusStr,
+                                    Long userId, Pageable pageable) {
+        Status status = null;
+        if (statusStr != null && !statusStr.isEmpty()) {
+            try {
+                status = Status.valueOf(statusStr.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Invalid status: " + statusStr);
+            }
+        }
+        return orderRepository.findAllByFilters(minOrderDate, maxOrderDate, minPrice, maxPrice, status, userId, pageable);
     }
 
     public OrderResponse convertToOrderResponse(Order order) {

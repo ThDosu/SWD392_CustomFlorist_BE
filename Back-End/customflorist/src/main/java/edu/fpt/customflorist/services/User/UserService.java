@@ -1,6 +1,7 @@
 package edu.fpt.customflorist.services.User;
 
 import edu.fpt.customflorist.components.JwtTokenUtils;
+import edu.fpt.customflorist.dtos.User.UpdateRoleAccountDTO;
 import edu.fpt.customflorist.dtos.User.UpdateUserDTO;
 import edu.fpt.customflorist.dtos.User.UserDTO;
 import edu.fpt.customflorist.exceptions.DataNotFoundException;
@@ -223,6 +224,15 @@ public class UserService implements IUserService {
     public void blockOrEnable(Long userId, Boolean active) throws DataNotFoundException {
         User user = userRepository.findById(userId).orElseThrow(() -> new DataNotFoundException("User not found"));
         user.setAccountStatus(active ? AccountStatus.ACTIVE : AccountStatus.BANNED);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void UpdateRoleAccount(Long userId, UpdateRoleAccountDTO role) throws DataNotFoundException {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new DataNotFoundException("User not found"));
+
+        user.setRole(role.getNewRole());
         userRepository.save(user);
     }
 

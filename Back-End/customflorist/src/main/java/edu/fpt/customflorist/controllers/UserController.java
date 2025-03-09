@@ -1,15 +1,16 @@
 package edu.fpt.customflorist.controllers;
 
+import edu.fpt.customflorist.dtos.User.UpdateRoleAccountDTO;
 import edu.fpt.customflorist.dtos.User.UpdateUserDTO;
 import edu.fpt.customflorist.dtos.User.UserDTO;
 import edu.fpt.customflorist.dtos.User.UserLoginDTO;
 import edu.fpt.customflorist.exceptions.DataNotFoundException;
 import edu.fpt.customflorist.models.User;
-import edu.fpt.customflorist.repositories.UserRepository;
 import edu.fpt.customflorist.responses.ResponseObject;
 import edu.fpt.customflorist.responses.User.CustomerResponse;
 import edu.fpt.customflorist.services.User.IUserService;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -194,6 +195,34 @@ public class UserController {
                     .build());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+    @PatchMapping("/{id}/role")
+    public ResponseEntity<?> updateUserRole(@PathVariable Long id,
+                                            @Valid @RequestBody
+                                            UpdateRoleAccountDTO newRole)
+    {
+        try {
+            userService.UpdateRoleAccount(id, newRole);
+            return ResponseEntity.ok(ResponseObject.builder()
+                    .message("User role updated successfully")
+                    .status(HttpStatus.OK)
+                    .build());
+        } catch (DataNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    ResponseObject.builder()
+                            .message("User not found")
+                            .status(HttpStatus.NOT_FOUND)
+                            .build()
+            );
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+                    ResponseObject.builder()
+                            .message("An error occurred while updating user role")
+                            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                            .build()
+            );
         }
     }
 

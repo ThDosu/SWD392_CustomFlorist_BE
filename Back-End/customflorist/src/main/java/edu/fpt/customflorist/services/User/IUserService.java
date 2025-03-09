@@ -1,9 +1,11 @@
 package edu.fpt.customflorist.services.User;
 
+import edu.fpt.customflorist.dtos.User.UpdateRoleAccountDTO;
 import edu.fpt.customflorist.dtos.User.UpdateUserDTO;
 import edu.fpt.customflorist.dtos.User.UserDTO;
 import edu.fpt.customflorist.exceptions.DataNotFoundException;
 import edu.fpt.customflorist.exceptions.InvalidPasswordException;
+import edu.fpt.customflorist.models.Enums.Role;
 import edu.fpt.customflorist.models.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,4 +29,5 @@ public interface IUserService {
     void resetPassword(Long userId, String oldPassword, String newPassword)
             throws InvalidPasswordException, DataNotFoundException;
     void blockOrEnable(Long userId, Boolean active) throws DataNotFoundException;
+    void UpdateRoleAccount(Long userId, UpdateRoleAccountDTO role) throws DataNotFoundException;
 }

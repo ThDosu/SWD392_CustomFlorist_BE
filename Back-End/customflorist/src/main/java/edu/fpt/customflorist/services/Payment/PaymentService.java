@@ -5,13 +5,13 @@ import edu.fpt.customflorist.components.VnpayUtil;
 import edu.fpt.customflorist.configurations.VnpayConfig;
 import edu.fpt.customflorist.dtos.Payment.PaymentDTO;
 import edu.fpt.customflorist.exceptions.DataNotFoundException;
+import edu.fpt.customflorist.models.*;
 import edu.fpt.customflorist.models.Enums.PaymentMethod;
 import edu.fpt.customflorist.models.Enums.PaymentStatus;
 import edu.fpt.customflorist.models.Enums.Status;
-import edu.fpt.customflorist.models.Order;
-import edu.fpt.customflorist.models.Payment;
 import edu.fpt.customflorist.repositories.OrderRepository;
 import edu.fpt.customflorist.repositories.PaymentRepository;
+import edu.fpt.customflorist.repositories.PromotionManagerRepository;
 import edu.fpt.customflorist.responses.Payment.VnpayResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +29,7 @@ public class PaymentService implements IPaymentService{
     private final PaymentRepository paymentRepository;
     private final OrderRepository orderRepository;
     private final RandomStringGenerator randomStringGenerator;
+    private final PromotionManagerRepository promotionManagerRepository;
 
     @Override
     public String createVnPayPayment(HttpServletRequest request, PaymentDTO paymentDTO) throws DataNotFoundException {
@@ -74,5 +76,27 @@ public class PaymentService implements IPaymentService{
                 .orElseThrow(() -> new DataNotFoundException("payment not found for orderId: " + orderId));
         payment.setStatus(PaymentStatus.valueOf(statusPayment));
         paymentRepository.save(payment);
+
+        if (order.getPromotion() != null) {
+            User user = order.getUser();
+            Promotion promotion = order.getPromotion();
+
+            Optional<PromotionManager> promotionManagerOpt = promotionManagerRepository
+                    .findByUserAndPromotion(user, promotion);
+
+            if (promotionManagerOpt.isPresent()) {
+
+                PromotionManager promotionManager = promotionManagerOpt.get();
+                promotionManager.setQuality(promotionManager.getQuality() + 1);
+                promotionManagerRepository.save(promotionManager);
+            } else {
+
+                PromotionManager newPromotionManager = new PromotionManager();
+                newPromotionManager.setUser(user);
+                newPromotionManager.setPromotion(promotion);
+                newPromotionManager.setQuality(1);
+                promotionManagerRepository.save(newPromotionManager);
+            }
+        }
     }
 }
