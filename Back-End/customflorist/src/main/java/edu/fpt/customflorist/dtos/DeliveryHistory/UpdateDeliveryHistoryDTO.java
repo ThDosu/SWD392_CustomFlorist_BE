@@ -22,7 +22,7 @@ public class UpdateDeliveryHistoryDTO {
     @Schema(
             description = "Delivery status",
             example = "PENDING",
-            allowableValues = { "PENDING", "PROCESSING", "SHIPPED", "DELIVERED", "CANCELLED" }
+            allowableValues = { "PENDING", "SHIPPED", "DELIVERED", "CANCELLED", "SKIP" }
     )
     private DeliveryStatus status;
     private String note;

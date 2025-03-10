@@ -57,7 +57,7 @@ public class DeliveryHistoryController {
             );
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ResponseObject("Failed to update delivery history", HttpStatus.BAD_REQUEST, null));
+                    .body(new ResponseObject(e.getMessage(), HttpStatus.BAD_REQUEST, null));
         }
     }
 
