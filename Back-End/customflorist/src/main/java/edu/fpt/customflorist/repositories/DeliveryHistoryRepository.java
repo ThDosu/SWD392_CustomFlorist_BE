@@ -41,7 +41,7 @@ public interface DeliveryHistoryRepository extends JpaRepository<DeliveryHistory
             WHERE dsh2.deliveryHistory.deliveryId = dsh.deliveryHistory.deliveryId
             GROUP BY dsh2.deliveryHistory.deliveryId
         )
-        AND dsh.status = :status
+        AND (:status IS NULL OR dsh.status = :status)
     )
     AND (:startDate IS NULL OR (
         SELECT dsh3.changedAt FROM DeliveryStatusHistory dsh3
