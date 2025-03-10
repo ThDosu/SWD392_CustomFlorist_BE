@@ -21,7 +21,7 @@ public class UpdateDeliveryHistoryDTO {
     @NotNull(message = "Delivery status cannot be null")
     @Schema(
             description = "Delivery status",
-            example = "PENDING",
+            example = "PENDING, SHIPPED, DELIVERED, CANCELLED, SKIP",
             allowableValues = { "PENDING", "SHIPPED", "DELIVERED", "CANCELLED", "SKIP" }
     )
     private DeliveryStatus status;

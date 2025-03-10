@@ -108,8 +108,16 @@ public class DeliveryHistoryService implements IDeliveryHistoryService{
     }
 
     @Override
-    public Page<DeliveryHistory> getAllDeliveryHistories(LocalDateTime startDate, LocalDateTime endDate, Long userId, Long courierId, Pageable pageable) {
-        return deliveryHistoryRepository.findAllByFilters(startDate, endDate, userId, courierId, pageable);
+    public Page<DeliveryHistory> getAllDeliveryHistories(LocalDateTime startDate, LocalDateTime endDate, Long userId, Long courierId, String statusStr, Pageable pageable) {
+        DeliveryStatus status = null;
+        if (statusStr != null && !statusStr.isEmpty()) {
+            try {
+                status = DeliveryStatus.valueOf(statusStr.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Invalid status: " + statusStr);
+            }
+        }
+        return deliveryHistoryRepository.findAllByFilters(status, startDate, endDate, userId, courierId, pageable);
     }
 
     @Override
