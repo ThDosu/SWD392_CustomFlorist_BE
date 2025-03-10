@@ -133,6 +133,8 @@ public class DeliveryHistoryController {
             @PathVariable Long userId,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
+            @Parameter(description = "DeliveryHistory status filter: PENDING, SHIPPED, DELIVERED, CANCELLED, SKIP")
+            @RequestParam(required = false) String status,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "50") int size,
             @Parameter(description = "Sort direction (ASC or DESC), default is ASC", example = "ASC")
@@ -141,7 +143,7 @@ public class DeliveryHistoryController {
         try {
             Pageable pageable = PageRequest.of(page, size, Sort.by(direction, "deliveryId"));
 
-            Page<DeliveryHistory> pages = deliveryHistoryService.getAllActiveByUserId(userId, startDate, endDate, pageable);
+            Page<DeliveryHistory> pages = deliveryHistoryService.getAllActiveByUserId(userId, startDate, endDate, status, pageable);
 
             return ResponseEntity.ok(new ResponseObject(
                     "User's active delivery history retrieved successfully",
@@ -160,6 +162,8 @@ public class DeliveryHistoryController {
             @PathVariable Long courierId,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
+            @Parameter(description = "DeliveryHistory status filter: PENDING, SHIPPED, DELIVERED, CANCELLED, SKIP")
+            @RequestParam(required = false) String status,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "50") int size,
             @Parameter(description = "Sort direction (ASC or DESC), default is ASC", example = "ASC")
@@ -168,7 +172,7 @@ public class DeliveryHistoryController {
         try {
             Pageable pageable = PageRequest.of(page, size, Sort.by(direction, "deliveryId"));
 
-            Page<DeliveryHistory> pages = deliveryHistoryService.getAllActiveByCourierId(courierId, startDate, endDate, pageable);
+            Page<DeliveryHistory> pages = deliveryHistoryService.getAllActiveByCourierId(courierId, startDate, endDate, status, pageable);
 
             return ResponseEntity.ok(new ResponseObject(
                     "Courier's active delivery history retrieved successfully",
@@ -187,6 +191,8 @@ public class DeliveryHistoryController {
             @PathVariable Long userId,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
+            @Parameter(description = "DeliveryHistory status filter: PENDING, SHIPPED, DELIVERED, CANCELLED, SKIP")
+            @RequestParam(required = false) String status,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "50") int size,
             @Parameter(description = "Sort direction (ASC or DESC), default is ASC", example = "ASC")
@@ -195,7 +201,7 @@ public class DeliveryHistoryController {
         try {
             Pageable pageable = PageRequest.of(page, size, Sort.by(direction, "deliveryId"));
 
-            Page<DeliveryHistory> pages = deliveryHistoryService.getAllByUserId(userId, startDate, endDate, pageable);
+            Page<DeliveryHistory> pages = deliveryHistoryService.getAllByUserId(userId, startDate, endDate, status, pageable);
 
             return ResponseEntity.ok(new ResponseObject(
                     "User's delivery history retrieved successfully",
@@ -214,6 +220,8 @@ public class DeliveryHistoryController {
             @PathVariable Long courierId,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
+            @Parameter(description = "DeliveryHistory status filter: PENDING, SHIPPED, DELIVERED, CANCELLED, SKIP")
+            @RequestParam(required = false) String status,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "50") int size,
             @Parameter(description = "Sort direction (ASC or DESC), default is ASC", example = "ASC")
@@ -222,7 +230,7 @@ public class DeliveryHistoryController {
         try {
             Pageable pageable = PageRequest.of(page, size, Sort.by(direction, "deliveryId"));
 
-            Page<DeliveryHistory> pages = deliveryHistoryService.getAllByCourierId(courierId, startDate, endDate, pageable);
+            Page<DeliveryHistory> pages = deliveryHistoryService.getAllByCourierId(courierId, startDate, endDate, status, pageable);
 
             return ResponseEntity.ok(new ResponseObject(
                     "Courier's delivery history retrieved successfully",

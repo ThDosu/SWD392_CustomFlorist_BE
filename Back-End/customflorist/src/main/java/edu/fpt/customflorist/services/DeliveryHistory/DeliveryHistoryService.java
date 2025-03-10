@@ -121,24 +121,54 @@ public class DeliveryHistoryService implements IDeliveryHistoryService{
     }
 
     @Override
-    public Page<DeliveryHistory> getAllActiveByUserId(Long userId, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
-        return deliveryHistoryRepository.findActiveByUserUserIdAndStatusChangedAtBetween(userId, startDate, endDate, pageable);
+    public Page<DeliveryHistory> getAllActiveByUserId(Long userId, LocalDateTime startDate, LocalDateTime endDate, String statusStr, Pageable pageable) {
+        DeliveryStatus status = null;
+        if (statusStr != null && !statusStr.isEmpty()) {
+            try {
+                status = DeliveryStatus.valueOf(statusStr.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Invalid status: " + statusStr);
+            }
+        }
+        return deliveryHistoryRepository.findActiveByUserUserIdAndStatusChangedAtBetween(userId, status, startDate, endDate, pageable);
     }
 
     @Override
-    public Page<DeliveryHistory> getAllActiveByCourierId(Long courierId, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
-        return deliveryHistoryRepository.findActiveByCourierUserIdAndStatusChangedAtBetween(courierId, startDate, endDate, pageable);
+    public Page<DeliveryHistory> getAllActiveByCourierId(Long courierId, LocalDateTime startDate, LocalDateTime endDate, String statusStr, Pageable pageable) {
+        DeliveryStatus status = null;
+        if (statusStr != null && !statusStr.isEmpty()) {
+            try {
+                status = DeliveryStatus.valueOf(statusStr.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Invalid status: " + statusStr);
+            }
+        }
+        return deliveryHistoryRepository.findActiveByCourierUserIdAndStatusChangedAtBetween(courierId, status, startDate, endDate, pageable);
     }
 
     @Override
-    public Page<DeliveryHistory> getAllByUserId(Long userId, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
-
-        return deliveryHistoryRepository.findByUserUserIdAndStatusChangedAtBetween(userId, startDate, endDate, pageable);
+    public Page<DeliveryHistory> getAllByUserId(Long userId, LocalDateTime startDate, LocalDateTime endDate, String statusStr, Pageable pageable) {
+        DeliveryStatus status = null;
+        if (statusStr != null && !statusStr.isEmpty()) {
+            try {
+                status = DeliveryStatus.valueOf(statusStr.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Invalid status: " + statusStr);
+            }
+        }
+        return deliveryHistoryRepository.findByUserUserIdAndStatusChangedAtBetween(userId, status, startDate, endDate, pageable);
     }
 
     @Override
-    public Page<DeliveryHistory> getAllByCourierId(Long courierId, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
-
-        return deliveryHistoryRepository.findByCourierUserIdAndStatusChangedAtBetween(courierId, startDate, endDate, pageable);
+    public Page<DeliveryHistory> getAllByCourierId(Long courierId, LocalDateTime startDate, LocalDateTime endDate, String statusStr, Pageable pageable) {
+        DeliveryStatus status = null;
+        if (statusStr != null && !statusStr.isEmpty()) {
+            try {
+                status = DeliveryStatus.valueOf(statusStr.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Invalid status: " + statusStr);
+            }
+        }
+        return deliveryHistoryRepository.findByCourierUserIdAndStatusChangedAtBetween(courierId, status, startDate, endDate, pageable);
     }
 }
