@@ -1,5 +1,6 @@
 package edu.fpt.customflorist.models;
 
+import edu.fpt.customflorist.models.Enums.DeliveryStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +45,14 @@ public class DeliveryHistory {
         if (this.deliveryCode == null || this.deliveryCode.isEmpty()) {
             this.deliveryCode = "DLV-" + UUID.randomUUID().toString().substring(0, 8);
         }
+    }
+
+    public boolean isCompletedOrCancelled() {
+        if (statusHistories != null && !statusHistories.isEmpty()) {
+            DeliveryStatus latestStatus = statusHistories.get(statusHistories.size() - 1).getStatus();
+            return latestStatus == DeliveryStatus.DELIVERED || latestStatus == DeliveryStatus.CANCELLED;
+        }
+        return false;
     }
 
 }

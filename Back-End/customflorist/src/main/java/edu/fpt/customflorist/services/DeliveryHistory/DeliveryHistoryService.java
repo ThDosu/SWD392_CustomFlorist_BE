@@ -5,6 +5,8 @@ import edu.fpt.customflorist.dtos.DeliveryHistory.DeliveryHistoryDTO;
 import edu.fpt.customflorist.dtos.DeliveryHistory.UpdateDeliveryHistoryDTO;
 import edu.fpt.customflorist.models.DeliveryHistory;
 import edu.fpt.customflorist.models.DeliveryStatusHistory;
+import edu.fpt.customflorist.models.Enums.DeliveryStatus;
+import edu.fpt.customflorist.models.Enums.Status;
 import edu.fpt.customflorist.models.Order;
 import edu.fpt.customflorist.models.User;
 import edu.fpt.customflorist.repositories.DeliveryHistoryRepository;
@@ -65,6 +67,21 @@ public class DeliveryHistoryService implements IDeliveryHistoryService{
     public DeliveryStatusHistory updateDeliveryHistory(Long deliveryId, UpdateDeliveryHistoryDTO dto) throws Exception {
         DeliveryHistory deliveryHistory = deliveryHistoryRepository.findById(deliveryId)
                 .orElseThrow(() -> new Exception("Delivery history not found"));
+
+        if (deliveryHistory.isCompletedOrCancelled()) {
+            throw new Exception("Delivery history is already completed or cancelled and cannot be updated.");
+        }
+
+        Order order = orderRepository.findById(deliveryHistory.getOrder().getOrderId())
+                .orElseThrow(() -> new Exception("Order not found"));
+
+        if (dto.getStatus() == DeliveryStatus.DELIVERED) {
+            order.setStatus(Status.DELIVERED);
+            orderRepository.save(order);
+        } else if (dto.getStatus() == DeliveryStatus.CANCELLED) {
+            order.setStatus(Status.CANCELLED);
+            orderRepository.save(order);
+        }
 
         DeliveryStatusHistory statusHistory = new DeliveryStatusHistory();
         statusHistory.setDeliveryHistory(deliveryHistory);
