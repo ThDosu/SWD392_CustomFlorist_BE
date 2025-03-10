@@ -71,50 +71,162 @@ public interface DeliveryHistoryRepository extends JpaRepository<DeliveryHistory
             Pageable pageable
     );
 
-    @Query("SELECT DISTINCT d FROM DeliveryHistory d " +
-            "JOIN d.statusHistories s " +
-            "WHERE d.user.userId = :userId " +
-            "AND (:startDate IS NULL OR s.changedAt >= :startDate) " +
-            "AND (:endDate IS NULL OR s.changedAt <= :endDate)")
+    @Query("""
+    SELECT DISTINCT dh FROM DeliveryHistory dh
+    WHERE dh.deliveryId IN (
+        SELECT dsh.deliveryHistory.deliveryId
+        FROM DeliveryStatusHistory dsh
+        WHERE dsh.id IN (
+            SELECT MAX(dsh2.id)
+            FROM DeliveryStatusHistory dsh2
+            WHERE dsh2.deliveryHistory.deliveryId = dsh.deliveryHistory.deliveryId
+            GROUP BY dsh2.deliveryHistory.deliveryId
+        )
+        AND (:status IS NULL OR dsh.status = :status)
+    )
+    AND dh.user.userId = :userId
+    AND (:startDate IS NULL OR (
+        SELECT dsh3.changedAt FROM DeliveryStatusHistory dsh3
+        WHERE dsh3.deliveryHistory.deliveryId = dh.deliveryId
+        AND dsh3.id = (
+            SELECT MAX(dsh4.id) FROM DeliveryStatusHistory dsh4
+            WHERE dsh4.deliveryHistory.deliveryId = dh.deliveryId
+        )
+    ) >= :startDate)
+    AND (:endDate IS NULL OR (
+        SELECT dsh5.changedAt FROM DeliveryStatusHistory dsh5
+        WHERE dsh5.deliveryHistory.deliveryId = dh.deliveryId
+        AND dsh5.id = (
+            SELECT MAX(dsh6.id) FROM DeliveryStatusHistory dsh6
+            WHERE dsh6.deliveryHistory.deliveryId = dh.deliveryId
+        )
+    ) <= :endDate)
+""")
     Page<DeliveryHistory> findByUserUserIdAndStatusChangedAtBetween(
             @Param("userId") Long userId,
+            @Param("status") DeliveryStatus status,
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate,
-            Pageable pageable);
+            Pageable pageable
+    );
 
-    @Query("SELECT DISTINCT d FROM DeliveryHistory d " +
-            "JOIN d.statusHistories s " +
-            "WHERE d.courier.userId = :courierId " +
-            "AND (:startDate IS NULL OR s.changedAt >= :startDate) " +
-            "AND (:endDate IS NULL OR s.changedAt <= :endDate)")
+    @Query("""
+    SELECT DISTINCT dh FROM DeliveryHistory dh
+    WHERE dh.deliveryId IN (
+        SELECT dsh.deliveryHistory.deliveryId
+        FROM DeliveryStatusHistory dsh
+        WHERE dsh.id IN (
+            SELECT MAX(dsh2.id)
+            FROM DeliveryStatusHistory dsh2
+            WHERE dsh2.deliveryHistory.deliveryId = dsh.deliveryHistory.deliveryId
+            GROUP BY dsh2.deliveryHistory.deliveryId
+        )
+        AND (:status IS NULL OR dsh.status = :status)
+    )
+    AND dh.courier.userId = :courierId
+    AND (:startDate IS NULL OR (
+        SELECT dsh3.changedAt FROM DeliveryStatusHistory dsh3
+        WHERE dsh3.deliveryHistory.deliveryId = dh.deliveryId
+        AND dsh3.id = (
+            SELECT MAX(dsh4.id) FROM DeliveryStatusHistory dsh4
+            WHERE dsh4.deliveryHistory.deliveryId = dh.deliveryId
+        )
+    ) >= :startDate)
+    AND (:endDate IS NULL OR (
+        SELECT dsh5.changedAt FROM DeliveryStatusHistory dsh5
+        WHERE dsh5.deliveryHistory.deliveryId = dh.deliveryId
+        AND dsh5.id = (
+            SELECT MAX(dsh6.id) FROM DeliveryStatusHistory dsh6
+            WHERE dsh6.deliveryHistory.deliveryId = dh.deliveryId
+        )
+    ) <= :endDate)
+""")
     Page<DeliveryHistory> findByCourierUserIdAndStatusChangedAtBetween(
             @Param("courierId") Long courierId,
+            @Param("status") DeliveryStatus status,
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate,
-            Pageable pageable);
+            Pageable pageable
+    );
 
-    @Query("SELECT DISTINCT d FROM DeliveryHistory d " +
-            "JOIN d.statusHistories s " +
-            "WHERE d.isActive = true " +
-            "AND d.user.userId = :userId " +
-            "AND (:startDate IS NULL OR s.changedAt >= :startDate) " +
-            "AND (:endDate IS NULL OR s.changedAt <= :endDate)")
+    @Query("""
+    SELECT DISTINCT dh FROM DeliveryHistory dh
+    WHERE dh.deliveryId IN (
+        SELECT dsh.deliveryHistory.deliveryId
+        FROM DeliveryStatusHistory dsh
+        WHERE dsh.id IN (
+            SELECT MAX(dsh2.id)
+            FROM DeliveryStatusHistory dsh2
+            WHERE dsh2.deliveryHistory.deliveryId = dsh.deliveryHistory.deliveryId
+            GROUP BY dsh2.deliveryHistory.deliveryId
+        )
+        AND (:status IS NULL OR dsh.status = :status)
+    )
+    AND dh.isActive = true
+    AND dh.user.userId = :userId
+    AND (:startDate IS NULL OR (
+        SELECT dsh3.changedAt FROM DeliveryStatusHistory dsh3
+        WHERE dsh3.deliveryHistory.deliveryId = dh.deliveryId
+        AND dsh3.id = (
+            SELECT MAX(dsh4.id) FROM DeliveryStatusHistory dsh4
+            WHERE dsh4.deliveryHistory.deliveryId = dh.deliveryId
+        )
+    ) >= :startDate)
+    AND (:endDate IS NULL OR (
+        SELECT dsh5.changedAt FROM DeliveryStatusHistory dsh5
+        WHERE dsh5.deliveryHistory.deliveryId = dh.deliveryId
+        AND dsh5.id = (
+            SELECT MAX(dsh6.id) FROM DeliveryStatusHistory dsh6
+            WHERE dsh6.deliveryHistory.deliveryId = dh.deliveryId
+        )
+    ) <= :endDate)
+""")
     Page<DeliveryHistory> findActiveByUserUserIdAndStatusChangedAtBetween(
             @Param("userId") Long userId,
+            @Param("status") DeliveryStatus status,
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate,
-            Pageable pageable);
+            Pageable pageable
+    );
 
-    @Query("SELECT DISTINCT d FROM DeliveryHistory d " +
-            "JOIN d.statusHistories s " +
-            "WHERE d.isActive = true " +
-            "AND d.courier.userId = :courierId " +
-            "AND (:startDate IS NULL OR s.changedAt >= :startDate) " +
-            "AND (:endDate IS NULL OR s.changedAt <= :endDate)")
+    @Query("""
+    SELECT DISTINCT dh FROM DeliveryHistory dh
+    WHERE dh.deliveryId IN (
+        SELECT dsh.deliveryHistory.deliveryId
+        FROM DeliveryStatusHistory dsh
+        WHERE dsh.id IN (
+            SELECT MAX(dsh2.id)
+            FROM DeliveryStatusHistory dsh2
+            WHERE dsh2.deliveryHistory.deliveryId = dsh.deliveryHistory.deliveryId
+            GROUP BY dsh2.deliveryHistory.deliveryId
+        )
+        AND (:status IS NULL OR dsh.status = :status)
+    )
+    AND dh.isActive = true
+    AND dh.courier.userId = :courierId
+    AND (:startDate IS NULL OR (
+        SELECT dsh3.changedAt FROM DeliveryStatusHistory dsh3
+        WHERE dsh3.deliveryHistory.deliveryId = dh.deliveryId
+        AND dsh3.id = (
+            SELECT MAX(dsh4.id) FROM DeliveryStatusHistory dsh4
+            WHERE dsh4.deliveryHistory.deliveryId = dh.deliveryId
+        )
+    ) >= :startDate)
+    AND (:endDate IS NULL OR (
+        SELECT dsh5.changedAt FROM DeliveryStatusHistory dsh5
+        WHERE dsh5.deliveryHistory.deliveryId = dh.deliveryId
+        AND dsh5.id = (
+            SELECT MAX(dsh6.id) FROM DeliveryStatusHistory dsh6
+            WHERE dsh6.deliveryHistory.deliveryId = dh.deliveryId
+        )
+    ) <= :endDate)
+""")
     Page<DeliveryHistory> findActiveByCourierUserIdAndStatusChangedAtBetween(
             @Param("courierId") Long courierId,
+            @Param("status") DeliveryStatus status,
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate,
-            Pageable pageable);
+            Pageable pageable
+    );
 
 }
