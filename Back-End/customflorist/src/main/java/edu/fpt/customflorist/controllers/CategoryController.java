@@ -90,7 +90,7 @@ public class CategoryController {
         }
     }
 
-    @GetMapping("/public")
+    @GetMapping("/active")
     public ResponseEntity<ResponseObject> findAllActiveCategories(
             @RequestParam(defaultValue = "") String keyword,
             @RequestParam(defaultValue = "0") int page,

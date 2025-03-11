@@ -54,4 +54,22 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             Pageable pageable
     );
 
+    @Query("""
+        SELECT o FROM Order o
+        WHERE o.isActive = true
+        AND (:minOrderDate IS NULL OR o.orderDate >= :minOrderDate)
+        AND (:maxOrderDate IS NULL OR o.orderDate <= :maxOrderDate)
+        AND (:minPrice IS NULL OR o.totalPrice >= :minPrice)
+        AND (:maxPrice IS NULL OR o.totalPrice <= :maxPrice)
+        AND (:status IS NULL OR o.status = :status)
+    """)
+    Page<Order> findActiveByFilters(
+            @Param("minOrderDate") LocalDateTime minOrderDate,
+            @Param("maxOrderDate") LocalDateTime maxOrderDate,
+            @Param("minPrice") BigDecimal minPrice,
+            @Param("maxPrice") BigDecimal maxPrice,
+            @Param("status") Status status,
+            Pageable pageable
+    );
+
 }

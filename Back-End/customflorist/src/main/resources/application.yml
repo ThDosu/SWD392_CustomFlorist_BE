@@ -57,5 +57,9 @@ payment:
     version: 2.1.0
     command: pay
     orderType: Flower
-
-
+firebase:
+  storage:
+    bucket: swd392-customflorist.firebasestorage.app
+image:
+  base:
+    url: https://firebasestorage.googleapis.com/v0/b/swd392-customflorist.firebasestorage.app/o/

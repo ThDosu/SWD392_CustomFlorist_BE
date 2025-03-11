@@ -6,7 +6,7 @@ import edu.fpt.customflorist.exceptions.DataNotFoundException;
 import edu.fpt.customflorist.models.Order;
 import edu.fpt.customflorist.responses.Order.OrderResponse;
 import edu.fpt.customflorist.responses.ResponseObject;
-import edu.fpt.customflorist.services.Order.OrderService;
+import edu.fpt.customflorist.services.Order.IOrderService;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ import java.util.List;
 @RequestMapping("${api.prefix}/api/v1/orders")
 @RequiredArgsConstructor
 public class OrderController {
-    private final OrderService orderService;
+    private final IOrderService orderService;
 
     @PostMapping
     public ResponseEntity<?> createOrder(@RequestBody OrderDTO orderDTO) {
@@ -168,6 +168,42 @@ public class OrderController {
         try {
             Pageable pageable = PageRequest.of(page, size, Sort.by(direction, "orderId"));
             Page<Order> orders = orderService.getAllOrdersActive(userId, minOrderDate, maxOrderDate, minPrice, maxPrice, status, pageable);
+            Page<OrderResponse> orderResponses = orders.map(orderService::convertToOrderResponse);
+
+            return ResponseEntity.ok().body(
+                    ResponseObject.builder()
+                            .message("Orders retrieved successfully")
+                            .data(orderResponses)
+                            .status(HttpStatus.OK)
+                            .build()
+            );
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(
+                    ResponseObject.builder()
+                            .message("Error retrieving orders: " + e.getMessage())
+                            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                            .build()
+            );
+        }
+    }
+
+    @GetMapping("/active/courier")
+    public ResponseEntity<?> getAllOrdersActiveFoDelivery(
+            @Parameter(description = "Order filtering start date (ISO-8601: yyyy-MM-dd'T'HH:mm:ss)", example = "2024-03-01T00:00:00")
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime minOrderDate,
+            @Parameter(description = "Order filtering end date (ISO-8601: yyyy-MM-dd'T'HH:mm:ss)", example = "2024-03-07T23:59:59")
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime maxOrderDate,
+            @RequestParam(required = false) BigDecimal minPrice,
+            @RequestParam(required = false) BigDecimal maxPrice,
+            @Parameter(description = "Order status filter: PENDING, PROCESSING, SHIPPED, DELIVERED, CANCELLED")
+            @RequestParam(required = false) String status,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "50") int size,
+            @Parameter(description = "Sort direction (ASC or DESC), default is ASC", example = "ASC")
+            @RequestParam(defaultValue = "ASC") Sort.Direction direction) {
+        try {
+            Pageable pageable = PageRequest.of(page, size, Sort.by(direction, "orderId"));
+            Page<Order> orders = orderService.getAllOrdersActiveFoDelivery(minOrderDate, maxOrderDate, minPrice, maxPrice, status, pageable);
             Page<OrderResponse> orderResponses = orders.map(orderService::convertToOrderResponse);
 
             return ResponseEntity.ok().body(

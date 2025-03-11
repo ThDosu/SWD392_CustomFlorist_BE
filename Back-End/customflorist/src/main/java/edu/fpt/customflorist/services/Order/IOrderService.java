@@ -5,6 +5,11 @@ import edu.fpt.customflorist.dtos.Order.OrderUpdateDTO;
 import edu.fpt.customflorist.exceptions.DataNotFoundException;
 import edu.fpt.customflorist.models.Enums.Status;
 import edu.fpt.customflorist.models.Order;
+import edu.fpt.customflorist.models.OrderBouquetFlower;
+import edu.fpt.customflorist.models.OrderItem;
+import edu.fpt.customflorist.responses.Order.OrderBouquetFlowerResponse;
+import edu.fpt.customflorist.responses.Order.OrderItemResponse;
+import edu.fpt.customflorist.responses.Order.OrderResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -22,6 +27,12 @@ public interface IOrderService {
                              BigDecimal maxPrice,
                              String status,
                              Pageable pageable);
+    Page<Order> getAllOrdersActiveFoDelivery(LocalDateTime minOrderDate,
+                                   LocalDateTime maxOrderDate,
+                                   BigDecimal minPrice,
+                                   BigDecimal maxPrice,
+                                   String status,
+                                   Pageable pageable);
     Page<Order> getAllOrders(LocalDateTime minOrderDate,
                              LocalDateTime maxOrderDate,
                              BigDecimal minPrice,
@@ -29,4 +40,8 @@ public interface IOrderService {
                              String status,
                              Long userId,
                              Pageable pageable);
+
+    OrderResponse convertToOrderResponse(Order order);
+    OrderItemResponse convertToOrderItemResponse(OrderItem orderItem);
+    OrderBouquetFlowerResponse convertToOrderBouquetFlowerResponse(OrderBouquetFlower obf);
 }
