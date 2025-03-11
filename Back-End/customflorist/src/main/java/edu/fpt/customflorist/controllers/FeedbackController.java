@@ -238,7 +238,7 @@ public class FeedbackController {
         }
     }
 
-    @GetMapping("/bouquet/{bouquetId}/is-active")
+    @GetMapping("/bouquet/{bouquetId}/active")
     public ResponseEntity<ResponseObject> getFeedbackIsActiveByBouquetId(
             @PathVariable Long bouquetId,
             @RequestParam(defaultValue = "0") int page,
@@ -276,7 +276,7 @@ public class FeedbackController {
         }
     }
 
-    @GetMapping("/user/{userId}/is-active")
+    @GetMapping("/user/{userId}/active")
     public ResponseEntity<ResponseObject> getFeedbackIsActiveByUserId(
             @PathVariable Long userId,
             @RequestParam(defaultValue = "0") int page,

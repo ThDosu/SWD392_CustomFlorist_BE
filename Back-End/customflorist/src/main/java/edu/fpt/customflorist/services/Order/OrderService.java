@@ -145,6 +145,20 @@ public class OrderService implements IOrderService{
 
     @Transactional
     @Override
+    public Page<Order> getAllOrdersActiveFoDelivery(LocalDateTime minOrderDate, LocalDateTime maxOrderDate, BigDecimal minPrice, BigDecimal maxPrice, String statusStr, Pageable pageable) {
+        Status status = null;
+        if (statusStr != null && !statusStr.isEmpty()) {
+            try {
+                status = Status.valueOf(statusStr.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Invalid status: " + statusStr);
+            }
+        }
+        return orderRepository.findActiveByFilters(minOrderDate, maxOrderDate, minPrice, maxPrice, status, pageable);
+    }
+
+    @Transactional
+    @Override
     public Page<Order> getAllOrders(LocalDateTime minOrderDate, LocalDateTime maxOrderDate,
                                     BigDecimal minPrice, BigDecimal maxPrice, String statusStr,
                                     Long userId, Pageable pageable) {
@@ -174,7 +188,7 @@ public class OrderService implements IOrderService{
                 .build();
     }
 
-    private OrderItemResponse convertToOrderItemResponse(OrderItem orderItem) {
+    public OrderItemResponse convertToOrderItemResponse(OrderItem orderItem) {
         return OrderItemResponse.builder()
                 .orderItemId(orderItem.getOrderItemId())
                 .bouquetId(orderItem.getBouquet().getBouquetId())
@@ -186,7 +200,7 @@ public class OrderService implements IOrderService{
                 .build();
     }
 
-    private OrderBouquetFlowerResponse convertToOrderBouquetFlowerResponse(OrderBouquetFlower obf) {
+    public OrderBouquetFlowerResponse convertToOrderBouquetFlowerResponse(OrderBouquetFlower obf) {
         return OrderBouquetFlowerResponse.builder()
                 .flowerId(obf.getFlower().getFlowerId())
                 .flowerName(obf.getFlower().getName())

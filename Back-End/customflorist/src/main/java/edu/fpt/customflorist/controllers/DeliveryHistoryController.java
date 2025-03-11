@@ -128,7 +128,7 @@ public class DeliveryHistoryController {
         }
     }
 
-    @GetMapping("/public/user/{userId}")
+    @GetMapping("/active/user/{userId}")
     public ResponseEntity<ResponseObject> getAllActiveByUserId(
             @PathVariable Long userId,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
@@ -157,7 +157,7 @@ public class DeliveryHistoryController {
         }
     }
 
-    @GetMapping("/public/courier/{courierId}")
+    @GetMapping("/active/courier/{courierId}")
     public ResponseEntity<ResponseObject> getAllActiveByCourierId(
             @PathVariable Long courierId,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,

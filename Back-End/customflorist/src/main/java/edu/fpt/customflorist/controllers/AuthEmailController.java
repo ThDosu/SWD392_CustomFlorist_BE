@@ -1,4 +1,4 @@
-package edu.fpt.customflorist.controllers.TestAPI;
+package edu.fpt.customflorist.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
