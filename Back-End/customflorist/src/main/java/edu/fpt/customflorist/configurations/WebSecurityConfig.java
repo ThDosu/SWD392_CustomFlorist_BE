@@ -123,7 +123,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
             @Override
             public void customize(CorsConfigurer<HttpSecurity> httpSecurityCorsConfigurer) {
                 CorsConfiguration configuration = new CorsConfiguration();
-                configuration.setAllowedOrigins(List.of("*", "http://localhost:4300", "http://localhost:4200"));
+                configuration.setAllowedOrigins(List.of("*", "http://localhost:3000", "http://localhost:4300", "http://localhost:4200"));
                 configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
                 configuration.setAllowedHeaders(Arrays.asList(
                         "authorization", "content-type", "x-auth-token", "accept",
