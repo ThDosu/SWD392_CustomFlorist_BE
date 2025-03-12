@@ -23,6 +23,7 @@ import java.time.LocalDateTime;
 @RestController
 @RequestMapping("${api.prefix}/api/v1/feedbacks")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class FeedbackController {
     private final IFeedbackService feedbackService;
 

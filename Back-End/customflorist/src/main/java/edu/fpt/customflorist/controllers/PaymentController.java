@@ -29,6 +29,7 @@ import java.time.LocalDateTime;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("${api.prefix}/api/v1/payment")
+@CrossOrigin(origins = "http://localhost:3000")
 public class PaymentController {
     private final IPaymentService paymentService;
 

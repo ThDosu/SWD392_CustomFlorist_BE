@@ -24,6 +24,7 @@ import java.util.Arrays;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("${api.prefix}/api/v1/auth")
+@CrossOrigin(origins = "http://localhost:3000")
 public class AuthController {
     @Value("${spring.security.oauth2.resourceserver.opaque-token.clientId}")
     private String clientId;
