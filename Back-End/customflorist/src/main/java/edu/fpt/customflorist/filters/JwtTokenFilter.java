@@ -81,8 +81,11 @@ public class JwtTokenFilter extends OncePerRequestFilter{
 
                 //Login account
                 Pair.of(String.format("%s/api/v1/users/signup", apiPrefix), "POST"),
+                Pair.of(String.format("%s/api/v1/users/signup", apiPrefix), "OPTIONS"),
                 Pair.of(String.format("%s/api/v1/users/login", apiPrefix), "POST"),
+                Pair.of(String.format("%s/api/v1/users/login", apiPrefix), "OPTIONS"),
                 Pair.of(String.format("%s/api/v1/users/reset-password/**", apiPrefix), "POST"),
+                Pair.of(String.format("%s/api/v1/users/reset-password/**", apiPrefix), "OPTIONS"),
                 Pair.of(String.format("%s/api/v1/users/verify", apiPrefix), "GET"),
 
                 //Category
@@ -95,12 +98,14 @@ public class JwtTokenFilter extends OncePerRequestFilter{
                 //Payment
                 Pair.of(String.format("%s/api/v1/payment/vn-pay-callback", apiPrefix), "GET"),
                 Pair.of(String.format("%s/api/v1/payment/vn-pay", apiPrefix), "POST"),
+                Pair.of(String.format("%s/api/v1/payment/vn-pay", apiPrefix), "OPTIONS"),
 
                 //Flower
                 Pair.of(String.format("%s/api/v1/flowers/**", apiPrefix), "GET"),
 
                 //Image
                 Pair.of(String.format("%s/api/v1/images/upload", apiPrefix), "POST"),
+                Pair.of(String.format("%s/api/v1/images/upload", apiPrefix), "OPTIONS"),
 
                 Pair.of(String.format("/payment-success.html", apiPrefix), "GET"),
                 Pair.of(String.format("/payment-fail.html", apiPrefix), "GET"),
