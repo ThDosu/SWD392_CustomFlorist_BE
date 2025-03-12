@@ -24,6 +24,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("${api.prefix}/api/v1/flowers")
+@CrossOrigin(origins = "http://localhost:3000")
 public class FlowerController {
     private final IFlowerService flowerService;
 

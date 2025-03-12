@@ -28,6 +28,7 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("${api.prefix}/api/v1/users")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
     private final IUserService userService;
 

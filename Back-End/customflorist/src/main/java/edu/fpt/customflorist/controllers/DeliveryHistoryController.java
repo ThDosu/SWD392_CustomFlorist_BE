@@ -25,6 +25,7 @@ import java.time.LocalDateTime;
 @RestController
 @RequestMapping("${api.prefix}/api/v1/delivery-histories")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class DeliveryHistoryController {
     private final IDeliveryHistoryService deliveryHistoryService;
 
