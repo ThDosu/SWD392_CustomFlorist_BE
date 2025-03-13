@@ -63,3 +63,9 @@ firebase:
 image:
   base:
     url: https://firebasestorage.googleapis.com/v0/b/swd392-customflorist.firebasestorage.app/o/
+# OpenAI API configuration
+openai:
+  api:
+    key: "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"
+    url: https://api.openai.com/v1/chat/completions
+  model: gpt-3.5-turbo

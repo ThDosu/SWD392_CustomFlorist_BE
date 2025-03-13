@@ -120,7 +120,20 @@ public class JwtTokenFilter extends OncePerRequestFilter{
                 Pair.of(String.format("/payment-fail.html", apiPrefix), "GET"),
                 Pair.of(String.format("/payment-fail.html", apiPrefix), "OPTIONS"),
                 Pair.of(String.format("/error.html", apiPrefix), "GET"),
-                Pair.of(String.format("/error.html", apiPrefix), "OPTIONS")
+                Pair.of(String.format("/error.html", apiPrefix), "OPTIONS"),
+
+                Pair.of(String.format("%s/api/v1/bouquet", apiPrefix), HttpMethod.GET.name()),
+                Pair.of(String.format("%s/api/v1/bouquet/**", apiPrefix), HttpMethod.GET.name()),
+                Pair.of(String.format("%s/api/v1/bouquet/**", apiPrefix), HttpMethod.POST.name()),
+                Pair.of(String.format("%s/api/v1/bouquet/**", apiPrefix), HttpMethod.PUT.name()),
+                Pair.of(String.format("%s/api/v1/bouquet/**", apiPrefix), HttpMethod.DELETE.name()),
+
+                Pair.of(String.format("%s/api/v1/promotion", apiPrefix), HttpMethod.GET.name()),
+                Pair.of(String.format("%s/api/v1/promotion/**", apiPrefix), HttpMethod.GET.name()),
+                Pair.of(String.format("%s/api/v1/promotion/**", apiPrefix), HttpMethod.POST.name()),
+                Pair.of(String.format("%s/api/v1/promotion/**", apiPrefix), HttpMethod.PUT.name()),
+                Pair.of(String.format("%s/api/v1/promotion/**", apiPrefix), HttpMethod.DELETE.name())
+
         );
 
         String requestPath = request.getServletPath();

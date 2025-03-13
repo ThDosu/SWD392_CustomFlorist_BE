@@ -111,6 +111,18 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 
                             .requestMatchers(HttpMethod.POST, String.format("%s/api/v1/images/upload", apiPrefix)).permitAll()
 
+                            .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/bouquet", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/bouquet/**", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.POST, String.format("%s/api/v1/bouquet", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.PUT, String.format("%s/api/v1/bouquet/**", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.DELETE, String.format("%s/api/v1/bouquet/**", apiPrefix)).permitAll()
+
+                            .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/promotion", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/promotion/**", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.POST, String.format("%s/api/v1/promotion", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.PUT, String.format("%s/api/v1/promotion/**", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.DELETE, String.format("%s/api/v1/promotion/**", apiPrefix)).permitAll()
+
                             .anyRequest().authenticated();
 
                 })
