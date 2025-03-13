@@ -77,7 +77,9 @@ public class JwtTokenFilter extends OncePerRequestFilter{
                 Pair.of("/webjars.*", "GET"),
 
                 Pair.of(String.format("%s/api/v1/auth/**", apiPrefix), "GET"),
+                Pair.of(String.format("%s/api/v1/auth/**", apiPrefix), "OPTIONS"),
                 Pair.of(String.format("/auth/**"), "GET"),
+                Pair.of(String.format("/auth/**"), "OPTIONS"),
 
                 //Login account
                 Pair.of(String.format("%s/api/v1/users/signup", apiPrefix), "POST"),
@@ -87,29 +89,38 @@ public class JwtTokenFilter extends OncePerRequestFilter{
                 Pair.of(String.format("%s/api/v1/users/reset-password/**", apiPrefix), "POST"),
                 Pair.of(String.format("%s/api/v1/users/reset-password/**", apiPrefix), "OPTIONS"),
                 Pair.of(String.format("%s/api/v1/users/verify", apiPrefix), "GET"),
+                Pair.of(String.format("%s/api/v1/users/verify", apiPrefix), "OPTIONS"),
 
                 //Category
                 Pair.of(String.format("%s/api/v1/categories/active", apiPrefix), "GET"),
+                Pair.of(String.format("%s/api/v1/categories/active", apiPrefix), "OPTIONS"),
                 Pair.of(String.format("%s/api/v1/categories/**", apiPrefix), "GET"),
+                Pair.of(String.format("%s/api/v1/categories/**", apiPrefix), "OPTIONS"),
 
                 //Feedback
                 Pair.of(String.format("%s/api/v1/feedbacks/bouquet/**/active", apiPrefix), "GET"),
+                Pair.of(String.format("%s/api/v1/feedbacks/bouquet/**/active", apiPrefix), "OPTIONS"),
 
                 //Payment
                 Pair.of(String.format("%s/api/v1/payment/vn-pay-callback", apiPrefix), "GET"),
+                Pair.of(String.format("%s/api/v1/payment/vn-pay-callback", apiPrefix), "OPTIONS"),
                 Pair.of(String.format("%s/api/v1/payment/vn-pay", apiPrefix), "POST"),
                 Pair.of(String.format("%s/api/v1/payment/vn-pay", apiPrefix), "OPTIONS"),
 
                 //Flower
                 Pair.of(String.format("%s/api/v1/flowers/**", apiPrefix), "GET"),
+                Pair.of(String.format("%s/api/v1/flowers/**", apiPrefix), "OPTIONS"),
 
                 //Image
                 Pair.of(String.format("%s/api/v1/images/upload", apiPrefix), "POST"),
                 Pair.of(String.format("%s/api/v1/images/upload", apiPrefix), "OPTIONS"),
 
                 Pair.of(String.format("/payment-success.html", apiPrefix), "GET"),
+                Pair.of(String.format("/payment-success.html", apiPrefix), "OPTIONS"),
                 Pair.of(String.format("/payment-fail.html", apiPrefix), "GET"),
-                Pair.of(String.format("/error.html", apiPrefix), "GET")
+                Pair.of(String.format("/payment-fail.html", apiPrefix), "OPTIONS"),
+                Pair.of(String.format("/error.html", apiPrefix), "GET"),
+                Pair.of(String.format("/error.html", apiPrefix), "OPTIONS")
         );
 
         String requestPath = request.getServletPath();
