@@ -41,4 +41,7 @@ public class Bouquet {
     @OneToMany(mappedBy = "bouquet", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems;
 
+    @OneToMany(mappedBy = "bouquet", cascade = CascadeType.ALL)
+    private List<BouquetComposition> compositions;
+
 }

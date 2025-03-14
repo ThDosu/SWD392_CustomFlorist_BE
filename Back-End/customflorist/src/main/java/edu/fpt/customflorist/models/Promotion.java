@@ -35,3 +35,4 @@ public class Promotion {
     private Boolean isActive;
 }
 
+ 
