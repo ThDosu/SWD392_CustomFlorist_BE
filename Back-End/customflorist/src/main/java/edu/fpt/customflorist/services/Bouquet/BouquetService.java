@@ -20,14 +20,19 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class BouquetService implements IBouquetService {
+public class BouquetService {
     private final BouquetRepository bouquetRepository;
     private final BouquetCompositionRepository compositionRepository;
     private final FlowerRepository flowerRepository;
 
-
     public List<BouquetDTO> getAllBouquets() {
         return bouquetRepository.findAll().stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<BouquetDTO> getAllActiveBouquets() {
+        return bouquetRepository.findAllByIsActiveTrue().stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
