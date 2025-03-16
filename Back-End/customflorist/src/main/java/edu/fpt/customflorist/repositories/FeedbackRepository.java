@@ -45,19 +45,21 @@ public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
             @Param("endDate") LocalDateTime endDate,
             Pageable pageable);
 
-    @Query("SELECT f.isActive FROM Feedback f WHERE f.bouquet.bouquetId = :bouquetId "
+    @Query("SELECT f FROM Feedback f WHERE f.bouquet.bouquetId = :bouquetId "
+            + "AND f.isActive = true "
             + "AND (:startDate IS NULL OR f.createdAt >= :startDate) "
             + "AND (:endDate IS NULL OR f.createdAt <= :endDate)")
-    Page<Boolean> findIsActiveByBouquetIdAndDateRange(
+    Page<Feedback> findIsActiveByBouquetIdAndDateRange(
             @Param("bouquetId") Long bouquetId,
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate,
             Pageable pageable);
 
-    @Query("SELECT f.isActive FROM Feedback f WHERE f.user.userId = :userId "
+    @Query("SELECT f FROM Feedback f WHERE f.user.userId = :userId "
+            + "AND f.isActive = true "
             + "AND (:startDate IS NULL OR f.createdAt >= :startDate) "
             + "AND (:endDate IS NULL OR f.createdAt <= :endDate)")
-    Page<Boolean> findIsActiveByUserIdAndDateRange(
+    Page<Feedback> findIsActiveByUserIdAndDateRange(
             @Param("userId") Long userId,
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate,

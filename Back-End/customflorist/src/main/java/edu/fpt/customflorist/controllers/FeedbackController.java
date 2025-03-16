@@ -257,7 +257,7 @@ public class FeedbackController {
                     : Sort.by(sortBy).descending();
 
             Pageable pageable = PageRequest.of(page, size, sort);
-            Page<Boolean> isActiveList = feedbackService.getFeedbackIsActiveByBouquetId(bouquetId, startDate, endDate, pageable);
+            Page<FeedbackResponse> isActiveList = feedbackService.getFeedbackIsActiveByBouquetId(bouquetId, startDate, endDate, pageable).map(FeedbackResponse::convertToDTO);
 
             return ResponseEntity.ok(
                     ResponseObject.builder()
@@ -295,7 +295,7 @@ public class FeedbackController {
                     : Sort.by(sortBy).descending();
 
             Pageable pageable = PageRequest.of(page, size, sort);
-            Page<Boolean> isActiveList = feedbackService.getFeedbackIsActiveByUserId(userId, startDate, endDate, pageable);
+            Page<FeedbackResponse> isActiveList = feedbackService.getFeedbackIsActiveByUserId(userId, startDate, endDate, pageable).map(FeedbackResponse::convertToDTO);
 
             return ResponseEntity.ok(
                     ResponseObject.builder()

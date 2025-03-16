@@ -94,8 +94,6 @@ public class JwtTokenFilter extends OncePerRequestFilter{
                 //Category
                 Pair.of(String.format("%s/api/v1/categories/active", apiPrefix), "GET"),
                 Pair.of(String.format("%s/api/v1/categories/active", apiPrefix), "OPTIONS"),
-                Pair.of(String.format("%s/api/v1/categories/**", apiPrefix), "GET"),
-                Pair.of(String.format("%s/api/v1/categories/**", apiPrefix), "OPTIONS"),
 
                 //Feedback
                 Pair.of(String.format("%s/api/v1/feedbacks/bouquet/**/active", apiPrefix), "GET"),
