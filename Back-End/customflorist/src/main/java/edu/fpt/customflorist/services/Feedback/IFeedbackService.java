@@ -18,6 +18,6 @@ public interface IFeedbackService {
     Feedback getFeedbackById(Long feedbackId) throws Exception;
     Page<Feedback> getFeedbacksByBouquetId(Long bouquetId, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable);
     Page<Feedback> getFeedbacksByUserId(Long userId, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable);
-    Page<Boolean> getFeedbackIsActiveByUserId(Long userId, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable);
-    Page<Boolean> getFeedbackIsActiveByBouquetId(Long bouquetId, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable);
+    Page<Feedback> getFeedbackIsActiveByUserId(Long userId, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable);
+    Page<Feedback> getFeedbackIsActiveByBouquetId(Long bouquetId, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable);
 }

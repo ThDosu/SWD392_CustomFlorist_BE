@@ -186,6 +186,19 @@ public class UserController {
         }
     }
 
+    @PutMapping("/{id}/password")
+    public ResponseEntity<?> resetPassword(@PathVariable Long id, @RequestParam String oldPassword, @RequestParam String newPassword) {
+        try {
+            userService.resetPassword(id, oldPassword, newPassword);
+            return ResponseEntity.ok(ResponseObject.builder()
+                    .message("Password reset successfully")
+                    .status(HttpStatus.OK)
+                    .build());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @PatchMapping("/{id}/status")
     public ResponseEntity<?> blockOrEnableUser(@PathVariable Long id, @RequestParam Boolean active) {
         try {
@@ -226,18 +239,4 @@ public class UserController {
             );
         }
     }
-
-    @PutMapping("/{id}/password")
-    public ResponseEntity<?> resetPassword(@PathVariable Long id, @RequestParam String oldPassword, @RequestParam String newPassword) {
-        try {
-            userService.resetPassword(id, oldPassword, newPassword);
-            return ResponseEntity.ok(ResponseObject.builder()
-                    .message("Password reset successfully")
-                    .status(HttpStatus.OK)
-                    .build());
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-
 }
