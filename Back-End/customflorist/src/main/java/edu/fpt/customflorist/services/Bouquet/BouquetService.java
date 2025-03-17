@@ -25,18 +25,21 @@ public class BouquetService {
     private final BouquetCompositionRepository compositionRepository;
     private final FlowerRepository flowerRepository;
 
+    @Transactional
     public List<BouquetDTO> getAllBouquets() {
         return bouquetRepository.findAll().stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public List<BouquetDTO> getAllActiveBouquets() {
         return bouquetRepository.findAllByIsActiveTrue().stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public BouquetDTO getBouquetById(Long id) throws DataNotFoundException {
         Bouquet bouquet = bouquetRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Bouquet not found with id: " + id));
