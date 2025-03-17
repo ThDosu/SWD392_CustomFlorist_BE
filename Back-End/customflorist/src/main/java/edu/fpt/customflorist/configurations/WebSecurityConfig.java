@@ -45,6 +45,20 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     private String apiPrefix;
 
     @Bean
+    public SecurityFilterChain authSecurityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .securityMatcher(String.format("%s/api/v1/auth/**", apiPrefix))
+                .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/auth/**", apiPrefix)).permitAll()
+                        .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/auth/**", apiPrefix)).authenticated())
+                .oauth2ResourceServer(c -> c.opaqueToken(Customizer.withDefaults()));
+
+        return http.build();
+    }
+
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
@@ -130,8 +144,8 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 
                 })
                 //.oauth2ResourceServer(c -> c.opaqueToken(Customizer.withDefaults()))
-                .securityMatcher(String.format("%s/api/v1/auth/**", apiPrefix))
-                .oauth2ResourceServer(c -> c.opaqueToken(Customizer.withDefaults()))
+//                .securityMatcher(String.format("%s/api/v1/auth/**", apiPrefix))
+//                .oauth2ResourceServer(c -> c.opaqueToken(Customizer.withDefaults()))
 
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
 
@@ -139,7 +153,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                     @Override
                     public void customize(CorsConfigurer<HttpSecurity> httpSecurityCorsConfigurer) {
                         CorsConfiguration configuration = new CorsConfiguration();
-                        configuration.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost:4300", "http://localhost:4200"));
+                        configuration.setAllowedOrigins(List.of("*", "http://localhost:3000", "http://localhost:4300", "http://localhost:4200"));
                         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
                         configuration.setAllowedHeaders(Arrays.asList(
                                 "Authorization", "authorization", "content-type", "x-auth-token", "accept",
