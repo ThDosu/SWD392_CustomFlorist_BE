@@ -235,13 +235,15 @@ public class OrderController {
             @Parameter(description = "Order status filter: PENDING, PROCESSING, SHIPPED, DELIVERED, CANCELLED")
             @RequestParam(required = false) String status,
             @RequestParam(required = false) Long userId,
+            @RequestParam(required = false) String userName,
+            @RequestParam(required = false) String phone,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "50") int size,
             @Parameter(description = "Sort direction (ASC or DESC), default is ASC", example = "ASC")
             @RequestParam(defaultValue = "ASC") Sort.Direction direction) {
         try {
             Pageable pageable = PageRequest.of(page, size, Sort.by(direction, "orderId"));
-            Page<Order> orders = orderService.getAllOrders(minOrderDate, maxOrderDate, minPrice, maxPrice, status, userId, pageable);
+            Page<Order> orders = orderService.getAllOrders(minOrderDate, maxOrderDate, minPrice, maxPrice, status, userId, userName, phone, pageable);
             Page<OrderResponse> orderResponses = orders.map(orderService::convertToOrderResponse);
 
             return ResponseEntity.ok().body(

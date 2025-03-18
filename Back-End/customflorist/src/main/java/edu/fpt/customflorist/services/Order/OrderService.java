@@ -6,6 +6,8 @@ import edu.fpt.customflorist.exceptions.DataNotFoundException;
 import edu.fpt.customflorist.models.*;
 import edu.fpt.customflorist.models.Enums.Status;
 import edu.fpt.customflorist.repositories.*;
+import edu.fpt.customflorist.responses.DeliveryHistory.DeliveryHistoryResponse;
+import edu.fpt.customflorist.responses.DeliveryHistory.DeliveryStatusHistoryResponse;
 import edu.fpt.customflorist.responses.Order.OrderBouquetFlowerResponse;
 import edu.fpt.customflorist.responses.Order.OrderItemResponse;
 import edu.fpt.customflorist.responses.Order.OrderResponse;
@@ -161,7 +163,7 @@ public class OrderService implements IOrderService{
     @Override
     public Page<Order> getAllOrders(LocalDateTime minOrderDate, LocalDateTime maxOrderDate,
                                     BigDecimal minPrice, BigDecimal maxPrice, String statusStr,
-                                    Long userId, Pageable pageable) {
+                                    Long userId, String userName, String phone, Pageable pageable) {
         Status status = null;
         if (statusStr != null && !statusStr.isEmpty()) {
             try {
@@ -170,7 +172,7 @@ public class OrderService implements IOrderService{
                 throw new IllegalArgumentException("Invalid status: " + statusStr);
             }
         }
-        return orderRepository.findAllByFilters(minOrderDate, maxOrderDate, minPrice, maxPrice, status, userId, pageable);
+        return orderRepository.findAllByFiltersWithDeliveries(minOrderDate, maxOrderDate, minPrice, maxPrice, status, userId, userName, phone, pageable);
     }
 
     public OrderResponse convertToOrderResponse(Order order) {
@@ -182,9 +184,11 @@ public class OrderService implements IOrderService{
                 .orderDate(order.getOrderDate())
                 .status(order.getStatus().name())
                 .totalPrice(order.getTotalPrice())
+                .phone(order.getUser().getPhone())
                 .shippingAddress(order.getShippingAddress())
                 .isActive(order.getIsActive())
                 .orderItems(order.getOrderItems().stream().map(this::convertToOrderItemResponse).toList())
+                .deliveryHistories(order.getDeliveryHistories().stream().map(this::convertToDeliveryHistoryResponse).toList())
                 .build();
     }
 
@@ -206,6 +210,14 @@ public class OrderService implements IOrderService{
                 .flowerName(obf.getFlower().getName())
                 .quantity(obf.getQuantity())
                 .build();
+    }
+
+    public DeliveryHistoryResponse convertToDeliveryHistoryResponse(DeliveryHistory data) {
+        return DeliveryHistoryResponse.fromEntity(data);
+    }
+
+    public DeliveryStatusHistoryResponse convertToDeliveryStatusHistoryResponse(DeliveryStatusHistory data) {
+        return DeliveryStatusHistoryResponse.fromEntity(data);
     }
 
 }

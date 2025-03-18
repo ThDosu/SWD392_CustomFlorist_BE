@@ -1,5 +1,6 @@
 package edu.fpt.customflorist.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +39,8 @@ public class Bouquet {
     @Column(nullable = false)
     private Boolean isActive;
 
-    @OneToMany(mappedBy = "bouquet", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "bouquet", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<OrderItem> orderItems;
 
     @OneToMany(mappedBy = "bouquet", cascade = CascadeType.ALL)

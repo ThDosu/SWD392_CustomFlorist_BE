@@ -10,9 +10,23 @@ import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
+
+    @Query("""
+        SELECT 
+            YEAR(p.paymentDate) AS year, 
+            MONTH(p.paymentDate) AS month, 
+            COALESCE(SUM(p.amount), 0) AS totalRevenue
+        FROM Payment p
+        WHERE p.status = 'COMPLETED'
+        GROUP BY YEAR(p.paymentDate), MONTH(p.paymentDate)
+        ORDER BY year DESC, month DESC
+    """)
+    List<Object[]> getPaymentsStatisticsByMonth();
+
     @Query("SELECT p FROM Payment p WHERE p.order.orderId = :orderId")
     Optional<Payment> findByOrderId(@Param("orderId") Long orderId);
 
