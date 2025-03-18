@@ -9,9 +9,15 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Repository
 public interface FlowerRepository extends JpaRepository<Flower, Long> {
+    @Query("SELECT COUNT(f) FROM Flower f WHERE f.isActive = true")
+    long countActiveFlowers();
+
+    @Query("SELECT COUNT(f) FROM Flower f WHERE f.isActive = false")
+    long countInactiveFlowers();
 
     @Query("SELECT f FROM Flower f WHERE " +
             "(:keyword IS NULL OR f.name LIKE %:keyword%) AND " +
