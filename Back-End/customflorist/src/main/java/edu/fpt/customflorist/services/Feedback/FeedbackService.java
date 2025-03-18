@@ -99,12 +99,12 @@ public class FeedbackService implements IFeedbackService {
     }
 
     @Override
-    public Page<Boolean> getFeedbackIsActiveByBouquetId(Long bouquetId, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
+    public Page<Feedback> getFeedbackIsActiveByBouquetId(Long bouquetId, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
         return feedbackRepository.findIsActiveByBouquetIdAndDateRange(bouquetId, startDate, endDate, pageable);
     }
 
     @Override
-    public Page<Boolean> getFeedbackIsActiveByUserId(Long userId, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
+    public Page<Feedback> getFeedbackIsActiveByUserId(Long userId, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable) {
         return feedbackRepository.findIsActiveByUserIdAndDateRange(userId, startDate, endDate, pageable);
     }
 

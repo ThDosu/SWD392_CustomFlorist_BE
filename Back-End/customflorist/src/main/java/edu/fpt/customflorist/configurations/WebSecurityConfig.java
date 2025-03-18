@@ -45,9 +45,23 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     private String apiPrefix;
 
     @Bean
+    public SecurityFilterChain authSecurityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .securityMatcher(String.format("%s/api/v1/auth/**", apiPrefix))
+                .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/auth/**", apiPrefix)).permitAll()
+                        .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/auth/**", apiPrefix)).authenticated())
+                .oauth2ResourceServer(c -> c.opaqueToken(Customizer.withDefaults()));
+
+        return http.build();
+    }
+
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(requests -> {
                     requests
@@ -111,43 +125,48 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 
                             .requestMatchers(HttpMethod.POST, String.format("%s/api/v1/images/upload", apiPrefix)).permitAll()
 
-                            .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/bouquet", apiPrefix)).permitAll()
-                            .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/bouquet/**", apiPrefix)).permitAll()
-                            .requestMatchers(HttpMethod.POST, String.format("%s/api/v1/bouquet", apiPrefix)).permitAll()
-                            .requestMatchers(HttpMethod.PUT, String.format("%s/api/v1/bouquet/**", apiPrefix)).permitAll()
-                            .requestMatchers(HttpMethod.DELETE, String.format("%s/api/v1/bouquet/**", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/bouquets", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/bouquets/**", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.POST, String.format("%s/api/v1/bouquets", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.PUT, String.format("%s/api/v1/bouquets/**", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.DELETE, String.format("%s/api/v1/bouquets/**", apiPrefix)).permitAll()
 
-                            .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/promotion", apiPrefix)).permitAll()
-                            .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/promotion/**", apiPrefix)).permitAll()
-                            .requestMatchers(HttpMethod.POST, String.format("%s/api/v1/promotion", apiPrefix)).permitAll()
-                            .requestMatchers(HttpMethod.PUT, String.format("%s/api/v1/promotion/**", apiPrefix)).permitAll()
-                            .requestMatchers(HttpMethod.DELETE, String.format("%s/api/v1/promotion/**", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/promotions", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/promotions/**", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.POST, String.format("%s/api/v1/promotions", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.PUT, String.format("%s/api/v1/promotions/**", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.DELETE, String.format("%s/api/v1/promotions/**", apiPrefix)).permitAll()
+
+                            .requestMatchers(HttpMethod.POST, String.format("%s/api/v1/chatbot/message", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/chatbot/history/**", apiPrefix)).permitAll()
+
+                            .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/statistic/**", apiPrefix)).permitAll()
 
                             .anyRequest().authenticated();
 
                 })
                 //.oauth2ResourceServer(c -> c.opaqueToken(Customizer.withDefaults()))
-                .csrf(AbstractHttpConfigurer::disable);
+//                .securityMatcher(String.format("%s/api/v1/auth/**", apiPrefix))
+//                .oauth2ResourceServer(c -> c.opaqueToken(Customizer.withDefaults()))
 
-        http.securityMatcher(String.format("%s/api/v1/auth/**", apiPrefix))
-                .oauth2ResourceServer(c -> c.opaqueToken(Customizer.withDefaults()));
+                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
 
-        http.cors(new Customizer<CorsConfigurer<HttpSecurity>>() {
-            @Override
-            public void customize(CorsConfigurer<HttpSecurity> httpSecurityCorsConfigurer) {
-                CorsConfiguration configuration = new CorsConfiguration();
-                configuration.setAllowedOrigins(List.of("*", "http://localhost:3000", "http://localhost:4300", "http://localhost:4200"));
-                configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-                configuration.setAllowedHeaders(Arrays.asList(
-                        "authorization", "content-type", "x-auth-token", "accept",
-                        "access-control-request-method", "access-control-request-headers"
-                ));
-                configuration.setExposedHeaders(List.of("x-auth-token"));
-                UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-                source.registerCorsConfiguration("/**", configuration);
-                httpSecurityCorsConfigurer.configurationSource(source);
-            }
-        });
+                .cors(new Customizer<CorsConfigurer<HttpSecurity>>() {
+                    @Override
+                    public void customize(CorsConfigurer<HttpSecurity> httpSecurityCorsConfigurer) {
+                        CorsConfiguration configuration = new CorsConfiguration();
+                        configuration.setAllowedOrigins(List.of("*", "http://localhost:3000", "http://localhost:4300", "http://localhost:4200"));
+                        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+                        configuration.setAllowedHeaders(Arrays.asList(
+                                "Authorization", "authorization", "content-type", "x-auth-token", "accept",
+                                "access-control-request-method", "access-control-request-headers"
+                        ));
+                        configuration.setExposedHeaders(List.of("Authorization", "x-auth-token"));
+                        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+                        source.registerCorsConfiguration("/**", configuration);
+                        httpSecurityCorsConfigurer.configurationSource(source);
+                    }
+                });
 
         return http.build();
     }

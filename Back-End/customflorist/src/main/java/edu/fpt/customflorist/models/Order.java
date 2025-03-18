@@ -34,7 +34,7 @@ public class Order {
     @Column(nullable = false)
     private Status status;
 
-    @Column(nullable = false, precision = 10, scale = 2)
+    @Column(nullable = false)
     private BigDecimal totalPrice;
 
     @Column(nullable = false, length = 255)
@@ -45,5 +45,9 @@ public class Order {
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<OrderItem> orderItems = new ArrayList<>();
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<DeliveryHistory> deliveryHistories = new ArrayList<>();
+
 }
 

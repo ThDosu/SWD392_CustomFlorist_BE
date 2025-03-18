@@ -94,8 +94,6 @@ public class JwtTokenFilter extends OncePerRequestFilter{
                 //Category
                 Pair.of(String.format("%s/api/v1/categories/active", apiPrefix), "GET"),
                 Pair.of(String.format("%s/api/v1/categories/active", apiPrefix), "OPTIONS"),
-                Pair.of(String.format("%s/api/v1/categories/**", apiPrefix), "GET"),
-                Pair.of(String.format("%s/api/v1/categories/**", apiPrefix), "OPTIONS"),
 
                 //Feedback
                 Pair.of(String.format("%s/api/v1/feedbacks/bouquet/**/active", apiPrefix), "GET"),
@@ -122,17 +120,19 @@ public class JwtTokenFilter extends OncePerRequestFilter{
                 Pair.of(String.format("/error.html", apiPrefix), "GET"),
                 Pair.of(String.format("/error.html", apiPrefix), "OPTIONS"),
 
-                Pair.of(String.format("%s/api/v1/bouquet", apiPrefix), HttpMethod.GET.name()),
-                Pair.of(String.format("%s/api/v1/bouquet/**", apiPrefix), HttpMethod.GET.name()),
-                Pair.of(String.format("%s/api/v1/bouquet/**", apiPrefix), HttpMethod.POST.name()),
-                Pair.of(String.format("%s/api/v1/bouquet/**", apiPrefix), HttpMethod.PUT.name()),
-                Pair.of(String.format("%s/api/v1/bouquet/**", apiPrefix), HttpMethod.DELETE.name()),
+                //bouquet
+                Pair.of(String.format("%s/api/v1/bouquets/active", apiPrefix), "GET"),
+                Pair.of(String.format("%s/api/v1/bouquets/active", apiPrefix), "OPTIONS"),
 
-                Pair.of(String.format("%s/api/v1/promotion", apiPrefix), HttpMethod.GET.name()),
-                Pair.of(String.format("%s/api/v1/promotion/**", apiPrefix), HttpMethod.GET.name()),
-                Pair.of(String.format("%s/api/v1/promotion/**", apiPrefix), HttpMethod.POST.name()),
-                Pair.of(String.format("%s/api/v1/promotion/**", apiPrefix), HttpMethod.PUT.name()),
-                Pair.of(String.format("%s/api/v1/promotion/**", apiPrefix), HttpMethod.DELETE.name())
+                //promotion
+                Pair.of(String.format("%s/api/v1/promotions/active", apiPrefix), "GET"),
+                Pair.of(String.format("%s/api/v1/promotions/active", apiPrefix), "OPTIONS"),
+
+                //chatbot
+                Pair.of(String.format("%s/api/v1/chatbot/message", apiPrefix), "POST"),
+                Pair.of(String.format("%s/api/v1/chatbot/message", apiPrefix), "OPTIONS"),
+                Pair.of(String.format("%s/api/v1/chatbot/history/**", apiPrefix), "GET"),
+                Pair.of(String.format("%s/api/v1/chatbot/history/**", apiPrefix), "OPTIONS")
 
         );
 

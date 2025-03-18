@@ -39,6 +39,8 @@ public interface IOrderService {
                              BigDecimal maxPrice,
                              String status,
                              Long userId,
+                             String userName,
+                             String phone,
                              Pageable pageable);
 
     OrderResponse convertToOrderResponse(Order order);

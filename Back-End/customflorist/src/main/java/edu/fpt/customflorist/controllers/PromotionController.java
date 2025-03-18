@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/promotions")
+@RequestMapping("${api.prefix}/api/v1/promotions")
 @RequiredArgsConstructor
 public class PromotionController {
     private final PromotionService promotionService;
