@@ -110,6 +110,10 @@ public class OrderService implements IOrderService{
             throw new IllegalStateException("Cannot update order as it is already " + order.getStatus());
         }
 
+        if (status.getStatus() == Status.CANCELLED) {
+            order.setReason(status.getReason());
+        }
+
         order.setStatus(status.getStatus());
         orderRepository.save(order);
     }
@@ -183,6 +187,7 @@ public class OrderService implements IOrderService{
                 .promotionId(order.getPromotion() != null ? order.getPromotion().getPromotionId() : null)
                 .orderDate(order.getOrderDate())
                 .status(order.getStatus().name())
+                .reason(order.getReason())
                 .totalPrice(order.getTotalPrice())
                 .phone(order.getUser().getPhone())
                 .shippingAddress(order.getShippingAddress())

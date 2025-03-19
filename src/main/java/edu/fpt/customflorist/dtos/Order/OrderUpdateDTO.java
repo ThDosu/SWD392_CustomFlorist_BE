@@ -12,4 +12,5 @@ public class OrderUpdateDTO {
             example = "Available values: PENDING, PROCESSING, SHIPPED, DELIVERED, CANCELLED"
     )
     Status status;
+    String reason;
 }
