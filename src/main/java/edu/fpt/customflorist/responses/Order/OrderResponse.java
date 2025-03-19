@@ -25,6 +25,7 @@ public class OrderResponse {
     private String phone;
     private String shippingAddress;
     private Boolean isActive;
+    private String reason;
     private List<OrderItemResponse> orderItems;
     private List<DeliveryHistoryResponse> deliveryHistories;
 }

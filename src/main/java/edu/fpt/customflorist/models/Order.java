@@ -30,6 +30,9 @@ public class Order {
     @Column(nullable = false)
     private LocalDateTime orderDate;
 
+    @Column(nullable = true)
+    private String reason;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Status status;
@@ -46,7 +49,7 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<DeliveryHistory> deliveryHistories = new ArrayList<>();
 
 }
