@@ -6,10 +6,166 @@
   <component name="ChangeListManager">
     <list default="true" id="94b8da7f-ee37-4b48-a1e7-ec4ccd2d5783" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/controllers/TestAPI/AuthEmailController.java" beforeDir="false" afterPath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/controllers/TestAPI/AuthEmailController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/controllers/TestAPI/AuthEmailController.java" beforeDir="false" afterPath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/controllers/TestAPI/AuthEmailController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/models/Enums/DeliveryStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/models/Enums/DeliveryStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/services/DeliveryHistory/DeliveryHistoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/services/DeliveryHistory/DeliveryHistoryService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/CustomFloristApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/components/JwtTokenUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/components/RandomStringGenerator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/components/VnpayUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/configurations/FirebaseConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/configurations/GoogleOpaqueTokenIntrospector.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/configurations/SecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/configurations/SwaggerApiConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/configurations/VnpayConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/configurations/WebClientConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/configurations/WebSecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/controllers/AuthController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/controllers/AuthEmailController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/controllers/BouquetController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/controllers/CategoryController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/controllers/ChatbotController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/controllers/DeliveryHistoryController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/controllers/FeedbackController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/controllers/FlowerController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/controllers/ImageController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/controllers/OrderController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/controllers/PaymentController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/controllers/PromotionController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/controllers/StatisticController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/controllers/UserController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/dtos/Bouquet/BouquetCompositionDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/dtos/Bouquet/BouquetCompositionRequestDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/dtos/Bouquet/BouquetDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/dtos/Bouquet/BouquetRequestDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/dtos/Category/CategoryDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/dtos/ChatBot/ChatMessageDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/dtos/ChatBot/ChatRequestDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/dtos/ChatBot/ChatResponseDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/dtos/DeliveryHistory/DeleteDeliveryHistoryDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/dtos/DeliveryHistory/DeliveryHistoryDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/dtos/DeliveryHistory/UpdateDeliveryHistoryDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/dtos/Feedback/DeleteFeedbackDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/dtos/Feedback/FeedbackDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/dtos/Feedback/UpdateFeedbackDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/dtos/Flower/FlowerDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/dtos/Order/OrderBouquetFlowerDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/dtos/Order/OrderDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/dtos/Order/OrderItemDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/dtos/Order/OrderUpdateDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/dtos/Payment/PaymentDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/dtos/Promotion/PromotionDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/dtos/User/TokenDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/dtos/User/UpdateRoleAccountDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/dtos/User/UpdateUserDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/dtos/User/UrlDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/dtos/User/UserDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/dtos/User/UserInfo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/dtos/User/UserLoginDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/exceptions/DataNotFoundException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/exceptions/ExpiredTokenException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/exceptions/GlobalExceptionHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/exceptions/InvalidParamException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/exceptions/InvalidPasswordException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/exceptions/PermissionDenyException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/exceptions/PhoneNumberExistsException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/exceptions/UserException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/filters/JwtTokenFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/models/Bouquet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/models/BouquetComposition.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/models/Category.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/models/ChatMessage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/models/ChatSession.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/models/ChatbotAI.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/models/DeliveryHistory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/models/DeliveryStatusHistory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/models/Enums/AccountStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/models/Enums/DeliveryStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/models/Enums/Gender.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/models/Enums/PaymentMethod.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/models/Enums/PaymentStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/models/Enums/Role.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/models/Enums/Status.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/models/Feedback.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/models/Flower.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/models/Order.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/models/OrderBouquetFlower.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/models/OrderItem.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/models/Payment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/models/Promotion.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/models/PromotionManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/models/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/repositories/BouquetCompositionRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/repositories/BouquetRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/repositories/CategoryRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/repositories/ChatMessageRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/repositories/ChatSessionRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/repositories/DeliveryHistoryRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/repositories/DeliveryStatusHistoryRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/repositories/FeedbackRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/repositories/FlowerRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/repositories/OrderBouquetFlowerRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/repositories/OrderItemRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/repositories/OrderRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/repositories/PaymentRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/repositories/PromotionManagerRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/repositories/PromotionRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/repositories/UserRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/responses/Category/CategoryResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/responses/DeliveryHistory/DeliveryHistoryResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/responses/DeliveryHistory/DeliveryStatusHistoryResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/responses/Feedback/FeedbackResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/responses/Order/OrderBouquetFlowerResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/responses/Order/OrderItemResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/responses/Order/OrderResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/responses/Payment/VnpayResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/responses/ResponseObject.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/responses/Statistic/MonthlyStatisticsResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/responses/Statistic/ProductStatistics.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/responses/Statistic/StatisticsResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/responses/Temp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/responses/User/CustomerResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/services/AIChatBot/AIChatbotService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/services/Bouquet/BouquetService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/services/Bouquet/IBouquetService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/services/Category/CategoryService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/services/Category/ICategoryService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/services/ChatBot/ChatbotService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/services/ChatBot/IChatBotService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/services/DeliveryHistory/DeliveryHistoryService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/services/DeliveryHistory/IDeliveryHistoryService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/services/Email/EmailService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/services/Email/IEmailService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/services/Feedback/FeedbackService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/services/Feedback/IFeedbackService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/services/Flower/FlowerService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/services/Flower/IFlowerService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/services/Order/IOrderService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/services/Order/OrderService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/services/Payment/IPaymentService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/services/Payment/PaymentService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/services/Promotion/IPromotionService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/services/Promotion/PromotionService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/services/Statistic/IStatisticService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/services/Statistic/StatisticService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/services/User/IUserService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/services/User/UserService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/utils/MessageKeys.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/utils/WebUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/resources/static/error.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/resources/static/payment-fail.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/resources/static/payment-success.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/resources/swd392-customflorist-firebase-key.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/resources/templates/login-failure.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/resources/templates/login-success.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/resources/templates/login.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/main/resources/templates/reset-password.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/customflorist/src/test/java/edu/fpt/customflorist/CustomfloristApplicationTests.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,8 +178,8 @@
         <option value="Dockerfile" />
         <option value="Enum" />
         <option value="Record" />
-        <option value="Interface" />
         <option value="HTML File" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -57,25 +213,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.CustomFloristApplication.executor": "Run",
-    "Application.CustomfloristApplication.executor": "Run",
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "ManhCuong",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "E:/test_PE/backend",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.CustomFloristApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.CustomfloristApplication.executor&quot;: &quot;Run&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;ManhCuong&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/test_PE/SWD392_CustomFlorist_BE/Back-End/customflorist/src/main/java/edu/fpt/customflorist/services&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\test_PE\SWD392_CustomFlorist_BE\Back-End\customflorist\src\main\java\edu\fpt\customflorist\services" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\test_PE\SWD392_CustomFlorist_BE\Back-End\customflorist" />
+      <recent name="E:\test_PE\SWD392_CustomFlorist_BE\Back-End\customflorist\src\main\resources" />
       <recent name="E:\test_PE\SWD392_CustomFlorist_BE\Back-End\customflorist\src\main\resources\static" />
     </key>
   </component>
@@ -111,6 +272,28 @@
     <servers />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/controllers/FlowerController.java</url>
+          <line>54</line>
+          <properties class="edu.fpt.customflorist.controllers.FlowerController" method="updateFlower">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/customflorist/src/main/java/edu/fpt/customflorist/controllers/OrderController.java</url>
+          <line>227</line>
+          <properties class="edu.fpt.customflorist.controllers.OrderController" method="getAllOrders">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="org.springframework.security.authentication.AnonymousAuthenticationToken" memberName="principal" />
