@@ -20,9 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -37,7 +35,7 @@ public class OrderService implements IOrderService{
 
     @Override
     public Order createOrder(OrderDTO orderDTO) throws DataNotFoundException {
-        List<OrderItem> orderItems = new ArrayList<>();
+        Set<OrderItem> orderItems = new HashSet<>();
         List<OrderBouquetFlower> orderBouquetFlowers = new ArrayList<>();
 
         User user = userRepository.findById(orderDTO.getUserId())
@@ -130,7 +128,7 @@ public class OrderService implements IOrderService{
 
     @Override
     public Order getOrderById(Long orderId) throws DataNotFoundException {
-        return orderRepository.findById(orderId)
+        return orderRepository.findByIdWithDetails(orderId)
                 .orElseThrow(() -> new DataNotFoundException("Order not found"));
     }
 

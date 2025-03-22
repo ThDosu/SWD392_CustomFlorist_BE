@@ -15,8 +15,12 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
+        order_inserts: true
+        order_updates: true
         dialect: org.hibernate.dialect.MySQLDialect
         format_sql: true
+        jdbc:
+          batch_size: 10
   security:
     oauth2:
       resourceserver:
