@@ -44,7 +44,11 @@ public class PaymentController {
         return ResponseEntity.ok(ResponseObject.builder()
                 .message("Payment page")
                 .status(HttpStatus.OK)
-                .data(vnpayResponse)
+                .data(VnpayResponse.builder()
+                        .code(paymentDTO.getBankCode())
+                        .orderId(paymentDTO.getOrderId().toString())
+                        .paymentUrl(vnpayResponse)
+                        .build())
                 .build());
     }
 
