@@ -44,6 +44,6 @@ public class Bouquet {
     private List<OrderItem> orderItems;
 
     @OneToMany(mappedBy = "bouquet", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<BouquetComposition> compositions;
-
 }
