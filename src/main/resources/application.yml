@@ -50,8 +50,8 @@ open:
     title: Custom Florist API
     version: 1.0.0
     description: Meta API service
-    serverUrl: https://custom-florist.onrender.com
-#    serverUrl: http://localhost:8080
+#    serverUrl: https://custom-florist.onrender.com
+    serverUrl: http://localhost:8080
     serverName: server test
 payment:
   vnpay:

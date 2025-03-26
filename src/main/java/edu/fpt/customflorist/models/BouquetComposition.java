@@ -1,5 +1,6 @@
 package edu.fpt.customflorist.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ public class BouquetComposition {
 
     @ManyToOne
     @JoinColumn(name = "bouquet_id", nullable = false)
+    @JsonBackReference
     private Bouquet bouquet;
 
     @ManyToOne
@@ -29,6 +31,9 @@ public class BouquetComposition {
 
     @Column(nullable = true)
     private Integer maxQuantity;
+
+    @Column(nullable = false)
+    private Integer quantity;
 
     @Column(nullable = false)
     private Boolean isActive;
