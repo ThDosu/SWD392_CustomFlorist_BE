@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface IBouquetService {
     List<BouquetDTO> getAllBouquets();
+    List<BouquetDTO> getAllActiveBouquets();
     BouquetDTO getBouquetById(Long id) throws DataNotFoundException;
     BouquetDTO createBouquet(BouquetRequestDTO bouquetDTO) throws DataNotFoundException;
     BouquetDTO updateBouquet(Long id, BouquetRequestDTO bouquetDTO) throws DataNotFoundException;
