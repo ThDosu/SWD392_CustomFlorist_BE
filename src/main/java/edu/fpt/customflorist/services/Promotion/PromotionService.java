@@ -18,35 +18,35 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class PromotionService {
+public class PromotionService implements IPromotionService {
     private final PromotionRepository promotionRepository;
     private final BouquetRepository bouquetRepository;
-
+    @Override
     public List<PromotionDTO> getAllPromotions() {
         return promotionRepository.findAll().stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
-
+    @Override
     public List<PromotionDTO> getActivePromotions() {
         LocalDate now = LocalDate.now();
-        return promotionRepository.findByIsActiveTrueAndValidFromBeforeAndValidToAfter(now, now).stream()
+        return promotionRepository.findPromotions(now).stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
-
+    @Override
     public PromotionDTO getPromotionById(Long id) throws DataNotFoundException {
         Promotion promotion = promotionRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Promotion not found with id: " + id));
         return convertToDTO(promotion);
     }
-
+    @Override
     public PromotionDTO findPromotionByCode(String code) throws DataNotFoundException{
         Promotion promotion = promotionRepository.findByPromotionCode(code)
                 .orElseThrow(() -> new DataNotFoundException("Promotion not found with code: " + code));
         return convertToDTO(promotion);
     }
-
+    @Override
     @Transactional
     public PromotionDTO createPromotion(PromotionDTO promotionDTO) {
         Promotion promotion = new Promotion();
@@ -66,7 +66,7 @@ public class PromotionService {
         Promotion savedPromotion = promotionRepository.save(promotion);
         return convertToDTO(savedPromotion);
     }
-
+    @Override
     @Transactional
     public PromotionDTO updatePromotion(Long id, PromotionDTO promotionDTO) throws DataNotFoundException {
         Promotion promotion = promotionRepository.findById(id)
@@ -90,7 +90,7 @@ public class PromotionService {
         Promotion updatedPromotion = promotionRepository.save(promotion);
         return convertToDTO(updatedPromotion);
     }
-
+    @Override
     @Transactional
     public void deletePromotion(Long id) throws DataNotFoundException {
         Promotion promotion = promotionRepository.findById(id)
