@@ -21,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.FieldError;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +29,7 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("${api.prefix}/api/v1/users")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"*", "http://localhost:3000", "https://yourflorist.vercel.app"})
 public class UserController {
     private final IUserService userService;
 
@@ -86,27 +87,31 @@ public class UserController {
     }
 
     @GetMapping("/verify")
-    public ResponseEntity<?> verifyAccount(@RequestParam("code") String verificationCode) {
+    public RedirectView verifyAccount(@RequestParam("code") String verificationCode) {
+        RedirectView redirectView = new RedirectView();
+
         try {
             userService.verifyAccount(verificationCode);
-            return ResponseEntity.ok(ResponseObject.builder()
-                    .message("Account verified successfully!")
-                    .data(null)
-                    .status(HttpStatus.OK)
-                    .build());
+            redirectView = new RedirectView("/verify-success.html");
+//            return ResponseEntity.ok(ResponseObject.builder()
+//                    .message("Account verified successfully!")
+//                    .data(null)
+//                    .status(HttpStatus.OK)
+//                    .build());
         } catch (DataNotFoundException e) {
-            return ResponseEntity.badRequest().body(ResponseObject.builder()
-                    .message("The verification code is invalid or has already been used.")
-                    .data(null)
-                    .status(HttpStatus.BAD_REQUEST)
-                    .build());
+//            return ResponseEntity.badRequest().body(ResponseObject.builder()
+//                    .message("The verification code is invalid or has already been used.")
+//                    .data(null)
+//                    .status(HttpStatus.BAD_REQUEST)
+//                    .build());
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(ResponseObject.builder()
-                    .message("An error occurred while verifying the account.")
-                    .data(null)
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .build());
+//            return ResponseEntity.internalServerError().body(ResponseObject.builder()
+//                    .message("An error occurred while verifying the account.")
+//                    .data(null)
+//                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .build());
         }
+        return redirectView;
     }
 
     @PostMapping("/reset-password/request")
@@ -122,15 +127,20 @@ public class UserController {
     }
 
     @PostMapping("/reset-password/confirm")
-    public ResponseEntity<ResponseObject> confirmResetPassword(@RequestParam String token, @RequestParam String newPassword) {
+    public RedirectView confirmResetPassword(@RequestParam String token, @RequestParam String newPassword) {
+        RedirectView redirectView = new RedirectView();
+
         try {
             userService.confirmResetPassword(token, newPassword);
-            return ResponseEntity.ok(new ResponseObject(
-                    "Password has been reset successfully.", HttpStatus.OK, null));
+            redirectView = new RedirectView("/reset-password-success.html");
+//            return ResponseEntity.ok(new ResponseObject(
+//                    "Password has been reset successfully.", HttpStatus.OK, null));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(new ResponseObject(
-                    e.getMessage(), HttpStatus.BAD_REQUEST, null));
+//            return ResponseEntity.badRequest().body(new ResponseObject(
+//                    e.getMessage(), HttpStatus.BAD_REQUEST, null));
         }
+
+        return redirectView;
     }
 
     @GetMapping

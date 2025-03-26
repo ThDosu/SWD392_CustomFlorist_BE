@@ -30,7 +30,7 @@ import java.util.UUID;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("${api.prefix}/api/v1/images")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"*", "http://localhost:3000", "https://yourflorist.vercel.app"})
 public class ImageController {
 
     private FirebaseApp firebaseApp;

@@ -14,6 +14,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("${api.prefix}/api/v1/promotions")
 @RequiredArgsConstructor
+@CrossOrigin(origins = {"*", "http://localhost:3000", "https://yourflorist.vercel.app"})
 public class PromotionController {
     private final PromotionService promotionService;
 

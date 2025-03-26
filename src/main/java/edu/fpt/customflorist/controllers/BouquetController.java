@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("${api.prefix}/api/v1/bouquets")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"*", "http://localhost:3000", "https://yourflorist.vercel.app"})
 public class BouquetController {
     private final BouquetService bouquetService;
 

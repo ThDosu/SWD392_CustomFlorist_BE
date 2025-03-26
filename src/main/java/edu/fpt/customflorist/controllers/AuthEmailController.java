@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/auth")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"*", "http://localhost:3000", "https://yourflorist.vercel.app"})
 public class AuthEmailController {
 
     @GetMapping("/reset-password")
