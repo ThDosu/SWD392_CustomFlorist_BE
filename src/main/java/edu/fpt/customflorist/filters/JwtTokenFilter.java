@@ -127,7 +127,6 @@ public class JwtTokenFilter extends OncePerRequestFilter{
                 //bouquet
                 Pair.of(String.format("%s/api/v1/bouquets/active", apiPrefix), "GET"),
                 Pair.of(String.format("%s/api/v1/bouquets/active", apiPrefix), "OPTIONS"),
-
                 //promotion
                 Pair.of(String.format("%s/api/v1/promotions/active", apiPrefix), "GET"),
                 Pair.of(String.format("%s/api/v1/promotions/active", apiPrefix), "OPTIONS"),

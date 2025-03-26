@@ -141,7 +141,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 
                             .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/bouquets", apiPrefix)).hasAnyRole("ADMIN", "MANAGER")
                             .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/bouquets/active", apiPrefix)).permitAll()
-                            .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/bouquets/*", apiPrefix)).permitAll()
+                            .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/bouquets/**", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.POST, String.format("%s/api/v1/bouquets", apiPrefix)).hasAnyRole("ADMIN", "MANAGER")
                             .requestMatchers(HttpMethod.PUT, String.format("%s/api/v1/bouquets/**", apiPrefix)).hasAnyRole("ADMIN", "MANAGER")
                             .requestMatchers(HttpMethod.DELETE, String.format("%s/api/v1/bouquets/**", apiPrefix)).hasAnyRole("ADMIN", "MANAGER")

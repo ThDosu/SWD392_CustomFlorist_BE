@@ -10,4 +10,5 @@ public class BouquetCompositionRequestDTO {
     private Integer minQuantity;
     private Integer maxQuantity;
     private Integer quantity;
+    private Boolean isActive;
 }

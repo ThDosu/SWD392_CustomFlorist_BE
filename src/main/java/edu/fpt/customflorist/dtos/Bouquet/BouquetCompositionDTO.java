@@ -6,6 +6,8 @@ import lombok.Data;
 public class BouquetCompositionDTO {
     private Long id;
     private Long flowerId;
-    private String flowerName;
+    private Integer minQuantity;
+    private Integer maxQuantity;
     private Integer quantity;
+    private Boolean isActive;
 }

@@ -1,6 +1,7 @@
 package edu.fpt.customflorist.controllers;
 
 import edu.fpt.customflorist.dtos.Bouquet.BouquetDTO;
+import edu.fpt.customflorist.dtos.Bouquet.BouquetRequestDTO;
 import edu.fpt.customflorist.exceptions.DataNotFoundException;
 import edu.fpt.customflorist.services.Bouquet.BouquetService;
 import lombok.RequiredArgsConstructor;
@@ -28,22 +29,22 @@ public class BouquetController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BouquetDTO> getBouquetById(@PathVariable Long id) throws DataNotFoundException {
+    public ResponseEntity<BouquetDTO> getBouquetById(@PathVariable("id") Long id) throws DataNotFoundException {
         return ResponseEntity.ok(bouquetService.getBouquetById(id));
     }
 
     @PostMapping
-    public ResponseEntity<BouquetDTO> createBouquet(@RequestBody BouquetDTO bouquetDTO) throws DataNotFoundException {
+    public ResponseEntity<BouquetDTO> createBouquet(@RequestBody BouquetRequestDTO bouquetDTO) throws DataNotFoundException {
         return new ResponseEntity<>(bouquetService.createBouquet(bouquetDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BouquetDTO> updateBouquet(@PathVariable Long id, @RequestBody BouquetDTO bouquetDTO) throws DataNotFoundException{
+    public ResponseEntity<BouquetDTO> updateBouquet(@PathVariable("id") Long id, @RequestBody BouquetRequestDTO bouquetDTO) throws DataNotFoundException{
         return ResponseEntity.ok(bouquetService.updateBouquet(id, bouquetDTO));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBouquet(@PathVariable Long id) throws DataNotFoundException {
+    public ResponseEntity<Void> deleteBouquet(@PathVariable("id") Long id) throws DataNotFoundException {
         bouquetService.deleteBouquet(id);
         return ResponseEntity.noContent().build();
     }
