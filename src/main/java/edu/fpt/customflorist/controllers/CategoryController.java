@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("${api.prefix}/api/v1/categories")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"*", "http://localhost:3000", "https://yourflorist.vercel.app"})
 public class CategoryController {
     private final ICategoryService categoryService;
 

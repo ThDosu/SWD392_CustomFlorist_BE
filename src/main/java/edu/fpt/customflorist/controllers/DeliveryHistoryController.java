@@ -25,7 +25,7 @@ import java.time.LocalDateTime;
 @RestController
 @RequestMapping("${api.prefix}/api/v1/delivery-histories")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"*", "http://localhost:3000", "https://yourflorist.vercel.app"})
 public class DeliveryHistoryController {
     private final IDeliveryHistoryService deliveryHistoryService;
 

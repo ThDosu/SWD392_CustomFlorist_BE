@@ -94,7 +94,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                             .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/payment", apiPrefix)).permitAll()
                             .requestMatchers(HttpMethod.POST, String.format("%s/api/v1/payment/vn-pay", apiPrefix)).permitAll()
 
-                            .requestMatchers("/payment-fail.html", "/payment-success.html","/error.html")
+                            .requestMatchers("/payment-fail.html", "/payment-success.html","/error.html", "/verify-success.html", "/reset-password-success.html")
                             .permitAll()
 
                             .requestMatchers(HttpMethod.GET, String.format("%s/api/v1/categories", apiPrefix)).hasAnyRole("ADMIN", "MANAGER")
@@ -172,7 +172,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                     @Override
                     public void customize(CorsConfigurer<HttpSecurity> httpSecurityCorsConfigurer) {
                         CorsConfiguration configuration = new CorsConfiguration();
-                        configuration.setAllowedOrigins(List.of("*", "http://localhost:3000", "http://localhost:4300", "http://localhost:4200"));
+                        configuration.setAllowedOrigins(List.of("*", "https://yourflorist.vercel.app","http://localhost:3000", "http://localhost:4300", "http://localhost:4200"));
                         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
                         configuration.setAllowedHeaders(Arrays.asList(
                                 "Authorization", "authorization", "content-type", "x-auth-token", "accept",

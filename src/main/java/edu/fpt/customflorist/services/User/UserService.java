@@ -43,7 +43,8 @@ public class UserService implements IUserService {
     private final Role roleDefault = Role.CUSTOMER;
     private final AccountStatus accountStatusDefault = AccountStatus.ACTIVE;
     private final RestTemplate restTemplate = new RestTemplate();
-    private final String linkPageResetPassword = "http://localhost:8080/auth/reset-password";
+//    private final String linkPageResetPassword = "http://localhost:8080/auth/reset-password";
+    private final String linkPageResetPassword = "https://custom-florist.onrender.com/auth/reset-password";
 
     @Override
     public User createUser(UserDTO userDTO) throws Exception {
@@ -124,15 +125,32 @@ public class UserService implements IUserService {
 
         String resetLink = linkPageResetPassword + "?token=" + resetToken;
         String subject = "Password Reset Request";
-        String content = "Hi " + user.getName() + ",<br><br>"
-                + "We received a request to reset your password. Click the link below to reset it:<br>"
-                + "<a href=\"" + resetLink + "\">Reset Password</a><br><br>"
-                + "If you didn’t request a password reset, please ignore this email.<br><br>"
-                + "Best regards,<br>"
-                + "Custom Florist Team";
+
+        String content = "<html>"
+                + "<head>"
+                + "<style>"
+                + "body { font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; }"
+                + ".container { background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }"
+                + "h1 { color: #007bff; }"
+                + "p { color: #333; line-height: 1.6; }"
+                + ".link { background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block; margin-top: 20px; }"
+                + ".link:hover { background-color: #0056b3; }"
+                + ".team { font-style: italic; color: #777; }"
+                + "</style>"
+                + "</head>"
+                + "<body>"
+                + "<div class='container'>"
+                + "<h1>Password Reset Request</h1>"
+                + "<p>Hi " + user.getName() + ",</p>"
+                + "<p>We received a request to reset your password. Click the link below to reset it:</p>"
+                + "<a href='" + resetLink + "' class='link'>Reset Password</a>"
+                + "<p>If you didn’t request a password reset, please ignore this email.</p>"
+                + "<p class='team'>Best regards,<br>Custom Florist Team</p>"
+                + "</div>"
+                + "</body>"
+                + "</html>";
 
         emailService.sendEmail(user.getEmail(), subject, content);
-
     }
 
     @Override

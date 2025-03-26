@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("${api.prefix}/api/v1/statistic")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"*", "http://localhost:3000", "https://yourflorist.vercel.app"})
 @RequiredArgsConstructor
 public class StatisticController {
     private final IStatisticService statisticService;

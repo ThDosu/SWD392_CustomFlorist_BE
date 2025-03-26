@@ -50,12 +50,13 @@ open:
     title: Custom Florist API
     version: 1.0.0
     description: Meta API service
+#    serverUrl: https://custom-florist.onrender.com
     serverUrl: http://localhost:8080
     serverName: server test
 payment:
   vnpay:
     url: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
-    returnUrl: http://localhost:8080/custom-florist/api/v1/payment/vn-pay-callback
+    returnUrl: https://custom-florist.onrender.com/custom-florist/api/v1/payment/vn-pay-callback
     tmnCode: ${VNPAY_TMN_CODE:07IVPW62}
     secretKey: ${VNPAY_SECRET_KEY:6LGP36DS9S6IYW5R523GNZRK9E6X7216}
     version: 2.1.0

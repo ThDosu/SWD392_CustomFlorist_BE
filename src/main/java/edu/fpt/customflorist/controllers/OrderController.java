@@ -27,7 +27,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("${api.prefix}/api/v1/orders")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"*", "http://localhost:3000", "https://yourflorist.vercel.app"})
 @RequiredArgsConstructor
 public class OrderController {
     private final IOrderService orderService;
