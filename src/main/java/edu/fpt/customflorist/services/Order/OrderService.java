@@ -149,7 +149,7 @@ public class OrderService implements IOrderService{
 
     @Transactional
     @Override
-    public Page<Order> getAllOrdersActiveFoDelivery(LocalDateTime minOrderDate, LocalDateTime maxOrderDate, BigDecimal minPrice, BigDecimal maxPrice, String statusStr, Pageable pageable) {
+    public Page<Order> getAllOrdersActiveFoDelivery(LocalDateTime minOrderDate, LocalDateTime maxOrderDate, BigDecimal minPrice, BigDecimal maxPrice, String statusStr, String customerName, Pageable pageable) {
         Status status = null;
         if (statusStr != null && !statusStr.isEmpty()) {
             try {
@@ -158,7 +158,7 @@ public class OrderService implements IOrderService{
                 throw new IllegalArgumentException("Invalid status: " + statusStr);
             }
         }
-        return orderRepository.findActiveByFilters(minOrderDate, maxOrderDate, minPrice, maxPrice, status, pageable);
+        return orderRepository.findActiveByFilters(minOrderDate, maxOrderDate, minPrice, maxPrice, status, customerName, pageable);
     }
 
     @Transactional

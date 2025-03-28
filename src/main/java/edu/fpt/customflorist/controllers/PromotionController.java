@@ -2,6 +2,7 @@ package edu.fpt.customflorist.controllers;
 
 import edu.fpt.customflorist.dtos.Promotion.PromotionDTO;
 import edu.fpt.customflorist.exceptions.DataNotFoundException;
+import edu.fpt.customflorist.responses.ResponseObject;
 import edu.fpt.customflorist.services.Promotion.PromotionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,39 +20,88 @@ public class PromotionController {
     private final PromotionService promotionService;
 
     @GetMapping
-    public ResponseEntity<List<PromotionDTO>> getAllPromotions() {
-        return ResponseEntity.ok(promotionService.getAllPromotions());
+    public ResponseEntity<ResponseObject> getAllPromotions() {
+        List<PromotionDTO> promotions = promotionService.getAllPromotions();
+        return ResponseEntity.ok(
+                ResponseObject.builder()
+                        .message("Get all promotions successfully")
+                        .data(promotions)
+                        .status(HttpStatus.OK)
+                        .build()
+        );
     }
 
     @GetMapping("/active")
-    public ResponseEntity<List<PromotionDTO>> getActivePromotions() {
-        return ResponseEntity.ok(promotionService.getActivePromotions());
+    public ResponseEntity<ResponseObject> getActivePromotions() {
+        List<PromotionDTO> promotions = promotionService.getActivePromotions();
+        return ResponseEntity.ok(
+                ResponseObject.builder()
+                        .message("Get active promotions successfully")
+                        .data(promotions)
+                        .status(HttpStatus.OK)
+                        .build()
+        );
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PromotionDTO> getPromotionById(@PathVariable Long id) throws DataNotFoundException {
-        return ResponseEntity.ok(promotionService.getPromotionById(id));
+    public ResponseEntity<ResponseObject> getPromotionById(@PathVariable Long id) throws DataNotFoundException {
+        PromotionDTO promotion = promotionService.getPromotionById(id);
+        return ResponseEntity.ok(
+                ResponseObject.builder()
+                        .message("Get promotion by id successfully")
+                        .data(promotion)
+                        .status(HttpStatus.OK)
+                        .build()
+        );
     }
 
     @GetMapping("/code/{code}")
-    public ResponseEntity<PromotionDTO> getPromotionByCode(@PathVariable String code) throws DataNotFoundException {
-        return ResponseEntity.ok(promotionService.findPromotionByCode(code));
+    public ResponseEntity<ResponseObject> getPromotionByCode(@PathVariable String code) throws DataNotFoundException {
+        PromotionDTO promotion = promotionService.findPromotionByCode(code);
+        return ResponseEntity.ok(
+                ResponseObject.builder()
+                        .message("Get promotion by code successfully")
+                        .data(promotion)
+                        .status(HttpStatus.OK)
+                        .build()
+        );
     }
 
     @PostMapping
-    public ResponseEntity<PromotionDTO> createPromotion(@RequestBody PromotionDTO promotionDTO) {
-        return new ResponseEntity<>(promotionService.createPromotion(promotionDTO), HttpStatus.CREATED);
+    public ResponseEntity<ResponseObject> createPromotion(@RequestBody PromotionDTO promotionDTO) {
+        PromotionDTO createdPromotion = promotionService.createPromotion(promotionDTO);
+        return new ResponseEntity<>(
+                ResponseObject.builder()
+                        .message("Create promotion successfully")
+                        .data(createdPromotion)
+                        .status(HttpStatus.CREATED)
+                        .build(),
+                HttpStatus.CREATED
+        );
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PromotionDTO> updatePromotion(@PathVariable Long id, @RequestBody PromotionDTO promotionDTO) throws DataNotFoundException {
-        return ResponseEntity.ok(promotionService.updatePromotion(id, promotionDTO));
+    public ResponseEntity<ResponseObject> updatePromotion(@PathVariable Long id, @RequestBody PromotionDTO promotionDTO) throws DataNotFoundException {
+        PromotionDTO updatedPromotion = promotionService.updatePromotion(id, promotionDTO);
+        return ResponseEntity.ok(
+                ResponseObject.builder()
+                        .message("Update promotion successfully")
+                        .data(updatedPromotion)
+                        .status(HttpStatus.OK)
+                        .build()
+        );
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePromotion(@PathVariable Long id) throws DataNotFoundException {
+    public ResponseEntity<ResponseObject> deletePromotion(@PathVariable Long id) throws DataNotFoundException {
         promotionService.deletePromotion(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(
+                ResponseObject.builder()
+                        .message("Delete promotion successfully")
+                        .data(null)
+                        .status(HttpStatus.NO_CONTENT)
+                        .build()
+        );
     }
 
 //    @PostMapping("/apply")

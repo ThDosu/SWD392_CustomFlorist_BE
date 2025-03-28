@@ -13,6 +13,9 @@ import lombok.*;
 @Getter
 @Setter
 public class CategoryDTO {
+
+    private Long categoryId;
+
     @JsonProperty("name")
     @NotBlank(message = "Name is mandatory")
     private String name;

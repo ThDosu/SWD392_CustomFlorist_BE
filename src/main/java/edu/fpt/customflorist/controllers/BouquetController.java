@@ -3,6 +3,7 @@ package edu.fpt.customflorist.controllers;
 import edu.fpt.customflorist.dtos.Bouquet.BouquetDTO;
 import edu.fpt.customflorist.dtos.Bouquet.BouquetRequestDTO;
 import edu.fpt.customflorist.exceptions.DataNotFoundException;
+import edu.fpt.customflorist.responses.ResponseObject;
 import edu.fpt.customflorist.services.Bouquet.BouquetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,33 +20,75 @@ public class BouquetController {
     private final BouquetService bouquetService;
 
     @GetMapping
-    public ResponseEntity<List<BouquetDTO>> getAllBouquets() {
-        return ResponseEntity.ok(bouquetService.getAllBouquets());
+    public ResponseEntity<ResponseObject> getAllBouquets() {
+        List<BouquetDTO> bouquets = bouquetService.getAllBouquets();
+        return ResponseEntity.ok(
+                ResponseObject.builder()
+                        .message("Get all bouquets successfully")
+                        .data(bouquets)
+                        .status(HttpStatus.OK)
+                        .build()
+        );
     }
 
     @GetMapping("/active")
-    public ResponseEntity<List<BouquetDTO>> getAllActiveBouquets() {
-        return ResponseEntity.ok(bouquetService.getAllActiveBouquets());
+    public ResponseEntity<ResponseObject> getAllActiveBouquets() {
+        List<BouquetDTO> bouquets = bouquetService.getAllActiveBouquets();
+        return ResponseEntity.ok(
+                ResponseObject.builder()
+                        .message("Get all active bouquets successfully")
+                        .data(bouquets)
+                        .status(HttpStatus.OK)
+                        .build()
+        );
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BouquetDTO> getBouquetById(@PathVariable("id") Long id) throws DataNotFoundException {
-        return ResponseEntity.ok(bouquetService.getBouquetById(id));
+    public ResponseEntity<ResponseObject> getBouquetById(@PathVariable("id") Long id) throws DataNotFoundException {
+        BouquetDTO bouquet = bouquetService.getBouquetById(id);
+        return ResponseEntity.ok(
+                ResponseObject.builder()
+                        .message("Get bouquet by id successfully")
+                        .data(bouquet)
+                        .status(HttpStatus.OK)
+                        .build()
+        );
     }
 
     @PostMapping
-    public ResponseEntity<BouquetDTO> createBouquet(@RequestBody BouquetRequestDTO bouquetDTO) throws DataNotFoundException {
-        return new ResponseEntity<>(bouquetService.createBouquet(bouquetDTO), HttpStatus.CREATED);
+    public ResponseEntity<ResponseObject> createBouquet(@RequestBody BouquetRequestDTO bouquetDTO) throws DataNotFoundException {
+        BouquetDTO createdBouquet = bouquetService.createBouquet(bouquetDTO);
+        return new ResponseEntity<>(
+                ResponseObject.builder()
+                        .message("Create bouquet successfully")
+                        .data(createdBouquet)
+                        .status(HttpStatus.CREATED)
+                        .build(),
+                HttpStatus.CREATED
+        );
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BouquetDTO> updateBouquet(@PathVariable("id") Long id, @RequestBody BouquetRequestDTO bouquetDTO) throws DataNotFoundException{
-        return ResponseEntity.ok(bouquetService.updateBouquet(id, bouquetDTO));
+    public ResponseEntity<ResponseObject> updateBouquet(@PathVariable("id") Long id, @RequestBody BouquetRequestDTO bouquetDTO) throws DataNotFoundException {
+        BouquetDTO updatedBouquet = bouquetService.updateBouquet(id, bouquetDTO);
+        return ResponseEntity.ok(
+                ResponseObject.builder()
+                        .message("Update bouquet successfully")
+                        .data(updatedBouquet)
+                        .status(HttpStatus.OK)
+                        .build()
+        );
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBouquet(@PathVariable("id") Long id) throws DataNotFoundException {
+    public ResponseEntity<ResponseObject> deleteBouquet(@PathVariable("id") Long id) throws DataNotFoundException {
         bouquetService.deleteBouquet(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(
+                ResponseObject.builder()
+                        .message("Delete bouquet successfully")
+                        .data(null)
+                        .status(HttpStatus.NO_CONTENT)
+                        .build()
+        );
     }
 }
