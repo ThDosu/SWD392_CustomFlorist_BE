@@ -162,6 +162,7 @@ public class BouquetService implements IBouquetService {
                 .collect(Collectors.toList());
         dto.setCompositions(compositionDTOs);
         CategoryDTO categoryDTO = new CategoryDTO();
+        categoryDTO.setCategoryId(bouquet.getCategory().getCategoryId());
         categoryDTO.setName(bouquet.getCategory().getName());
         categoryDTO.setDescription(bouquet.getCategory().getDescription());
         categoryDTO.setIsActive(bouquet.getCategory().getIsActive());

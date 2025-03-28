@@ -113,12 +113,14 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
         SELECT o FROM Order o
         LEFT JOIN FETCH o.deliveryHistories dh
         LEFT JOIN FETCH o.orderItems oi
+        LEFT JOIN FETCH o.user u
         WHERE o.isActive = true
         AND (:minOrderDate IS NULL OR o.orderDate >= :minOrderDate)
         AND (:maxOrderDate IS NULL OR o.orderDate <= :maxOrderDate)
         AND (:minPrice IS NULL OR o.totalPrice >= :minPrice)
         AND (:maxPrice IS NULL OR o.totalPrice <= :maxPrice)
         AND (:status IS NULL OR o.status = :status)
+        AND (:customerName IS NULL OR u.name LIKE %:customerName%)
     """)
     Page<Order> findActiveByFilters(
             @Param("minOrderDate") LocalDateTime minOrderDate,
@@ -126,6 +128,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             @Param("minPrice") BigDecimal minPrice,
             @Param("maxPrice") BigDecimal maxPrice,
             @Param("status") Status status,
+            @Param("customerName") String customerName,
             Pageable pageable
     );
 

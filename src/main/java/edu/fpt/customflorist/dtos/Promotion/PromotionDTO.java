@@ -13,7 +13,7 @@ public class PromotionDTO {
     private LocalDate validFrom;
     private LocalDate validTo;
     private boolean isActive;
-    private Long bouquetId;
+//    private Long bouquetId;
 //    private Integer usageLimit;
 //    private Integer currentUsage;
 //    private BigDecimal minimumOrderAmount;

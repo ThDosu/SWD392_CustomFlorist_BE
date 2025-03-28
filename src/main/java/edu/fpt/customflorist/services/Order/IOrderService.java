@@ -32,6 +32,7 @@ public interface IOrderService {
                                    BigDecimal minPrice,
                                    BigDecimal maxPrice,
                                    String status,
+                                             String customerName,
                                    Pageable pageable);
     Page<Order> getAllOrders(LocalDateTime minOrderDate,
                              LocalDateTime maxOrderDate,
