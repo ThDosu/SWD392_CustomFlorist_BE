@@ -74,3 +74,7 @@ openai:
     key: "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"
     url: https://api.openai.com/v1/chat/completions
   model: gpt-3.5-turbo
+google:
+  api:
+    key: AIzaSyCkR74gqOW2JBLlL3Njy0fr0D7JxEyf8LI
+    url: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent

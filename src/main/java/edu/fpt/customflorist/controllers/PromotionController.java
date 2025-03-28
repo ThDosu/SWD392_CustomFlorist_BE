@@ -1,6 +1,7 @@
 package edu.fpt.customflorist.controllers;
 
 import edu.fpt.customflorist.dtos.Promotion.PromotionDTO;
+import edu.fpt.customflorist.dtos.Promotion.PromotionRequestDTO;
 import edu.fpt.customflorist.exceptions.DataNotFoundException;
 import edu.fpt.customflorist.responses.ResponseObject;
 import edu.fpt.customflorist.services.Promotion.PromotionService;
@@ -68,7 +69,7 @@ public class PromotionController {
     }
 
     @PostMapping
-    public ResponseEntity<ResponseObject> createPromotion(@RequestBody PromotionDTO promotionDTO) {
+    public ResponseEntity<ResponseObject> createPromotion(@RequestBody PromotionRequestDTO promotionDTO) {
         PromotionDTO createdPromotion = promotionService.createPromotion(promotionDTO);
         return new ResponseEntity<>(
                 ResponseObject.builder()
@@ -81,7 +82,7 @@ public class PromotionController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseObject> updatePromotion(@PathVariable Long id, @RequestBody PromotionDTO promotionDTO) throws DataNotFoundException {
+    public ResponseEntity<ResponseObject> updatePromotion(@PathVariable Long id, @RequestBody PromotionRequestDTO promotionDTO) throws DataNotFoundException {
         PromotionDTO updatedPromotion = promotionService.updatePromotion(id, promotionDTO);
         return ResponseEntity.ok(
                 ResponseObject.builder()
