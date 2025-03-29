@@ -2,6 +2,7 @@ package edu.fpt.customflorist.services.Promotion;
 
 import edu.fpt.customflorist.dtos.Promotion.PromotionDTO;
 import edu.fpt.customflorist.dtos.Promotion.PromotionDTO;
+import edu.fpt.customflorist.dtos.Promotion.PromotionRequestDTO;
 import edu.fpt.customflorist.exceptions.DataNotFoundException;
 import edu.fpt.customflorist.models.Bouquet;
 import edu.fpt.customflorist.models.Promotion;
@@ -48,7 +49,7 @@ public class PromotionService implements IPromotionService {
     }
     @Override
     @Transactional
-    public PromotionDTO createPromotion(PromotionDTO promotionDTO) {
+    public PromotionDTO createPromotion(PromotionRequestDTO promotionDTO) {
         Promotion promotion = new Promotion();
         promotion.setPromotionCode(promotionDTO.getCode());
         promotion.setDiscountPercentage(promotionDTO.getDiscountPercentage());
@@ -68,7 +69,7 @@ public class PromotionService implements IPromotionService {
     }
     @Override
     @Transactional
-    public PromotionDTO updatePromotion(Long id, PromotionDTO promotionDTO) throws DataNotFoundException {
+    public PromotionDTO updatePromotion(Long id, PromotionRequestDTO promotionDTO) throws DataNotFoundException {
         Promotion promotion = promotionRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Promotion not found with id: " + id));
 

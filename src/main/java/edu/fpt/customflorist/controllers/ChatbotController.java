@@ -22,8 +22,8 @@ public class ChatbotController {
         return ResponseEntity.ok(chatbotService.processMessage(request));
     }
 
-    @GetMapping("/history/{sessionId}")
-    public ResponseEntity<List<ChatMessageDTO>> getChatHistory(@PathVariable String sessionId) {
-        return ResponseEntity.ok(chatbotService.getChatHistory(sessionId));
+    @GetMapping("/history")
+    public ResponseEntity<List<ChatResponseDTO>> getChatHistory() {
+        return ResponseEntity.ok(chatbotService.getChatHistory());
     }
 }

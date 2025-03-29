@@ -14,7 +14,7 @@ public class ChatMessage {
     @ManyToOne
     @JoinColumn(name = "session_id")
     private ChatSession session;
-
+    @Lob
     private String content;
     private boolean isFromUser;
     private LocalDateTime timestamp = LocalDateTime.now();

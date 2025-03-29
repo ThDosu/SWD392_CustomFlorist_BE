@@ -1,5 +1,6 @@
 package edu.fpt.customflorist.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -12,18 +13,16 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @RequiredArgsConstructor
-@Table(name = "Chatbot AI")
+@Table(name = "chatbot_ai")
 public class ChatbotAI {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long chatSessionId;
 
     @ManyToOne
+    @JsonManagedReference
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
-    @Column(nullable = false, unique = true)
-    private String chatCode;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String query;

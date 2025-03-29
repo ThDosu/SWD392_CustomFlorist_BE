@@ -18,7 +18,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -29,7 +31,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class PaymentService implements IPaymentService{
+public class PaymentService implements IPaymentService {
     private final VnpayConfig vnPayConfig;
     private final PaymentRepository paymentRepository;
     private final OrderRepository orderRepository;
@@ -70,9 +72,18 @@ public class PaymentService implements IPaymentService{
         queryUrl += "&vnp_SecureHash=" + vnpSecureHash;
         String paymentUrl = vnPayConfig.getVnp_PayUrl() + "?" + queryUrl;
 
-        if (!paymentRepository.existsByOrderId(paymentDTO.getOrderId())){
+        Optional<Payment> existingPayment = paymentRepository.findByOrderId(paymentDTO.getOrderId());
+
+        if (existingPayment.isPresent()) {
+            Payment payment = existingPayment.get();
+            if (payment.getStatus() == PaymentStatus.COMPLETED) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Payment already completed for this order.");
+            }
+        }
+
+        if (!paymentRepository.existsByOrderId(paymentDTO.getOrderId())) {
             Payment payment = new Payment();
-            Order order = orderRepository.findById(paymentDTO.getOrderId()).orElseThrow(()-> new DataNotFoundException("order not found"));
+            Order order = orderRepository.findById(paymentDTO.getOrderId()).orElseThrow(() -> new DataNotFoundException("order not found"));
             payment.setOrder(order);
             payment.setAmount(paymentDTO.getFinalAmount());
             payment.setPaymentMethod(PaymentMethod.VNPAY);
@@ -89,7 +100,7 @@ public class PaymentService implements IPaymentService{
 
     @Override
     public void updatePayment(Long orderId, String statusPayment) throws DataNotFoundException {
-        Order order = orderRepository.findById(orderId).orElseThrow(()-> new DataNotFoundException("order not found"));
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new DataNotFoundException("order not found"));
         order.setStatus(Status.PROCESSING);
         orderRepository.save(order);
 

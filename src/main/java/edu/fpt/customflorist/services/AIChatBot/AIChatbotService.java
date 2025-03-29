@@ -2,6 +2,7 @@ package edu.fpt.customflorist.services.AIChatBot;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,46 +20,57 @@ import java.util.Map;
 @Slf4j
 public class AIChatbotService {
 
-    @Value("${openai.api.key}")
+    @Value("${google.api.key}")
     private String apiKey;
 
-    @Value("${openai.api.url}")
+    @Value("${google.api.url}")
     private String apiUrl;
-
-    @Value("${openai.model}")
-    private String model;
 
     private final RestTemplate restTemplate = new RestTemplate();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public String generateAIResponse(String userMessage, List<Map<String, String>> conversationHistory) {
+    public String generateAIResponse(String message) {
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            headers.setBearerAuth(apiKey);
 
-            // Tạo danh sách tin nhắn cho API
-            List<Map<String, String>> messages = new ArrayList<>(conversationHistory);
-            messages.add(Map.of("role", "user", "content", userMessage));
-
-            // Tạo request body
+            // Xây dựng payload JSON theo định dạng yêu cầu của Google
             ObjectNode requestBody = objectMapper.createObjectNode();
-            requestBody.put("model", model);
-            requestBody.set("messages", objectMapper.valueToTree(messages));
-            requestBody.put("max_tokens", 500);
-            requestBody.put("temperature", 0.7);
+            ArrayNode contentsArray = objectMapper.createArrayNode();
+            ObjectNode contentObject = objectMapper.createObjectNode();
+            ArrayNode partsArray = objectMapper.createArrayNode();
+            ObjectNode partObject = objectMapper.createObjectNode();
 
-            // Gọi API
+            // Chỉ gửi tin nhắn mới nhất
+            partObject.put("text", message);
+            partsArray.add(partObject);
+            contentObject.set("parts", partsArray);
+            contentsArray.add(contentObject);
+            requestBody.set("contents", contentsArray);
+
+            // Tạo request entity
             HttpEntity<String> request = new HttpEntity<>(requestBody.toString(), headers);
-            String response = restTemplate.postForObject(apiUrl, request, String.class);
+
+            // Gắn API key vào URL dưới dạng query parameter
+            String urlWithKey = apiUrl + "?key=" + apiKey;
+
+            // Gọi API Google Generative Language
+            String response = restTemplate.postForObject(urlWithKey, request, String.class);
 
             // Xử lý response
             JsonNode responseJson = objectMapper.readTree(response);
-            String aiMessage = responseJson.path("choices").get(0).path("message").path("content").asText();
+            JsonNode candidates = responseJson.path("candidates");
 
-            return aiMessage;
+            if (candidates.isArray() && candidates.size() > 0) {
+                JsonNode parts = candidates.get(0).path("content").path("parts");
+                if (parts.isArray() && parts.size() > 0) {
+                    return parts.get(0).path("text").asText();
+                }
+            }
+
+            return "Xin lỗi, tôi không thể xử lý tin nhắn của bạn lúc này.";
         } catch (Exception e) {
-            log.error("Error calling OpenAI API", e);
+            log.error("Error calling Google Generative Language API", e);
             return "Xin lỗi, tôi không thể xử lý tin nhắn của bạn lúc này. Vui lòng thử lại sau.";
         }
     }

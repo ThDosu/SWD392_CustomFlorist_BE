@@ -9,6 +9,8 @@ import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import java.security.Key;
@@ -95,5 +97,14 @@ public class JwtTokenUtils {
                 .parseClaimsJws(token)
                 .getBody();
         return claims.getExpiration();
+    }
+    public static Long getUserIdFromToken() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            User user = (User) authentication.getPrincipal();
+            return user.getUserId();
+        } else {
+            throw new IllegalStateException("No authentication found in security context");
+        }
     }
 }
