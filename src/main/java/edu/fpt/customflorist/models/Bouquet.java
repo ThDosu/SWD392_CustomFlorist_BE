@@ -43,7 +43,7 @@ public class Bouquet {
     @JsonManagedReference
     private List<OrderItem> orderItems;
 
-    @OneToMany(mappedBy = "bouquet", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "bouquet", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<BouquetComposition> compositions;
 }

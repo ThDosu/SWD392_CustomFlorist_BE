@@ -20,11 +20,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -39,6 +41,13 @@ public class PaymentController {
             @Valid @RequestBody PaymentDTO paymentDTO,
             BindingResult result
     ) throws DataNotFoundException {
+        if(result.hasErrors()) {
+            List<String> errorMessages = result.getFieldErrors()
+                    .stream()
+                    .map(FieldError::getDefaultMessage)
+                    .toList();
+            return ResponseEntity.badRequest().body(errorMessages);
+        }
 
         String vnpayResponse = paymentService.createVnPayPayment(request, paymentDTO);
         return ResponseEntity.ok(ResponseObject.builder()

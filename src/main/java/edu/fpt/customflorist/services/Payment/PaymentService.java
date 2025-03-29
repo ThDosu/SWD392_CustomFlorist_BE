@@ -9,6 +9,7 @@ import edu.fpt.customflorist.models.*;
 import edu.fpt.customflorist.models.Enums.PaymentMethod;
 import edu.fpt.customflorist.models.Enums.PaymentStatus;
 import edu.fpt.customflorist.models.Enums.Status;
+import edu.fpt.customflorist.repositories.BouquetCompositionRepository;
 import edu.fpt.customflorist.repositories.OrderRepository;
 import edu.fpt.customflorist.repositories.PaymentRepository;
 import edu.fpt.customflorist.repositories.PromotionManagerRepository;
@@ -20,7 +21,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -32,6 +35,7 @@ public class PaymentService implements IPaymentService{
     private final OrderRepository orderRepository;
     private final RandomStringGenerator randomStringGenerator;
     private final PromotionManagerRepository promotionManagerRepository;
+    private final BouquetCompositionRepository bouquetCompositionRepository;
 
     @Override
     public Page<Payment> getAllPayments(Pageable pageable, String statusStr, LocalDateTime fromDate, LocalDateTime toDate, BigDecimal minAmount, BigDecimal maxAmount) {
@@ -48,7 +52,9 @@ public class PaymentService implements IPaymentService{
 
     @Override
     public String createVnPayPayment(HttpServletRequest request, PaymentDTO paymentDTO) throws DataNotFoundException {
-        long amount = (int)paymentDTO.getFinalAmount() * 100L;
+        BigDecimal amountDecimal = paymentDTO.getFinalAmount().multiply(BigDecimal.valueOf(100));
+        long amount = amountDecimal.setScale(0, RoundingMode.HALF_UP).longValue();
+
         String bankCode = paymentDTO.getBankCode();
         Map<String, String> vnpParamsMap = vnPayConfig.getVNPayConfig();
         vnpParamsMap.put("vnp_Amount", String.valueOf(amount));
@@ -68,7 +74,7 @@ public class PaymentService implements IPaymentService{
             Payment payment = new Payment();
             Order order = orderRepository.findById(paymentDTO.getOrderId()).orElseThrow(()-> new DataNotFoundException("order not found"));
             payment.setOrder(order);
-            payment.setAmount(BigDecimal.valueOf(paymentDTO.getFinalAmount()));
+            payment.setAmount(paymentDTO.getFinalAmount());
             payment.setPaymentMethod(PaymentMethod.VNPAY);
             payment.setPaymentDate(LocalDateTime.now());
             payment.setStatus(PaymentStatus.PENDING);
@@ -91,6 +97,25 @@ public class PaymentService implements IPaymentService{
                 .orElseThrow(() -> new DataNotFoundException("payment not found for orderId: " + orderId));
         payment.setStatus(PaymentStatus.valueOf(statusPayment));
         paymentRepository.save(payment);
+
+        for (OrderItem orderItem : order.getOrderItems()) {
+            Bouquet bouquet = orderItem.getBouquet();
+            List<BouquetComposition> bouquetCompositions = bouquet.getCompositions();
+
+            for (OrderBouquetFlower orderBouquetFlower : orderItem.getOrderBouquetFlowers()) {
+                Flower flower = orderBouquetFlower.getFlower();
+                int quantityOrdered = orderBouquetFlower.getQuantity();
+
+                for (BouquetComposition bouquetComposition : bouquetCompositions) {
+                    if (bouquetComposition.getFlower().equals(flower)) {
+                        int currentQuantity = bouquetComposition.getQuantity();
+                        bouquetComposition.setQuantity(currentQuantity - quantityOrdered);
+                        bouquetCompositionRepository.save(bouquetComposition);
+                        break;
+                    }
+                }
+            }
+        }
 
         if (order.getPromotion() != null) {
             User user = order.getUser();
