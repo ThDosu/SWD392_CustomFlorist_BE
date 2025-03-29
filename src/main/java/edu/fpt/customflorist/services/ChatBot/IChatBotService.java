@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface IChatBotService {
     ChatResponseDTO processMessage(ChatRequestDTO request);
-    List<ChatMessageDTO> getChatHistory(String sessionId);
+    List<ChatResponseDTO> getChatHistory();
 }
